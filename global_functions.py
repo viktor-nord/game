@@ -4,11 +4,11 @@ class Funk():
         self.base_tile_prop = {
             'id': -1, 
             'collision': 0, 
-            'type': 'fake', 
+            'type': '',
             'source': '', 
             'trans': None, 
-            'width': '32', 
-            'height': '32', 
+            'width': str(self.game.settings.tile_size), 
+            'height': str(self.game.settings.tile_size), 
             'frames': []
         }
 

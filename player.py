@@ -6,7 +6,8 @@ class Player():
     def __init__(self, game):
         self.game = game
         self.size = game.settings.tile_size
-        self.image = pygame.image.load('assets/New Piskel-1.bmp')
+        img = pygame.image.load('assets/New Piskel-1.bmp')
+        self.image = pygame.transform.scale(img, (self.size, self.size))
         self.rect = self.image.get_rect()
         self.moving_right = False
         self.moving_left = False

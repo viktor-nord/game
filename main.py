@@ -38,7 +38,8 @@ class Main():
             for tile in layer.tiles():
                 x_pixel = tile[0] * self.settings.tile_size
                 y_pixel = tile[1] * self.settings.tile_size
-                self.screen.blit(tile[2], (x_pixel, y_pixel))
+                img = pygame.transform.scale(tile[2], (self.settings.tile_size, self.settings.tile_size))
+                self.screen.blit(img, (x_pixel, y_pixel))
 
     def blit_all_overlay(self):
         y_axe = self.player.rect.y // self.settings.tile_size

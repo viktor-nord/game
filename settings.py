@@ -1,5 +1,7 @@
 class Settings():
     def __init__(self):
-        self.screen_width = 1024 # 1024 / 32 = 32
-        self.screen_height = 512 # 512 / 32 = 16
         self.tile_size = 32
+        self.x_tiles = 32
+        self.y_tiles = 16
+        self.screen_width = self.x_tiles * self.tile_size # 1024
+        self.screen_height = self.y_tiles * self.tile_size # 512
