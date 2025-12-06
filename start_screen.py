@@ -1,6 +1,6 @@
 import pygame
 
-from button import Button
+from button import Button, CheckBox
 from animation import Animation, AnimationIndex
 from font import Text, Title
 from book import Book
@@ -28,6 +28,11 @@ class StartScreen:
         self.text = Text('test', (350, 200), has_underline=True)
         self.text_2 = Text('testing longer word, jwoefhweofhwoi', (350, 250), has_underline=True)
         self.book = Book(self)
+        self.check_box = CheckBox(
+            self, "munk", "Munk", 
+            (292 + 202 + 146, 60 + 365/2), 
+            290
+        )
         
 
     def generate_buttons(self):

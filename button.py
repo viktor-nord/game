@@ -35,12 +35,34 @@ class Button(Sprite):
             return False
 
 class CheckBox(Button):
-    def __init__(self, game, id, text, pos):
+    def __init__(self, game, id, text, pos, width):
         super().__init__(game, id, text, pos)
-        start = pygame.image.load('assets/ui_sprites/Sprites/Content/5 Holders/9.png')
-        middle = pygame.image.load('assets/ui_sprites/Sprites/Content/5 Holders/10.png')
-        end = pygame.image.load('assets/ui_sprites/Sprites/Content/5 Holders/11.png')
-        check_box_img = pygame.image.load('assets/ui_sprites/Sprites/Content/5 Holders/22.png')
-        start_rect = start.get_rect()
-        middle_rect = middle.get_rect()
-        end_rect = end.get_rect()
+        self.width = width
+        url = "assets/ui_sprites/Sprites/Content/5 Holders/"
+        self.start = pygame.image.load(url + '9.png')
+        self.middle = pygame.image.load(url + '10.png')
+        self.end = pygame.image.load(url + '11.png')
+        self.check_box_img = pygame.image.load(url + '22.png')
+        self.start_rect = self.start.get_rect()
+        self.middle_rect = self.middle.get_rect()
+        self.end_rect = self.end.get_rect()
+        self.end_rect.right = pos[1] + width/2
+        self.margin = 10
+        self.image = self.render_image()
+    
+    def render_image(self):
+        margin = 10
+        surf = pygame.Surface(
+            (self.width - self.check_box_img.get_width() - self.margin, self.start.get_height() )
+        )
+        surf_rect = surf.get_rect()
+        surf.blit(self.check_box_img, (surf_rect.x, surf_rect.y))
+        x = surf_rect.x + self.check_box_img.get_width() + margin
+        while x < self.width:
+            surf.blit(self.middle, (x, surf_rect.y))
+            x += self.middle_rect.width
+        surf.blit(self.end, self.end_rect)
+        return surf
+    
+    # draw_button
+    # update
