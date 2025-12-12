@@ -25,8 +25,8 @@ class Button(Sprite):
         self.surf_active.blit(pygame.transform.scale(self.img_active, self.wh), (0,0))
         self.rect = self.surf.get_rect(center = parent.center)
         self.text = Text(text, self.surf.get_rect())
-        self.surf.blit(self.text.text, self.text.rect)
-        self.surf_active.blit(self.text.text, self.text.rect)
+        self.surf.blit(self.text.image, self.text.rect)
+        self.surf_active.blit(self.text.image, self.text.rect)
 
     def blitme(self):
         if self.is_hover:

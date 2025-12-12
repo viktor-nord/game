@@ -12,7 +12,7 @@ class TextBox:
         self.src = py.image.load("assets/ui_sprites/SpriteSheet/Folding & Cutout Paper UI SpriteSheet.png")
         self.size = (32,32)
         self.text_container = py.Rect((4, 4), (parent.width - 32 - 8, 10))
-        self.text = Text(text, self.text_container, centered=False)
+        self.text = Text(text, self.text_container, has_underline=True, centered=False)
         self.image = py.Surface((self.width, self.text.rect.height), py.SRCALPHA)
         self.rect = self.image.get_rect(x=parent.x + 16, y=parent.y)
         self.images = self.get_box()
