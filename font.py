@@ -32,15 +32,26 @@ class Title(Text):
 
 
 class LongText(Text):
-    def __init__(self, text, parent, size=20):
+    def __init__(self, text, parent, animated=False, size=20):
         super().__init__(text, parent, size, has_underline=True, centered=False)
         self.text_string = text
+        self.animated = animated
         self.width = parent.width
         self.text_list = self.get_text_list()
         self.height = len(self.text_list) * size + size
         self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
-        self.render_text()
         self.rect = self.image.get_rect(left = parent.left, top = parent.top)
+        self.counter = 0
+        if self.animated == False:
+            self.render_text()
+
+    def update(self):
+        gg=0
+    #     for i, word in enumerate(self.text_list):
+    #         letter = self.font.render(
+    #             [self.text_string[self.counter]], True, self.text_color
+    #         )
+
 
     def render_text(self):
         x = 0

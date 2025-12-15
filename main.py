@@ -39,8 +39,8 @@ class Main():
             else:
                 self.player.update()
             self.animations.update()
-            self.clock.tick(60)
             self.update_screen()
+            self.clock.tick(60)
 
     def update_screen(self):
         self.screen.fill((100,100,100))
