@@ -8,10 +8,9 @@ class StartScreen:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
-        self.buttons = pygame.sprite.Group()
         self.image = pygame.image.load('assets/ui_sprites/Sprites/Book Desk/3.png')
         self.rect = self.image.get_rect(center = game.screen_rect.center)
-        self.generate_buttons()
+        self.buttons = self.generate_buttons()
         self.animation = Animation(
             game, AnimationIndex.header.value, (None, 50)
         )
@@ -30,16 +29,19 @@ class StartScreen:
         
 
     def generate_buttons(self):
-        buttons = ['New Game', 'Load Game', 'Options']
+        texts = ['New Game', 'Load Game', 'Options']
+        buttons = []
         dummy = Button(self.game, 1337, "dummy", pygame.Rect(10,10,10,10))
         box = dummy.image.get_rect(center = self.game.screen_rect.center)
         box.y -= 70
-        for i, button in enumerate(buttons):
-            self.buttons.add(Button(self.game, i + 1, button, box))
+        for i, button in enumerate(texts):
+            buttons.append(Button(self.game, i + 1, button, box, f"{button}-{i}"))
             box.y += 70
+        return buttons
 
     def update(self):
-        self.buttons.update()
+        for btn in self.buttons:
+            btn.update()
     
     def handle_click(self):
         for btn in self.buttons:
@@ -48,7 +50,6 @@ class StartScreen:
                 self.game.character_creation_active = True
             elif id == 2:
                 self.game.game_pause = False
-
 
     def blitme(self):
         self.screen.blit(self.fade, (0, 0))
@@ -59,3 +60,6 @@ class StartScreen:
         # self.game.buttons.draw(self.screen)
         for btn in self.buttons:
             btn.blitme()
+        for btn in self.buttons:
+            if btn.has_tool_tip:
+                btn.update_tool_tip()

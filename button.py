@@ -1,9 +1,10 @@
 import pygame
 from pygame.sprite import Sprite
 from font import Text
+from tool_tip import ToolTip
 
 class Button(Sprite):
-    def __init__(self, game, id, text, parent):
+    def __init__(self, game, id, text, parent, tool_tip=""):
         super().__init__()
         self.game = game
         self.screen = game.screen
@@ -27,12 +28,21 @@ class Button(Sprite):
         self.text = Text(text, self.surf.get_rect())
         self.surf.blit(self.text.image, self.text.rect)
         self.surf_active.blit(self.text.image, self.text.rect)
+        self.has_tool_tip = len(tool_tip) > 0
+        if self.has_tool_tip:
+            self.tool_tip = ToolTip(game, tool_tip, self.rect)
 
     def blitme(self):
         if self.is_hover:
             self.screen.blit(self.surf_active, self.rect)
         else:
             self.screen.blit(self.surf, self.rect)
+        # if self.has_tool_tip and self.rect.collidepoint(pygame.mouse.get_pos()):
+        #     self.tool_tip.update()
+        
+    def update_tool_tip(self):
+        if self.has_tool_tip and self.rect.collidepoint(pygame.mouse.get_pos()):
+            self.tool_tip.update()
 
     def update(self):
         pos = pygame.mouse.get_pos()
@@ -74,15 +84,15 @@ class CheckBoxList():
     def check_click(self):
         for btn in self.list:
             id = btn.check_click()
-            print(id)
+            # print(id)
 
     def draw_list(self):
         for button in self.list:
             button.blitme()
         
 class CheckBox(Button):
-    def __init__(self, game, id, text, parent):
-        super().__init__(game, id, text, parent)
+    def __init__(self, game, id, text, parent, tool_tip=""):
+        super().__init__(game, id, text, parent, tool_tip)
         # self.width = 280
         self.height = game.settings.tile_size
         self.surf = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA)

@@ -28,14 +28,17 @@ class Main():
         # self.start_screen_active = True
         self.character_creation = CharacterCreation(self)
         self.character_creation_active = False
+        self.stamp = pygame.image.load("assets/ui_sprites/Sprites/Content/9 Stamp/Stamp/idle/1.png")
+        self.stamp_rect = self.stamp.get_rect()
 
     def run(self):
         while self.game_is_running:
             self.check_event()
             if self.game_pause:
-                # self.buttons.update()
-                self.start_screen.update()
-                self.character_creation.update()
+                if self.character_creation_active:
+                    self.character_creation.update()
+                else:
+                    self.start_screen.update()
             else:
                 self.player.update()
             self.animations.update()
