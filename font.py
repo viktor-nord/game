@@ -28,7 +28,9 @@ class Title(Text):
         super().__init__(text, parent, size, has_underline, centered=True)
         self.font = pygame.font.Font('assets/font/Blackwood Castle.ttf', size)
         self.text = self.font.render(text, True, self.text_color)
-
+        self.image = pygame.Surface((self.text.get_width(), self.text.get_height()), pygame.SRCALPHA)
+        rect = self.text.get_rect(center=self.image.get_rect().center)
+        self.image.blit(self.text, (rect.x, rect.y))
 
 class LongText(Text):
     def __init__(self, text, parent, animated=False, size=20):

@@ -4,11 +4,12 @@ from font import Text
 from tool_tip import ToolTip
 
 class Button(Sprite):
-    def __init__(self, game, id, text, parent, tool_tip=""):
+    def __init__(self, game, id, text, parent, value=None, tool_tip=""):
         super().__init__()
         self.game = game
         self.screen = game.screen
         self.id = id
+        self.value = value
         self.is_hover = False
         self.is_checked = False
         self.is_selected = False
@@ -72,8 +73,8 @@ class CheckBoxList():
         arr = []
         box = self.parent.copy()
         box.height = 32
-        for i, button in enumerate(list):
-            arr.append(CheckBox(self.game, button["id"], button["text"], box))
+        for button in list:
+            arr.append(CheckBox(self.game, button["id"], button["text"], box, button["data"]))
             box.y += 32
         return arr
     
@@ -91,8 +92,8 @@ class CheckBoxList():
             button.blitme(screen)
         
 class CheckBox(Button):
-    def __init__(self, game, id, text, parent, tool_tip=""):
-        super().__init__(game, id, text, parent, tool_tip)
+    def __init__(self, game, id, text, parent, value=None, tool_tip=""):
+        super().__init__(game, id, text, parent, value, tool_tip)
         # self.width = 280
         self.height = game.settings.tile_size
         self.surf = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA)
