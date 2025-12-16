@@ -51,15 +51,15 @@ class StartScreen:
             elif id == 2:
                 self.game.game_pause = False
 
-    def blitme(self):
-        self.screen.blit(self.fade, (0, 0))
-        self.screen.blit(self.image, self.rect)
-        self.animation.blitme(self.game.screen)
+    def blitme(self, screen):
+        screen.blit(self.fade, (0, 0))
+        screen.blit(self.image, self.rect)
+        self.animation.blitme(screen)
         if self.animation.animation_is_done:
-            self.title.blitme(self.screen)
-        # self.game.buttons.draw(self.screen)
+            self.title.blitme(screen)
+        # self.game.buttons.draw(screen)
         for btn in self.buttons:
-            btn.blitme()
+            btn.blitme(screen)
         for btn in self.buttons:
             if btn.has_tool_tip:
-                btn.update_tool_tip()
+                btn.blit_tool_tip(screen)

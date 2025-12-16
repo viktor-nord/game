@@ -32,17 +32,17 @@ class Button(Sprite):
         if self.has_tool_tip:
             self.tool_tip = ToolTip(game, tool_tip, self.rect)
 
-    def blitme(self):
+    def blitme(self, screen):
         if self.is_hover:
-            self.screen.blit(self.surf_active, self.rect)
+            screen.blit(self.surf_active, self.rect)
         else:
-            self.screen.blit(self.surf, self.rect)
+            screen.blit(self.surf, self.rect)
         # if self.has_tool_tip and self.rect.collidepoint(pygame.mouse.get_pos()):
         #     self.tool_tip.update()
         
-    def update_tool_tip(self):
+    def blit_tool_tip(self, screen):
         if self.has_tool_tip and self.rect.collidepoint(pygame.mouse.get_pos()):
-            self.tool_tip.update()
+            self.tool_tip.blitme(screen)
 
     def update(self):
         pos = pygame.mouse.get_pos()
@@ -53,7 +53,7 @@ class Button(Sprite):
 
     def check_click(self):
         pos = pygame.mouse.get_pos()
-        if self.rect.collidepoint(pos) and self.game.game_pause:
+        if self.rect.collidepoint(pos):
             self.is_checked = True
             self.is_selected = True
             return self.id
@@ -86,9 +86,9 @@ class CheckBoxList():
             id = btn.check_click()
             # print(id)
 
-    def draw_list(self):
+    def draw_list(self, screen):
         for button in self.list:
-            button.blitme()
+            button.blitme(screen)
         
 class CheckBox(Button):
     def __init__(self, game, id, text, parent, tool_tip=""):
@@ -134,12 +134,12 @@ class CheckBox(Button):
         self.surf_active.blit(end, end.get_rect(right = self.container.right))
         self.surf_active.blit(self.text.text, self.text.rect)
 
-    def blitme(self):
+    def blitme(self, screen):
         if self.is_hover:
-            self.screen.blit(self.surf_active, self.rect)
+            screen.blit(self.surf_active, self.rect)
         else:
-            self.screen.blit(self.surf, self.rect)
+            screen.blit(self.surf, self.rect)
         if self.is_checked:
-            self.screen.blit(self.check_img, self.check_img_rect)
+            screen.blit(self.check_img, self.check_img_rect)
         if self.is_selected:
-            self.screen.blit(self.arrow, self.arrow_rect)
+            screen.blit(self.arrow, self.arrow_rect)

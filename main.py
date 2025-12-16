@@ -50,9 +50,9 @@ class Main():
         # self.blit_all_tiles()
         if self.game_pause:
             if self.character_creation_active:
-                self.character_creation.blitme()
+                self.character_creation.blitme(self.screen)
             else:
-                self.start_screen.blitme()
+                self.start_screen.blitme(self.screen)
         else:
             self.screen.blit(self.player.image, self.player.rect)
         pygame.display.flip()

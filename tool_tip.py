@@ -19,13 +19,14 @@ class ToolTip:
         self.surf.blit(self.text2.image, self.text2.rect)
         # self.start_loop()
 
-    def update(self):
+    def blitme(self, screen):
         # gg=0
         mouse_pos = pygame.mouse.get_pos()
-        if self.parent.collidepoint(mouse_pos):
+        if True:
+        # if self.parent.collidepoint(mouse_pos):
             # print(mouse_pos)
             self.surf_rect.move(mouse_pos)
             self.surf_rect.x = mouse_pos[0] - 8
             self.surf_rect.y = mouse_pos[1] - 16
-            self.game.screen.blit(self.surf, self.surf_rect)
+            screen.blit(self.surf, self.surf_rect)
             # pygame.display.update(self.surf_rect)

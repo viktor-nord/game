@@ -39,12 +39,12 @@ class CharacterCreation:
         self.buttons.update()
         self.text_box.update()
 
-    def blitme(self):
-        self.screen.blit(self.bg, self.bg_rect)
-        self.book.blitme(self.screen)
-        self.screen.blit(self.right_title.text, self.right_title.rect)
-        self.buttons.draw_list()
-        self.text_box.blitme()
+    def blitme(self, screen):
+        screen.blit(self.bg, self.bg_rect)
+        self.book.blitme(screen)
+        screen.blit(self.right_title.text, self.right_title.rect)
+        self.buttons.draw_list(screen)
+        self.text_box.blitme(screen)
         # pygame.draw.rect(self.screen, "red", self.right_page)
         # pygame.draw.rect(self.screen, "red", self.left_page)
 

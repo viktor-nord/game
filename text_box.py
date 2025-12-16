@@ -5,6 +5,7 @@ from font import Text, LongText
 
 class TextBox:
     def __init__(self, game, text, parent, title=""):
+        print(text)
         self.game = game
         self.parent = parent
         self.title = title
@@ -106,5 +107,5 @@ class TextBox:
         }
         return dic
 
-    def blitme(self):
-        self.game.screen.blit(self.image, self.rect)
+    def blitme(self, screen):
+        screen.blit(self.image, self.rect)
