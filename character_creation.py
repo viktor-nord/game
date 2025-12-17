@@ -19,4 +19,4 @@ class CharacterCreation:
 
     def handle_click(self):
         if self.page == "religion":
-            self.religion_page.check_box_list.check_click()
+            self.religion_page.check_click()

@@ -1,6 +1,18 @@
 import pygame
 import pygame.font
 
+def get_text_height(type="text"):
+    if type == "text":
+        size = 20
+    elif type == "small title":
+        size = 26
+    elif type == "title":
+        size = 42
+    else:
+        size = 20
+    f = pygame.font.Font('assets/font/ThaleahFat.ttf', size)
+    return f.render("Dummy text", True, (0,0,0)).convert_alpha().get_height()
+
 class Text:
     def __init__(self, text, parent, size=20, has_underline=False, centered=True):
         pygame.font.init()

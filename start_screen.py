@@ -31,11 +31,11 @@ class StartScreen:
     def generate_buttons(self):
         texts = ['New Game', 'Load Game', 'Options']
         buttons = []
-        dummy = Button(self.game, 1337, "dummy", pygame.Rect(10,10,10,10))
+        dummy = Button(self.game, 1337, "dummy", pygame.Rect(10,10,10,10), 0)
         box = dummy.image.get_rect(center = self.game.screen_rect.center)
         box.y -= 70
         for i, button in enumerate(texts):
-            buttons.append(Button(self.game, i + 1, button, box, f"{button}-{i}"))
+            buttons.append(Button(self.game, i + 1, button, box, i + 1, f"{button}-{i}"))
             box.y += 70
         return buttons
 
@@ -45,10 +45,10 @@ class StartScreen:
     
     def handle_click(self):
         for btn in self.buttons:
-            id = btn.check_click()
-            if id == 1:
+            val = btn.check_click()
+            if val == 1:
                 self.game.character_creation_active = True
-            elif id == 2:
+            elif val == 2:
                 self.game.game_pause = False
 
     def blitme(self, screen):

@@ -1,7 +1,6 @@
 {
   "earth_bound": {
     "name": "Earth Bound",
-    "god": "mother earth",
     "hit_die": 8,
     "proficiency_choices": [
       {
@@ -19,6 +18,9 @@
       }
     ],
     "saving_throws": ["int", "wis"],
+    "god": "mother earth",
+    "primary_skill": "wisdom",
+    "secondary_skill": "intelligence",
     "subclasses": [
       {
         "name": "land"
@@ -114,6 +116,9 @@
       }
     ],
     "saving_throws": ["str", "con"],
+    "god": "Fighter",
+    "primary_skill": "strength",
+    "secondary_skill": "constitution",
     "subclasses": [
       {
         "name": "archer"
@@ -207,6 +212,9 @@
       }
     ],
     "saving_throws": ["str", "con"],
+    "god": "Fighter",
+    "primary_skill": "strength",
+    "secondary_skill": "constitution",
     "subclasses": [
       {
         "name": "archer"
@@ -300,6 +308,9 @@
       }
     ],
     "saving_throws": ["int", "wis"],
+    "god": "Fighter",
+    "primary_skill": "intelligence",
+    "secondary_skill": "wisdom",
     "subclasses": [
       {
         "name": "archer"
@@ -404,6 +415,9 @@
       }
     ],
     "saving_throws": ["str", "con"],
+    "god": "x",
+    "primary_skill": "intelligence",
+    "secondary_skill": "wisdom",
     "subclasses": [
       {
         "name": "archer"

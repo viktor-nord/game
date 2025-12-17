@@ -4,7 +4,7 @@ from font import Text
 from tool_tip import ToolTip
 
 class Button(Sprite):
-    def __init__(self, game, id, text, parent, value=None, tool_tip=""):
+    def __init__(self, game, id, text, parent, value, tool_tip=""):
         super().__init__()
         self.game = game
         self.screen = game.screen
@@ -75,7 +75,7 @@ class CheckBoxList():
         box = self.parent.copy()
         box.height = 32
         for button in list:
-            arr.append(CheckBox(self.game, button["id"], button["text"], box, button["data"]))
+            arr.append(CheckBox(self.game, button["id"], button["text"], box, button["value"]))
             box.y += 32
         return arr
     
@@ -84,10 +84,13 @@ class CheckBoxList():
             btn.update()
 
     def check_click(self):
+        val = False
         for btn in self.list:
             id = btn.check_click()
             if id:
                 self.current = id
+                val = btn.value
+        return val
 
     def draw_list(self, screen):
         for button in self.list:
