@@ -1,7 +1,5 @@
 import pygame
 
-from global_functions import Funk
-
 class Player():
     def __init__(self, game):
         self.game = game
@@ -13,9 +11,9 @@ class Player():
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
-        self.rect.x = game.settings.tile_size * 10
-        self.rect.y = game.settings.tile_size * 10
-        self.speed = 1
+        self.rect.x = self.size * 10
+        self.rect.y = self.size * 10
+        self.speed = 4
         self.inventory = []
 
     def update(self):
@@ -57,10 +55,9 @@ class Player():
         if dir == 'up':
             pos_y_1 = (y - extra - self.speed) // size
             pos_y_2 = (y - extra - self.speed) // size
-        for i in range(len(self.game.map.tmxdata.layers)):
-            if Funk(self.game).try_get_prop(pos_x_1, pos_y_1, i)['collision'] == 1:
-                not_colliding = False
-            if Funk(self.game).try_get_prop(pos_x_2, pos_y_2, i)['collision'] == 1:
-                not_colliding = False
+        col_1 = self.game.map.is_colliding((pos_x_1, pos_y_1))
+        col_2 = self.game.map.is_colliding((pos_x_2, pos_y_2))
+        if col_1 or col_2:
+            not_colliding = False
         return not_colliding
 

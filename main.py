@@ -22,7 +22,6 @@ class Main():
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption('Akavir: God of none')
         self.animations = pygame.sprite.Group()
-        self.tmxdata = load_pygame('map/example_maptmx.tmx')
         self.map = Map()
         self.player = Player(self)
         self.start_screen = StartScreen(self)
@@ -56,11 +55,25 @@ class Main():
 
     def check_event(self):
         for event in pygame.event.get():
-            self.player.handle_movement()
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.handle_click()
+            elif event.type == pygame.KEYDOWN:
+                self.handle_key(event.key, True)
+            elif event.type == pygame.KEYUP:
+                self.handle_key(event.key, False)
+
+    def handle_key(self, key, is_down):
+        if key == pygame.K_SPACE:
+            if is_down:
+                self.handle_action()
+        else:
+            self.player.handle_movement()
+
+
+    def handle_action(self):
+        self.map.change_state((self.player.rect.x, self.player.rect.y))
 
     def handle_click(self):
         if self.game_pause == False:
