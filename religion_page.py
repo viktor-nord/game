@@ -14,7 +14,7 @@ class ReligionPage(Page):
         classes_path = Path("data/classes.json")
         self.db_classes = json.loads(classes_path.read_text())
         margin = 8
-        self.init_class = self.db_classes["earth_bound"]
+        self.init_class = self.db_classes["druid"]
         self.current_class = self.init_class
         # Left side
         self.left_title_text = self.init_class["name"]
@@ -32,8 +32,8 @@ class ReligionPage(Page):
         self.secondary_skill_container.y += self.primary_skill.rect.height + margin
         self.secondary_skill = Text(f"Secondary: {self.current_class["secondary_skill"]}", self.secondary_skill_container, centered=False, has_underline=True)
         self.desc_text_box_container = pygame.Rect(
-            (self.left_page.left + margin*2, self.secondary_skill.rect.bottom + margin),
-            (self.left_page.width - margin*4, self.left_page.bottom - self.secondary_skill.rect.bottom - margin*2)
+            (self.left_page.left, self.secondary_skill.rect.bottom + margin * 4),
+            (self.left_page.width, self.left_page.bottom - self.secondary_skill.rect.bottom - margin*2)
         )
         self.desc_text_box = TextBox(game, self.current_class["desc"], self.desc_text_box_container)
         self.desc_text_box.rect.center = self.desc_text_box_container.center

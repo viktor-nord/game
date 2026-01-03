@@ -40,10 +40,7 @@ class Map:
     def change_state(self, pos):
         x = int((pos[0] + self.size / 2) // self.size)
         y = int((pos[1] + self.size / 2) // self.size)
-        dir = "up"
-        if dir == "up":
-            y -= 1
-        for i, layer in enumerate(self.tmxdata.tiles[y][x]["layers"]):
+        for i, layer in enumerate(self.tmxdata.tiles[y - 1][x]["layers"]):
             if layer.type == "door":
                 self.tmxdata.tiles[y][x]["layers"][i].change_state()
 

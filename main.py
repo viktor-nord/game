@@ -63,11 +63,23 @@ class Main():
                 self.handle_key(event.key, True)
             elif event.type == pygame.KEYUP:
                 self.handle_key(event.key, False)
+    #         elif event.type == pygame.MOUSEWHEEL:
+    #             self.handle_scroll(event.y)
+
+    # def handle_scroll(self, y):
+    #     scroll_down = True
+    #     if y > 0:
+    #         scroll_down = False
+    #     print(f"scroll_down: {scroll_down}")
 
     def handle_key(self, key, is_down):
         if key == pygame.K_SPACE:
             if is_down:
                 self.handle_action()
+        elif key == pygame.K_p:
+            self.game_pause = True
+        elif key == pygame.K_q:
+            sys.exit()
         else:
             self.player.handle_movement()
 

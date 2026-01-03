@@ -1,6 +1,6 @@
 {
-  "earth_bound": {
-    "name": "Earth Bound",
+  "druid": {
+    "name": "Gure",
     "hit_die": 8,
     "proficiency_choices": [
       {
@@ -18,7 +18,6 @@
       }
     ],
     "saving_throws": ["int", "wis"],
-    "god": "mother earth",
     "primary_skill": "wisdom",
     "secondary_skill": "intelligence",
     "subclasses": [
@@ -30,75 +29,69 @@
     "desc": "The Earth Bound worship \"Mother Earth\". They vow to help animals, plants and the earth itself. In return they get the ability to control the earth and transform themselves into a variety of animals",
     "levels": [
       {
-        "level": 0,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
-      },
-      {
         "level": 1,
+        "cantrips": 2,
         "ability": ["druidic", "preparing spells", "ritual casting"],
-        "ability_score_improvement": false,
-        "spell_slots": [2, 2]
+        "spell_slots": [2]
       },
       {
         "level": 2,
+        "cantrips": 2,
         "ability": ["wild shape 1", "sub class 1", "wild companion"],
-        "ability_score_improvement": false,
-        "spell_slots": [2, 3]
+        "spell_slots": [3]
       },
       {
         "level": 3,
+        "cantrips": 2,
         "ability": ["sub class 1"],
-        "ability_score_improvement": false,
-        "spell_slots": [2, 4, 2]
+        "spell_slots": [4, 2]
       },
       {
         "level": 4,
+        "cantrips": 3,
         "ability": ["wild shape 2"],
-        "ability_score_improvement": true,
-        "spell_slots": [3, 4, 3]
+        "spell_slots": [4, 3]
       },
       {
         "level": 5,
+        "cantrips": 3,
         "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": [3, 4, 3, 2]
+        "spell_slots": [4, 3, 2]
       },
       {
         "level": 6,
+        "cantrips": 3,
         "ability": ["sub class 2"],
-        "ability_score_improvement": false,
-        "spell_slots": [3, 4, 3, 3]
+        "spell_slots": [4, 3, 3]
       },
       {
         "level": 7,
+        "cantrips": 3,
         "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": [3, 4, 3, 3, 1]
+        "spell_slots": [4, 3, 3, 1]
       },
       {
         "level": 8,
+        "cantrips": 3,
         "ability": ["wild shape 3"],
-        "ability_score_improvement": true,
-        "spell_slots": [3, 4, 3, 3, 2]
+        "spell_slots": [4, 3, 3, 2]
       },
       {
         "level": 9,
+        "cantrips": 3,
         "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": [3, 4, 3, 3, 3, 1]
+        "spell_slots": [4, 3, 3, 3, 1]
       },
       {
         "level": 10,
+        "cantrips": 4,
         "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": [4, 4, 3, 3, 3, 2]
+        "spell_slots": [4, 3, 3, 3, 2]
       }
     ]
   },
   "fighter": {
-    "name": "Fighter",
+    "name": "Priest",
     "hit_die": 10,
     "proficiency_choices": [
       {
@@ -116,7 +109,6 @@
       }
     ],
     "saving_throws": ["str", "con"],
-    "god": "Fighter",
     "primary_skill": "strength",
     "secondary_skill": "constitution",
     "subclasses": [
@@ -125,78 +117,72 @@
       }
     ],
     "spellcasting_ability": "",
-    "desc": "x",
+    "desc": "Whether sworn before a god's altar and the witness of a priest, in a sacred glade before nature spirits and fey beings, or in a moment of desperation and grief with the dead as the only witness, a paladin's oath is a powerful bond.",
     "levels": [
       {
-        "level": 0,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
-      },
-      {
         "level": 1,
+        "cantrips": 0,
         "ability": ["fighting style", "second wind"],
-        "ability_score_improvement": false,
         "spell_slots": []
       },
       {
         "level": 2,
+        "cantrips": 0,
         "ability": ["action surge 1"],
-        "ability_score_improvement": false,
         "spell_slots": []
       },
       {
         "level": 3,
+        "cantrips": 0,
         "ability": ["sub class 1"],
-        "ability_score_improvement": false,
         "spell_slots": []
       },
       {
         "level": 4,
+        "cantrips": 0,
         "ability": [],
-        "ability_score_improvement": true,
         "spell_slots": []
       },
       {
         "level": 5,
+        "cantrips": 0,
         "ability": ["extra attack 1"],
-        "ability_score_improvement": false,
         "spell_slots": []
       },
       {
         "level": 6,
+        "cantrips": 0,
         "ability": [],
-        "ability_score_improvement": true,
         "spell_slots": []
       },
       {
         "level": 7,
+        "cantrips": 0,
         "ability": ["sub class 2"],
-        "ability_score_improvement": false,
         "spell_slots": []
       },
       {
         "level": 8,
+        "cantrips": 0,
         "ability": [],
-        "ability_score_improvement": true,
         "spell_slots": []
       },
       {
         "level": 9,
+        "cantrips": 0,
         "ability": ["indomitable 1"],
-        "ability_score_improvement": false,
         "spell_slots": []
       },
       {
         "level": 10,
+        "cantrips": 0,
         "ability": ["sub class 3"],
-        "ability_score_improvement": false,
         "spell_slots": []
       }
     ]
   },
   "barbarian": {
-    "name": "Barbarian",
+    "name": "Martyr",
     "hit_die": 12,
     "proficiency_choices": [
       {
@@ -212,7 +198,6 @@
       }
     ],
     "saving_throws": ["str", "con"],
-    "god": "Fighter",
     "primary_skill": "strength",
     "secondary_skill": "constitution",
     "subclasses": [
@@ -221,78 +206,72 @@
       }
     ],
     "spellcasting_ability": "",
-    "desc": "x",
+    "desc": "For some, their rage springs from a communion with fierce animal spirits. Others draw from a roiling reservoir of anger at a world full of pain. For every barbarian, rage is a power that fuels not just a battle frenzy but also uncanny reflexes, resilience, and feats of strength.",
     "levels": [
       {
-        "level": 0,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
-      },
-      {
         "level": 1,
+        "cantrips": 0,
         "ability": ["rage", "unarmored defense"],
-        "ability_score_improvement": false,
         "spell_slots": [2, 2]
       },
       {
         "level": 2,
+        "cantrips": 0,
         "ability": ["reckless attack", "danger sense"],
-        "ability_score_improvement": false,
         "spell_slots": [2, 2]
       },
       {
         "level": 3,
+        "cantrips": 0,
         "ability": ["primal path 1", "primal knowledge"],
-        "ability_score_improvement": false,
         "spell_slots": [3, 2]
       },
       {
         "level": 4,
+        "cantrips": 0,
         "ability": [],
-        "ability_score_improvement": true,
         "spell_slots": [3, 2]
       },
       {
         "level": 5,
+        "cantrips": 0,
         "ability": ["extra attack 1", "fast movement"],
-        "ability_score_improvement": false,
         "spell_slots": [3, 2]
       },
       {
         "level": 6,
+        "cantrips": 0,
         "ability": ["primal path 2"],
-        "ability_score_improvement": false,
         "spell_slots": [4, 2]
       },
       {
         "level": 7,
+        "cantrips": 0,
         "ability": ["feral instinct", "instinctive pounce"],
-        "ability_score_improvement": false,
         "spell_slots": [4, 2]
       },
       {
         "level": 8,
+        "cantrips": 0,
         "ability": [],
-        "ability_score_improvement": true,
         "spell_slots": [4, 2]
       },
       {
         "level": 9,
+        "cantrips": 0,
         "ability": ["brutal critical"],
-        "ability_score_improvement": false,
         "spell_slots": [4, 3]
       },
       {
         "level": 10,
+        "cantrips": 0,
         "ability": ["primal path 10"],
-        "ability_score_improvement": false,
         "spell_slots": [4, 3]
       }
     ]
   },
   "wizard": {
-    "name": "Wizard",
+    "name": "Imam",
     "hit_die": 6,
     "proficiency_choices": [
       {
@@ -308,7 +287,6 @@
       }
     ],
     "saving_throws": ["int", "wis"],
-    "god": "Fighter",
     "primary_skill": "intelligence",
     "secondary_skill": "wisdom",
     "subclasses": [
@@ -320,79 +298,250 @@
     "desc": "You belewe a varaity of prayers is the way to parise god. You know many things and speak many words. Only by learning everything can one beeing begin to understand god. the true power of knowledge is jet to be rewiled.",
     "levels": [
       {
-        "level": 0,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
-      },
-      {
         "level": 1,
+        "cantrips": 3,
         "ability": ["arcane recovery", "preparing spells", "ritual casting"],
-        "ability_score_improvement": false,
-        "spell_slots": [3, 2]
+        "spell_slots": [2]
       },
       {
         "level": 2,
+        "cantrips": 3,
         "ability": ["sub class 1"],
-        "ability_score_improvement": false,
-        "spell_slots": [3, 3]
+        "spell_slots": [3]
       },
       {
         "level": 3,
+        "cantrips": 3,
         "ability": ["cantrip formulas"],
-        "ability_score_improvement": false,
-        "spell_slots": [3, 4, 2]
+        "spell_slots": [4, 2]
       },
       {
         "level": 4,
+        "cantrips": 4,
         "ability": [],
-        "ability_score_improvement": true,
-        "spell_slots": [4, 4, 3]
+        "spell_slots": [4, 3]
       },
       {
         "level": 5,
+        "cantrips": 4,
         "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": [4, 4, 3, 2]
+        "spell_slots": [4, 3, 2]
       },
       {
         "level": 6,
+        "cantrips": 4,
         "ability": ["sub class 2"],
-        "ability_score_improvement": false,
-        "spell_slots": [4, 4, 3, 3]
+        "spell_slots": [4, 3, 3]
       },
       {
         "level": 7,
+        "cantrips": 4,
         "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": [4, 4, 3, 3, 1]
+        "spell_slots": [4, 3, 3, 1]
       },
       {
         "level": 8,
+        "cantrips": 4,
         "ability": [],
-        "ability_score_improvement": true,
-        "spell_slots": [4, 4, 3, 3, 2]
+        "spell_slots": [4, 3, 3, 2]
       },
       {
         "level": 9,
+        "cantrips": 4,
         "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": [4, 4, 3, 3, 3, 1]
+        "spell_slots": [4, 3, 3, 3, 1]
       },
       {
         "level": 10,
+        "cantrips": 5,
         "ability": ["sub class 3"],
-        "ability_score_improvement": false,
-        "spell_slots": [5, 4, 3, 3, 3, 2]
+        "spell_slots": [4, 3, 3, 3, 2]
       }
     ]
   },
-  "xxx": {
-    "name": "Fighter",
+  "cleric": {
+    "name": "Cleric",
     "hit_die": 8,
     "proficiency_choices": [
       {
         "choose": 2,
+        "options": [
+          "history",
+          "insight",
+          "medicine",
+          "persuasion",
+          "religion"
+        ]
+      }
+    ],
+    "saving_throws": ["wis", "cha"],
+    "primary_skill": "wisdom",
+    "secondary_skill": "charisma",
+    "subclasses": [
+      {
+        "name": "archer"
+      }
+    ],
+    "spellcasting_ability": "wisdom",
+    "desc": "x",
+    "levels": [
+      {
+        "level": 1,
+        "cantrips": 3,
+        "ability": ["sub class 1"],
+        "spell_slots": [2]
+      },
+      {
+        "level": 2,
+        "cantrips": 3,
+        "ability": ["channel divinity 1", "sub class 2", "harness divine power"],
+        "spell_slots": [3]
+      },
+      {
+        "level": 3,
+        "cantrips": 3,
+        "ability": [],
+        "spell_slots": [4,2]
+      },
+      {
+        "level": 4,
+        "cantrips": 4,
+        "ability": [],
+        "spell_slots": [4,3]
+      },
+      {
+        "level": 5,
+        "cantrips": 4,
+        "ability": ["destroy undead 1"],
+        "spell_slots": [4,3,2]
+      },
+      {
+        "level": 6,
+        "cantrips": 4,
+        "ability": ["channel divinity 2", "sub class 3"],
+        "spell_slots": [4,3,3]
+      },
+      {
+        "level": 7,
+        "cantrips": 4,
+        "ability": [],
+        "spell_slots": [4,3,3,1]
+      },
+      {
+        "level": 8,
+        "cantrips": 4,
+        "ability": ["sub class 4", "destroy undead 2"],
+        "spell_slots": [4,3,3,2]
+      },
+      {
+        "level": 9,
+        "cantrips": 4,
+        "ability": [],
+        "spell_slots": [4,3,3,3,1]
+      },
+      {
+        "level": 10,
+        "cantrips": 5,
+        "ability": ["divine intervention"],
+        "spell_slots": [4,3,3,3,2]
+      }
+    ]
+  },
+  "monk": {
+    "name": "Monk",
+    "hit_die": 8,
+    "proficiency_choices": [
+      {
+        "choose": 2,
+        "options": [
+          "acrobatics",
+          "athletics",
+          "history",
+          "insight",
+          "religion",
+          "stealth"
+        ]
+      }
+    ],
+    "saving_throws": ["str", "dex"],
+    "primary_skill": "wisdom",
+    "secondary_skill": "dexterity",
+    "subclasses": [
+      {
+        "name": "archer"
+      }
+    ],
+    "spellcasting_ability": "",
+    "desc": "x",
+    "levels": [
+      {
+        "level": 1,
+        "cantrips": 0,
+        "ability": ["martial arts", "unarmored defense"],
+        "spell_slots": [0,4,0]
+      },
+      {
+        "level": 2,
+        "cantrips": 0,
+        "ability": ["ki", "unarmored movement", "dedicated weapon"],
+        "spell_slots": [2,4,2]
+      },
+      {
+        "level": 3,
+        "cantrips": 0,
+        "ability": ["sub class 1", "deflect missiles", "ki fueled attack"],
+        "spell_slots": [3,4,2]
+      },
+      {
+        "level": 4,
+        "cantrips": 0,
+        "ability": ["slow fall", "quickened healing"],
+        "spell_slots": [4,4,2]
+      },
+      {
+        "level": 5,
+        "cantrips": 0,
+        "ability": ["extra attack 1", "stunning strike", "focused aim"],
+        "spell_slots": [5,6,2]
+      },
+      {
+        "level": 6,
+        "cantrips": 0,
+        "ability": ["sub class 2", "ki empowered strikes"],
+        "spell_slots": [6,6,3]
+      },
+      {
+        "level": 7,
+        "cantrips": 0,
+        "ability": ["evasion", "stillness of mind"],
+        "spell_slots": [7,6,3]
+      },
+      {
+        "level": 8,
+        "cantrips": 0,
+        "ability": [],
+        "spell_slots": [8,6,3]
+      },
+      {
+        "level": 9,
+        "cantrips": 0,
+        "ability": ["unarmored movement improvement"],
+        "spell_slots": [9,6,3]
+      },
+      {
+        "level": 10,
+        "cantrips": 0,
+        "ability": ["purity of body"],
+        "spell_slots": [10,6,4]
+      }
+    ]
+  },
+  "bard": {
+    "name": "Apostle",
+    "hit_die": 8,
+    "proficiency_choices": [
+      {
+        "choose": 3,
         "options": [
           "acrobatics",
           "animal handling",
@@ -414,8 +563,200 @@
         ]
       }
     ],
+    "saving_throws": ["dex", "cha"],
+    "primary_skill": "charisma",
+    "secondary_skill": "dexterity",
+    "subclasses": [
+      {
+        "name": "archer"
+      }
+    ],
+    "spellcasting_ability": "charisma",
+    "desc": "Whether scholar, skald, or scoundrel, a bard weaves magic through words and music to inspire allies, demoralize foes, manipulate minds, create illusions, and even heal wounds. The bard is a master of song, speech, and the magic they contain.",
+    "levels": [
+      {
+        "level": 1,
+        "cantrips": 2,
+        "ability": ["bardic inspiration"],
+        "spell_slots": [2],
+        "spells_known": 4
+      },
+      {
+        "level": 2,
+        "cantrips": 2,
+        "ability": ["jack of all trades", "song of rest", "magical inspiration"],
+        "spell_slots": [3],
+        "spells_known": 5
+      },
+      {
+        "level": 3,
+        "cantrips": 2,
+        "ability": ["sub class 1", "expertise"],
+        "spell_slots": [4,2],
+        "spells_known": 6
+      },
+      {
+        "level": 4,
+        "cantrips": 3,
+        "ability": [],
+        "spell_slots": [4,3],
+        "spells_known": 7
+      },
+      {
+        "level": 5,
+        "cantrips": 3,
+        "ability": ["bardic inspiration d8", "font of inspiration"],
+        "spell_slots": [4,3,2],
+        "spells_known": 8
+      },
+      {
+        "level": 6,
+        "cantrips": 3,
+        "ability": ["sub class 2", "countercharm"],
+        "spell_slots": [4,3,3],
+        "spells_known": 9
+      },
+      {
+        "level": 7,
+        "cantrips": 3,
+        "ability": [],
+        "spell_slots": [4,3,3,1],
+        "spells_known": 10
+      },
+      {
+        "level": 8,
+        "cantrips": 3,
+        "ability": [],
+        "spell_slots": [4,3,3,2],
+        "spells_known": 11
+      },
+      {
+        "level": 9,
+        "cantrips": 3,
+        "ability": ["song of rest d8"],
+        "spell_slots": [4,3,3,3,1],
+        "spells_known": 12
+      },
+      {
+        "level": 10,
+        "cantrips": 4,
+        "ability": ["bardic inspiration d10", "expertise", "magical secrets"],
+        "spell_slots": [4,3,3,3,2],
+        "spells_known": 14
+      }
+    ]
+  },
+  "paladin": {
+    "name": "Paladin",
+    "hit_die": 10,
+    "proficiency_choices": [
+      {
+        "choose": 2,
+        "options": [
+          "athletics",
+          "insight",
+          "intimidation",
+          "medicine",
+          "persuasion",
+          "religion"
+        ]
+      }
+    ],
+    "saving_throws": ["wis", "cha"],
+    "primary_skill": "charisma",
+    "secondary_skill": "strength",
+    "subclasses": [
+      {
+        "name": "archer"
+      }
+    ],
+    "spellcasting_ability": "charisma",
+    "desc": "Whether sworn before a god's altar and the witness of a priest, in a sacred glade before nature spirits and fey beings, or in a moment of desperation and grief with the dead as the only witness, a paladin's oath is a powerful bond.",
+    "levels": [
+      {
+        "level": 1,
+        "cantrips": 0,
+        "ability": ["divine sense", "lay on hands"],
+        "spell_slots": []
+      },
+      {
+        "level": 2,
+        "cantrips": 0,
+        "ability": ["fighting style", "divine smite"],
+        "spell_slots": [2]
+      },
+      {
+        "level": 3,
+        "cantrips": 0,
+        "ability": ["divine health", "sub class 1", "harness divine power"],
+        "spell_slots": [3]
+      },
+      {
+        "level": 4,
+        "cantrips": 0,
+        "ability": [],
+        "spell_slots": [3]
+      },
+      {
+        "level": 5,
+        "cantrips": 0,
+        "ability": ["extra attack 1"],
+        "spell_slots": [4,2]
+      },
+      {
+        "level": 6,
+        "cantrips": 0,
+        "ability": ["aura of protection"],
+        "spell_slots": [4,2]
+      },
+      {
+        "level": 7,
+        "cantrips": 0,
+        "ability": ["sub class 2"],
+        "spell_slots": [4,3]
+      },
+      {
+        "level": 8,
+        "cantrips": 0,
+        "ability": [],
+        "spell_slots": [4,3]
+      },
+      {
+        "level": 9,
+        "cantrips": 0,
+        "ability": [],
+        "spell_slots": [4,3,2]
+      },
+      {
+        "level": 10,
+        "cantrips": 0,
+        "ability": ["aura of courage"],
+        "spell_slots": [4,3,2]
+      }
+    ]
+  },
+  "rogue": {
+    "name": "Virgin",
+    "hit_die": 8,
+    "proficiency_choices": [
+      {
+        "choose": 4,
+        "options": [
+          "acrobatics",
+          "athletics",
+          "deception",
+          "insight",
+          "intimidation",
+          "investigation",
+          "perception",
+          "performance",
+          "persuasion",
+          "sleight of hand",
+          "stealth"
+        ]
+      }
+    ],
     "saving_throws": ["str", "con"],
-    "god": "x",
     "primary_skill": "intelligence",
     "secondary_skill": "wisdom",
     "subclasses": [
@@ -424,73 +765,266 @@
       }
     ],
     "spellcasting_ability": "",
-    "desc": "x",
+    "desc": "Rogues rely on skill, stealth, and their foes' vulnerabilities to get the upper hand in any situation. They have a knack for finding the solution to just about any problem, demonstrating a resourcefulness and versatility that is the cornerstone of any successful adventuring party.",
     "levels": [
       {
-        "level": 0,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
-      },
-      {
         "level": 1,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
+        "cantrips": 0,
+        "ability": ["expertise", "sneak attack"],
+        "spell_slots": [1]
       },
       {
         "level": 2,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
+        "cantrips": 0,
+        "ability": ["cunning action"],
+        "spell_slots": [1]
       },
       {
         "level": 3,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
+        "cantrips": 0,
+        "ability": ["sub class 1"],
+        "spell_slots": [2]
       },
       {
         "level": 4,
+        "cantrips": 0,
         "ability": [],
-        "ability_score_improvement": true,
-        "spell_slots": []
+        "spell_slots": [2]
       },
       {
         "level": 5,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
+        "cantrips": 0,
+        "ability": ["uncanny dodge"],
+        "spell_slots": [3]
       },
       {
         "level": 6,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
+        "cantrips": 0,
+        "ability": ["expertise"],
+        "spell_slots": [3]
       },
       {
         "level": 7,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
+        "cantrips": 0,
+        "ability": ["evasion"],
+        "spell_slots": [4]
       },
       {
         "level": 8,
+        "cantrips": 0,
         "ability": [],
-        "ability_score_improvement": true,
-        "spell_slots": []
+        "spell_slots": [4]
       },
       {
         "level": 9,
-        "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
+        "cantrips": 0,
+        "ability": ["sub class 2"],
+        "spell_slots": [5]
       },
       {
         "level": 10,
+        "cantrips": 0,
         "ability": [],
-        "ability_score_improvement": false,
-        "spell_slots": []
+        "spell_slots": [5]
+      }
+    ]
+  },
+  "warlock": {
+    "name": "Sikh",
+    "hit_die": 8,
+    "proficiency_choices": [
+      {
+        "choose": 2,
+        "options": [
+          "arcana",
+          "deception",
+          "history",
+          "intimidation",
+          "investigation",
+          "nature",
+          "religion"
+        ]
+      }
+    ],
+    "saving_throws": ["wis", "cha"],
+    "primary_skill": "charisma",
+    "secondary_skill": "constitution",
+    "subclasses": [
+      {
+        "name": "archer"
+      }
+    ],
+    "spellcasting_ability": "charisma",
+    "desc": "Warlocks are seekers of the knowledge that lies hidden in the fabric of the multiverse. Through pacts made with mysterious beings of supernatural power, warlocks unlock magical effects both subtle and spectacular.",
+    "levels": [
+      {
+        "level": 1,
+        "cantrips": 2,
+        "ability": ["pact magic", "sub class 1"],
+        "spell_slots": [1],
+        "spells_known": 2
+      },
+      {
+        "level": 2,
+        "cantrips": 2,
+        "ability": ["agonizing blast", "lance of lethargy"],
+        "spell_slots": [2],
+        "spells_known": 3
+      },
+      {
+        "level": 3,
+        "cantrips": 2,
+        "ability": ["pact of the tome"],
+        "spell_slots": [0,2],
+        "spells_known": 4
+      },
+      {
+        "level": 4,
+        "cantrips": 3,
+        "ability": [],
+        "spell_slots": [0,2],
+        "spells_known": 5
+      },
+      {
+        "level": 5,
+        "cantrips": 3,
+        "ability": ["book of ancient secrets"],
+        "spell_slots": [0,0,2],
+        "spells_known": 6
+      },
+      {
+        "level": 6,
+        "cantrips": 3,
+        "ability": ["sub class 2"],
+        "spell_slots": [0,0,2],
+        "spells_known": 7
+      },
+      {
+        "level": 7,
+        "cantrips": 3,
+        "ability": ["undying servitude"],
+        "spell_slots": [0,0,0,2],
+        "spells_known": 8
+      },
+      {
+        "level": 8,
+        "cantrips": 3,
+        "ability": [],
+        "spell_slots": [0,0,0,2],
+        "spells_known": 9
+      },
+      {
+        "level": 9,
+        "cantrips": 3,
+        "ability": ["eldritch sight"],
+        "spell_slots": [0,0,0,0,2],
+        "spells_known": 10
+      },
+      {
+        "level": 10,
+        "cantrips": 4,
+        "ability": ["sub class 3"],
+        "spell_slots": [0,0,0,0,2],
+        "spells_known": 10
+      }
+    ]
+  },
+  "sorcerer": {
+    "name": "Rabbi",
+    "hit_die": 6,
+    "proficiency_choices": [
+      {
+        "choose": 2,
+        "options": [
+          "arcana",
+          "deception",
+          "insight",
+          "intimidation",
+          "persuasion",
+          "religion"
+        ]
+      }
+    ],
+    "saving_throws": ["cha", "con"],
+    "primary_skill": "charisma",
+    "secondary_skill": "constitution",
+    "subclasses": [
+      {
+        "name": "archer"
+      }
+    ],
+    "spellcasting_ability": "charisma",
+    "desc": "Sorcerers carry a magical birthright conferred upon them by an exotic bloodline, some otherworldly influence, or exposure to unknown cosmic forces. No one chooses sorcery; the power chooses the sorcerer.",
+    "levels": [
+      {
+        "level": 1,
+        "cantrips": 4,
+        "ability": ["sub class 1"],
+        "spell_slots": [2],
+        "spells_known": 2
+      },
+      {
+        "level": 2,
+        "cantrips": 4,
+        "ability": ["font of magic"],
+        "spell_slots": [3],
+        "spells_known": 3
+      },
+      {
+        "level": 3,
+        "cantrips": 4,
+        "ability": ["metamagic"],
+        "spell_slots": [4,2],
+        "spells_known": 4
+      },
+      {
+        "level": 4,
+        "cantrips": 5,
+        "ability": [],
+        "spell_slots": [4,3],
+        "spells_known": 5
+      },
+      {
+        "level": 5,
+        "cantrips": 5,
+        "ability": ["magical guidance"],
+        "spell_slots": [4,3,2],
+        "spells_known": 6
+      },
+      {
+        "level": 6,
+        "cantrips": 5,
+        "ability": ["sub class 2"],
+        "spell_slots": [4,3,3],
+        "spells_known": 7
+      },
+      {
+        "level": 7,
+        "cantrips": 5,
+        "ability": [],
+        "spell_slots": [4,3,3,1],
+        "spells_known": 8
+      },
+      {
+        "level": 8,
+        "cantrips": 5,
+        "ability": [],
+        "spell_slots": [4,3,3,2],
+        "spells_known": 9
+      },
+      {
+        "level": 9,
+        "cantrips": 5,
+        "ability": [],
+        "spell_slots": [4,3,3,3,1],
+        "spells_known": 10
+      },
+      {
+        "level": 10,
+        "cantrips": 6,
+        "ability": ["metamagic"],
+        "spell_slots": [4,3,3,3,2],
+        "spells_known": 11
       }
     ]
   }
