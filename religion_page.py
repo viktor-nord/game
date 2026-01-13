@@ -81,11 +81,6 @@ class ReligionPage(Page):
         if id:
             self.current_class = self.db_classes[id]
             self.render_text()
-        # self.left_title = Title(self.current_class["name"], self.left_title_container)
-        # self.hp = SmallTitle(f"HP: {self.current_class["hit_die"]}", self.stats_container, centered=False)
-        # self.primary_skill = Text(f"Primary: {self.current_class["primary_skill"]}", self.primary_skill_container, centered=False, has_underline=True)
-        # self.secondary_skill = Text(f"Secondary: {self.current_class["secondary_skill"]}", self.secondary_skill_container, centered=False, has_underline=True)
-        # self.desc_text_box = TextBox(self.current_class["desc"], self.desc_text_box_container)
 
     def update(self):
         self.check_box_list.update()
@@ -101,5 +96,4 @@ class ReligionPage(Page):
         screen.blit(self.primary_skill.image, self.primary_skill.rect)
         screen.blit(self.secondary_skill.image, self.secondary_skill.rect)
         screen.blit(self.desc_text_box.image, self.desc_text_box.rect)
-        # pygame.draw.rect(screen, "red", self.desc_text_box_container)
 

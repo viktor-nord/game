@@ -1,4 +1,5 @@
 from csv import Error
+from turtle import left
 import pygame
 from pathlib import Path
 import json
@@ -21,15 +22,13 @@ class RacePage(Page):
         self.size_container = self.left_page.copy()
         self.size_container.top = self.left_title_container.bottom + margin
         self.size_container.left += margin
-        # self.data_container.height = self.data_container.height - self.left_title_container.height
         self.size_text = Text(f"Size: {self.current_race["size"]}", self.size_container, has_underline=False, centered=False)
         self.size_container.height = self.size_text.image.get_height()
         self.speed_container = self.size_container.copy()
         self.speed_container.top = self.size_container.bottom
         self.speed_text = Text(f"Speed: {self.current_race["speed"]}", self.speed_container, has_underline=False, centered=False)
         self.get_abi()
-
-        self.ability_container = self.left_page.copy()
+        self.get_traits()
 
         # Right side
         self.right_title = Title("Race", self.right_title_container)
@@ -56,20 +55,43 @@ class RacePage(Page):
             name = "all"
         text = f"Ability Increase: {name} + {self.current_race["abs"][0]["val"]}"
         self.abi_text = Text(text, self.abi_container, has_underline=False, centered=False)
+        self.abi_container_2 = self.abi_container.copy()
+        self.abi_container_2.top = self.abi_container.bottom
         if len(self.current_race["abs"]) > 1 and self.current_race["name"] != "human":
-            self.abi_container_2 = self.abi_container.copy()
-            self.abi_container_2.top = self.abi_container.bottom
             text_2 = f"Ability Increase: {self.current_race["abs"][1]["name"]} + {self.current_race["abs"][1]["val"]}"
             self.abi_text_2 = Text(text_2, self.abi_container, has_underline=False, centered=False)
         else:
             self.abi_text_2 = None
+
+    def get_traits(self):
+        self.traits_title_container = self.left_page.copy()
+        self.traits_title_container.height = 30
+        self.traits_title_container.top = self.abi_container_2.bottom
+        self.traits_title = Text("Traits", self.traits_title_container, size=22)
+
+        self.traits_surf = pygame.Surface((
+            self.left_page.right - self.left_page.left, 
+            self.left_page.bottom - self.traits_title_container.bottom + 8
+        ), pygame.SRCALPHA).convert_alpha()
+        self.traits_rect = self.traits_surf.get_rect(top=self.traits_title_container.bottom + 8, left=self.left_page.left)
+        traits_list = self.current_race["traits"]
+        for i, trait in enumerate(traits_list):
+            p = self.traits_surf.get_rect()
+            if i == 1:
+                p = self.traits_surf.get_rect(left = self.traits_rect.width // 2)
+            if i == 2:
+                p = self.traits_surf.get_rect(top = 30)
+            if i == 3:
+                p = self.traits_surf.get_rect(left = self.traits_rect.width // 2, top = 30)
+            t = Text(trait["name"], p, has_underline=True, centered=False)
+            self.traits_surf.blit(t.image, t.rect)
 
     def render_text(self):
         self.left_title = Title(self.current_race["name"], self.left_title_container)
         self.size_text = Text(f"Size: {self.current_race["size"]}", self.size_container, has_underline=False, centered=False)
         self.speed_text = Text(f"Speed: {self.current_race["speed"]}", self.speed_container, has_underline=False, centered=False)
         self.get_abi()
-        # self.abi_text = Text(abi_text, self.abi_container, has_underline=False, centered=False)
+        self.get_traits()
 
     def get_race_list(self):
         arr = []
@@ -96,6 +118,8 @@ class RacePage(Page):
         screen.blit(self.size_text.image, self.size_container)
         screen.blit(self.speed_text.image, self.speed_container)
         screen.blit(self.abi_text.image, self.abi_container)
+        screen.blit(self.traits_surf, self.traits_rect)
+        screen.blit(self.traits_title.image, self.traits_title.rect)
         try:
             screen.blit(self.abi_text_2.image, self.abi_container_2)
         except AttributeError:
