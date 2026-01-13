@@ -4,6 +4,7 @@ from religion_page import ReligionPage
 from page import Page
 from nav_bar import NavBar
 from race_page import RacePage
+from general_page import GeneralPage
 
 class CharacterCreation(Page):
     def __init__(self, game):
@@ -11,8 +12,9 @@ class CharacterCreation(Page):
         self.game = game
         self.religion_page = ReligionPage(game)
         self.race_page = RacePage(game)
-        self.pages = ["general","religion", "rase"]
-        self.page = "religion"
+        self.general_page = GeneralPage(game)
+        self.pages = ["general", "religion", "rase"]
+        self.page = "general"
         self.nav_bar = NavBar()
 
     def update(self):
@@ -20,6 +22,8 @@ class CharacterCreation(Page):
             self.religion_page.update()
         elif self.page == "race":
             self.race_page.update()
+        elif self.page == "general":
+            self.general_page.update()
         else:
             self.religion_page.update()
 
@@ -28,6 +32,8 @@ class CharacterCreation(Page):
             self.religion_page.blitme(screen)
         elif self.page == "race":
             self.race_page.blitme(screen)
+        elif self.page == "general":
+            self.general_page.blitme(screen)
         else:
             self.religion_page.blitme(screen)
         self.nav_bar.blitme(screen)
@@ -39,5 +45,7 @@ class CharacterCreation(Page):
             self.religion_page.check_click()
         elif self.page == "race":
             self.race_page.check_click()
+        elif self.page == "general":
+            self.general_page.check_click()
         else:
             self.religion_page.check_click()

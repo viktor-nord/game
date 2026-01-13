@@ -106,8 +106,7 @@ class RacePage(Page):
             self.render_text()
 
     def update(self):
-        gg=0
-        # self.check_box_list.update()
+        self.check_box_list.update()
 
     def blitme(self, screen):
         super().blitme(screen)
