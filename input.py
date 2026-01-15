@@ -4,16 +4,17 @@ from tool_tip import ToolTip
 from settings import Settings
 
 class Input:
-    def __init__(self, id, label, pos):
+    def __init__(self, id, label, parent, max_letters=18, only_numbers=False):
         self.id = id
         self.is_active = False
-        self.pos = pos
+        self.parent = parent
+        self.only_numbers = only_numbers
         self.value = ""
         self.width = 288
         self.height = 32
         self.font_size = 20
         self.settings = Settings()
-        self.max_letter = 18
+        self.max_letter = max_letters
         self.font = pygame.font.Font('assets/font/ThaleahFat.ttf', self.font_size)
         self.text = self.font.render(self.value, True, self.settings.text_color).convert_alpha()
         self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA).convert_alpha()
@@ -48,7 +49,7 @@ class Input:
 
     def check_click(self):
         pos = pygame.mouse.get_pos()
-        r = self.image.get_rect(x = self.pos[0], y = self.pos[1])
+        r = self.image.get_rect(x = self.parent.x, y = self.parent.y)
         if r.collidepoint(pos):
             self.is_active = True
             self.draw_text_cursor()
@@ -67,20 +68,20 @@ class Input:
         self.image.blit(self.end, (self.rect.right - self.end.get_width() - 8, 0))
         self.image.blit(self.text, ((8 + self.label.image.get_width() + 8 + self.start.get_width(), 7)))
 
-    def handle_key(self, key):
-        special_keys = [
-            pygame.K_BACKSPACE,
-            pygame.K_SPACE,
-            pygame.K_RETURN,
-            pygame.K_LEFT,
-            pygame.K_RIGHT
-        ]
-        space = 10
-        if key not in self.settings.permitted_keys or self.is_active == False:
-            return
+    def disable_keys(self, key):
+        if key not in self.settings.permitted_keys:
+            return True
         if len(self.value) == self.max_letter and key != pygame.K_BACKSPACE:
+            return True
+        if self.only_numbers and key not in self.settings.number_keys:
+            return True
+        return False
+
+    def handle_key(self, key):
+        space = 10
+        if self.disable_keys(key):
             return
-        if key in special_keys:
+        if key in self.settings.special_keys:
             if key == pygame.K_SPACE:
                 self.value += " "
                 space = self.font.render(" ", True, self.settings.text_color).convert_alpha().get_width()

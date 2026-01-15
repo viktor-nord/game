@@ -8,12 +8,14 @@ class Settings():
         self.screen_width = self.x_tiles * self.tile_size # 1024
         self.screen_height = self.y_tiles * self.tile_size # 512
         self.text_color = (13, 141, 103)
-        self.permitted_keys = [
+        self.special_keys = [
             pygame.K_BACKSPACE,
             pygame.K_SPACE,
             pygame.K_RETURN,
             pygame.K_LEFT,
             pygame.K_RIGHT,
+        ]
+        self.letter_keys = [
             pygame.K_q,
             pygame.K_w,
             pygame.K_e,
@@ -40,6 +42,8 @@ class Settings():
             pygame.K_b,
             pygame.K_n,
             pygame.K_m,
+        ]
+        self.number_keys = [
             pygame.K_0,
             pygame.K_1,
             pygame.K_2,
@@ -51,3 +55,14 @@ class Settings():
             pygame.K_8,
             pygame.K_9,
         ]
+        self.permitted_keys = self.get_permitted_keys()
+
+    def get_permitted_keys(self):
+        arr = []
+        for key in self.special_keys:
+            arr.append(key)
+        for key in self.letter_keys:
+            arr.append(key)
+        for key in self.number_keys:
+            arr.append(key)
+        return arr

@@ -74,7 +74,7 @@ class Main():
     #     print(f"scroll_down: {scroll_down}")
 
     def handle_key(self, key, is_down):
-        if self.character_creation.general_page.name_input.is_active:
+        if self.character_creation.general_page.name_input.is_active or self.character_creation.general_page.age_input.is_active:
             if is_down:
                 self.character_creation.handle_key(key)
         elif key == pygame.K_SPACE:

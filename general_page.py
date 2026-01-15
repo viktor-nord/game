@@ -24,21 +24,35 @@ class GeneralPage(Page):
         # Right side
         self.right_title = Title("General", self.right_title_container)
         self.name = ""
-        self.name_input = Input("name", "Name:", (self.right_page.left, self.right_title_container.bottom + 8))
+        self.age = 0
+        self.name_input_container = pygame.Rect((self.right_page.left, self.right_title_container.bottom + 8), (self.right_page.width, 10))
+        self.name_input = Input("name", "Name:", self.name_input_container)
+        self.name_input_container.height = self.name_input.image.get_height()
+        self.age_input_container = self.name_input_container.copy()
+        self.age_input_container.top = self.name_input_container.bottom
+        self.age_input = Input("age", "Age: ", self.age_input_container, only_numbers=True)
 
     def check_click(self):
         self.name_input.check_click()
+        self.age_input.check_click()
 
     def update(self):
         self.name_input.update()
+        self.age_input.update()
 
     def handle_key(self, key):
-        name = self.name_input.handle_key(key)
-        if name:
-            self.name = name
+        if self.name_input.is_active:
+            name = self.name_input.handle_key(key)
+            if name:
+                self.name = name
+        if self.age_input.is_active:
+            age = self.age_input.handle_key(key)
+            if age:
+                self.age = age
 
     def blitme(self, screen):
         super().blitme(screen)
         screen.blit(self.right_title.image, self.right_title.rect)
         screen.blit(self.intro_text.image, self.intro_text_container)
-        screen.blit(self.name_input.image, (self.right_page.left, self.right_title_container.bottom + 8))
+        screen.blit(self.name_input.image, self.name_input_container)
+        screen.blit(self.age_input.image, self.age_input_container)
