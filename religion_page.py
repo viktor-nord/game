@@ -26,9 +26,9 @@ class ReligionPage(Page):
         self.get_class_data(margin)
 
         # Right side
-        self.right_title = Title("Faith", self.right_title_container)
+        self.right_title = Title("Practice", self.right_title_container)
         self.text_box_container = self.right_page.copy()
-        info_text = "Faith effect everything from spells, abilities and personality. You can change your religion later."
+        info_text = "How you practice your faith effect everything from spells, abilities and personality. You can change your religion later."
         self.text_box = TextBox(info_text, self.text_box_container)
         self.text_box.rect.bottom = self.right_page.bottom
 

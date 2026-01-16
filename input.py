@@ -16,7 +16,7 @@ class Input:
         self.settings = Settings()
         self.max_letter = max_letters
         self.font = pygame.font.Font('assets/font/ThaleahFat.ttf', self.font_size)
-        self.text = self.font.render(self.value, True, self.settings.text_color).convert_alpha()
+        self.text = self.font.render(self.value, False, self.settings.text_color).convert_alpha()
         self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA).convert_alpha()
         self.label = Text(label, self.image.get_rect(width = self.image.get_width() / 2))
         self.rect = self.image.get_rect()
@@ -84,18 +84,18 @@ class Input:
         if key in self.settings.special_keys:
             if key == pygame.K_SPACE:
                 self.value += " "
-                space = self.font.render(" ", True, self.settings.text_color).convert_alpha().get_width()
+                space = self.font.render(" ", False, self.settings.text_color).convert_alpha().get_width()
             elif key == pygame.K_BACKSPACE:
                 self.value = self.value[:-1]
-                space = self.font.render(self.value[-1], True, self.settings.text_color).convert_alpha().get_width() * -1
+                space = self.font.render(self.value[-1], False, self.settings.text_color).convert_alpha().get_width() * -1
             elif key == pygame.K_RETURN:
                 self.fill_surf()
                 self.is_active = False
                 return self.value
         else:
             self.value += pygame.key.name(key)
-            space = self.font.render(pygame.key.name(key), True, self.settings.text_color).convert_alpha().get_width()
-        self.text = self.font.render(self.value, True, self.settings.text_color).convert_alpha()
+            space = self.font.render(pygame.key.name(key), False, self.settings.text_color).convert_alpha().get_width()
+        self.text = self.font.render(self.value, False, self.settings.text_color).convert_alpha()
         self.text_cursor_rect.x += space
         self.draw_text_cursor()
         return self.value

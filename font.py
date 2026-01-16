@@ -23,7 +23,7 @@ class Text:
         self.text_color = Settings().text_color
         self.font = pygame.font.Font('assets/font/ThaleahFat.ttf', size)
         self.under_line_img = pygame.image.load('assets/ui_sprites/Sprites/Content/5 Holders/20_2.png').convert_alpha()
-        self.text = self.font.render(text, True, self.text_color).convert_alpha()
+        self.text = self.font.render(text, False, self.text_color).convert_alpha()
         self.image = pygame.Surface((self.text.get_width(), self.text.get_height()), pygame.SRCALPHA).convert_alpha()
         self.text_rect = self.text.get_rect(center=self.image.get_rect().center)
         self.image.blit(self.text, (self.text_rect.x, self.text_rect.y))
@@ -108,7 +108,7 @@ class LongText(Text):
         x = 0
         for i, word in enumerate(string_list):
             val = word if i == len(string_list) - 1 else word  + " "
-            t = self.font.render(val, True, self.text_color)
+            t = self.font.render(val, False, self.text_color)
             if x + t.get_width() > self.width:
                 list.append([t])
                 line += 1
