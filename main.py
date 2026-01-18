@@ -81,11 +81,10 @@ class Main():
         elif key == pygame.K_q:
             sys.exit()
         else:
-            self.player.handle_movement()
-
+            self.player.handle_movement(key, is_down)
 
     def handle_action(self):
-        self.map.change_state((self.player.rect.x, self.player.rect.y))
+        self.map.change_state(self.player)
 
     def handle_click(self):
         if self.game_pause == False:

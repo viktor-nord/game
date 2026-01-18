@@ -11,6 +11,7 @@ class Player():
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+        self.dir = ""
         self.rect.x = self.size * 10
         self.rect.y = self.size * 10
         self.speed = 4
@@ -26,13 +27,22 @@ class Player():
         if self.moving_up and self.not_colliding('up'):
             self.rect.y -= self.speed
 
-    def handle_movement(self):
-        keys = pygame.key.get_pressed()
-        self.moving_down = keys[pygame.K_DOWN]
-        self.moving_up = keys[pygame.K_UP]
-        self.moving_right = keys[pygame.K_RIGHT]
-        self.moving_left = keys[pygame.K_LEFT]
-
+    def handle_movement(self, key, is_down):
+        if key == pygame.K_RIGHT:
+            self.moving_right = is_down
+            self.dir = "right"
+        elif key == pygame.K_LEFT:
+            self.moving_left = is_down
+            self.dir = "left"
+        elif key == pygame.K_UP:
+            self.moving_up = is_down
+            self.dir = "up"
+        elif key == pygame.K_DOWN:
+            self.moving_down = is_down
+            self.dir = "down"
+        else:
+            return key
+        
     def not_colliding(self, dir):
         size = self.size
         not_colliding = True

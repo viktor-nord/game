@@ -6,46 +6,14 @@ class NoTile():
     def __init__(self):
         self.id = -1
         self.collision = 0
-        self.exist = True
-
+        self.type = "none"
+        self.exist = False
+    
 class Map:
     def __init__(self):
         self.settings = Settings()
         self.size = self.settings.tile_size
-        self.tmxdata = Tmx()
         self.removed_tiles = []
-
-    def get_tile(self, x, y, l):
-        val = NoTile()
-        if len(self.tmxdata.tiles[y][x]["layers"]) == l + 1:
-            val = self.tmxdata.tiles[y][x]["layers"][l]
-        return val
-    
-    def is_colliding(self, pos):
-        collide = False
-        layers = self.tmxdata.tiles[pos[1]][pos[0]]["layers"]
-        for layer in layers:
-            if layer.collision == 1 and layer.exist == True:
-                collide = True
-        return collide
-
-    def blit_all_tiles(self, screen):
-        for y in self.tmxdata.tiles:
-            for x in y:
-                for layer in x["layers"]:
-                    if layer.exist:
-                        img = pygame.transform.scale(layer.image, (self.size, self.size))
-                        screen.blit(img, (x["x"], x["y"]))
-            
-    def change_state(self, pos):
-        x = int((pos[0] + self.size / 2) // self.size)
-        y = int((pos[1] + self.size / 2) // self.size)
-        for i, layer in enumerate(self.tmxdata.tiles[y - 1][x]["layers"]):
-            if layer.type == "door":
-                self.tmxdata.tiles[y][x]["layers"][i].change_state()
-
-class Tmx:
-    def __init__(self):
         self.tmxdata = load_pygame('map/example_maptmx.tmx')
         self.settings = Settings()
         self.y_tiles = self.settings.y_tiles
@@ -67,19 +35,53 @@ class Tmx:
             'frames': [],
             'exist': True
         }
+
+
+    def is_colliding(self, pos):
+        collide = False
+        layers = self.tiles[pos[1]][pos[0]]
+        for layer in layers:
+            if layer.collision == 1 and layer.exist == True:
+                collide = True
+        return collide
+
+    def blit_all_tiles(self, screen):
+        for yi, y in enumerate(self.tiles):
+            for xi, x in enumerate(y):
+                for tile in x:
+                    if tile.exist:
+                        screen.blit(tile.image, (xi * self.size, yi * self.size))
+            
+    def change_state(self, player):
+        x = int((player.rect.x + self.size / 2) // self.size)
+        y = int((player.rect.y + self.size / 2) // self.size)
+        print(player.dir)
+        if player.dir == "up":
+            y -= 1
+        if player.dir == "down":
+            y += 1
+        if player.dir == "right":
+            x += 1
+        if player.dir == "left":
+            x -= 1
+        for i, tile in enumerate(self.tiles[y][x]):
+            if tile.type == "door" and tile.id > 0:
+                self.tiles[y][x][i].change_state()
     
     def get_tiles(self):
         tiles = list(range(0, self.y_tiles))
         for y in tiles:
             tiles[y] = list(range(0, self.x_tiles))
             for x in tiles[y]:
-                tiles[y][x] = {"x": x * self.size, "y": y * self.size, "layers": []}
+                tiles[y][x] = []
+                for layer in enumerate(self.tmxdata):
+                    tiles[y][x].append(NoTile())
         for layer_index, layer in enumerate(self.tmxdata):
             self.layers_amount = layer_index + 1
             for tile in layer.tiles():
                 properties = self.try_get_prop(tile, layer_index)
                 tile_obj = Tile(tile, layer_index, properties)                
-                tiles[tile[1]][tile[0]]["layers"].append(tile_obj)
+                tiles[tile[1]][tile[0]][layer_index] = tile_obj
         return tiles
     
     def try_get_prop(self, tile, layer):
@@ -104,6 +106,7 @@ class Tile:
         self.animation = properties["animation"]
         self.collision = properties["collision"]
         self.is_overlay = properties["is_overlay"]
+        # Types: 'chest', 'summon', 'wall', 'door', 'object', 'ground'
         self.type = properties["type"] 
         self.value = properties["value"] 
         self.width = str(self.size)
@@ -112,6 +115,7 @@ class Tile:
         self.exist = True
     
     def change_state(self):
+        print("ee")
         if self.exist:
             self.exist = False
         else:
