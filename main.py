@@ -7,6 +7,7 @@ from settings import Settings
 from start_screen import StartScreen
 from character_creation import CharacterCreation
 from map import Map
+from npc import Npc
 
 class Main():
     def __init__(self):
@@ -26,6 +27,7 @@ class Main():
         self.player = Player(self)
         self.start_screen = StartScreen(self)
         self.character_creation = CharacterCreation(self)
+        self.npc = Npc(self)
 
     def run(self):
         while self.running:
@@ -50,6 +52,7 @@ class Main():
             else:
                 self.start_screen.blitme(self.screen)
         else:
+            self.screen.blit(self.npc.image, self.npc.rect)
             self.screen.blit(self.player.image, self.player.rect)
         pygame.display.flip()
 
@@ -74,8 +77,7 @@ class Main():
 
     def handle_key(self, key, is_down):
         if key == pygame.K_SPACE:
-            if is_down:
-                self.handle_action()
+            self.handle_action(is_down)
         elif key == pygame.K_p:
             self.game_pause = True
         elif key == pygame.K_q:
@@ -83,8 +85,9 @@ class Main():
         else:
             self.player.handle_movement(key, is_down)
 
-    def handle_action(self):
-        self.map.change_state(self.player)
+    def handle_action(self, is_down):
+        if is_down:
+            self.map.change_state(self.player)
 
     def handle_click(self):
         if self.game_pause == False:
