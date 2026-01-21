@@ -6,6 +6,8 @@ from nav_bar import NavBar
 from race_page import RacePage
 from general_page import GeneralPage
 from ability_page import AbilityPage
+from miracles_page import MiraclesPage
+from submit_page import SubmitPage
 
 class CharacterCreation(Page):
     def __init__(self, game):
@@ -15,9 +17,9 @@ class CharacterCreation(Page):
         self.race_page = RacePage(game)
         self.general_page = GeneralPage(game)
         self.ability_page = AbilityPage(game)
-        self.magic_page = ReligionPage(game)
-        self.submit_page = ReligionPage(game)
-        self.pages = ["general", "religion", "race", "ability", "magic", "submit"]
+        self.miracles_page = MiraclesPage(game)
+        self.submit_page = SubmitPage(game)
+        self.pages = ["general", "religion", "race", "ability", "miracles", "submit"]
         self.page = "general"
         self.nav_bar = NavBar()
 
@@ -30,8 +32,8 @@ class CharacterCreation(Page):
             self.race_page.update()
         elif self.page == "ability":
             self.ability_page.update()
-        elif self.page == "magic":
-            self.magic_page.update()
+        elif self.page == "miracles":
+            self.miracles_page.update()
         elif self.page == "submit":
             self.submit_page.update()
         else:
@@ -46,8 +48,8 @@ class CharacterCreation(Page):
             self.race_page.blitme(screen)
         elif self.page == "ability":
             self.ability_page.blitme(screen)
-        elif self.page == "magic":
-            self.magic_page.blitme(screen)
+        elif self.page == "miracles":
+            self.miracles_page.blitme(screen)
         elif self.page == "submit":
             self.submit_page.blitme(screen)
         else:
@@ -65,8 +67,8 @@ class CharacterCreation(Page):
             self.race_page.check_click()
         elif self.page == "ability":
             self.ability_page.check_click()
-        elif self.page == "magic":
-            self.magic_page.check_click()
+        elif self.page == "miracles":
+            self.miracles_page.check_click()
         elif self.page == "submit":
             self.submit_page.check_click()
         else:

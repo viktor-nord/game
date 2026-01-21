@@ -11,17 +11,17 @@ from button import CheckBoxList
 class AbilityPage(Page):
     def __init__(self, game):
         super().__init__(game)
-        self.left_title = Title("Skills", self.left_title_container)
-        skills_path = Path("data/skills.json")
-        self.skill_list = json.loads(skills_path.read_text()) 
-        self.selected_skills = []
-        self.skill_list_container = self.left_page.copy()
-        self.skill_list_container.top = self.left_title_container.bottom + 8
-        self.skill_max_amount = 3
-        self.skills = CheckBoxList(
+        self.left_title = Title("Proficiencies", self.left_title_container)
+        proficiencies_path = Path("data/proficiencies.json")
+        self.proficiencies_list = json.loads(proficiencies_path.read_text()) 
+        self.selected_proficiencies = []
+        self.proficiencies_list_container = self.left_page.copy()
+        self.proficiencies_list_container.top = self.left_title_container.bottom + 8
+        self.proficiencies_max_amount = 3
+        self.proficiencies = CheckBoxList(
             game, 
-            self.skill_list_container, 
-            [{"id": skill, "text": skill, "value": skill} for skill in self.skill_list],
+            self.proficiencies_list_container, 
+            [{"id": proficiencies, "text": proficiencies, "value": proficiencies} for proficiencies in self.proficiencies_list],
             slim = True,
             multi = True,
             amount = 3
@@ -34,10 +34,10 @@ class AbilityPage(Page):
         self.get_info_text(0)
 
     def get_info_text(self, selected):
-        text = f"{selected} out of {self.skill_max_amount} skills"
-        self.skill_info = PlainText(text)
-        self.skill_info.rect.center = self.left_page.center
-        self.skill_info.rect.bottom = self.left_page.bottom
+        text = f"{selected} out of {self.proficiencies_max_amount} proficiencies"
+        self.proficiencies_info = PlainText(text)
+        self.proficiencies_info.rect.center = self.left_page.center
+        self.proficiencies_info.rect.bottom = self.left_page.bottom
         
     def populate_abilities(self):
         ac = self.right_page.copy() # ability container
@@ -56,10 +56,10 @@ class AbilityPage(Page):
             self.abilities.append(AbilityBox(ability[:3], container))
 
     def check_click(self):
-        skill_list = self.skills.check_click()
-        if skill_list:
-            self.selected_skills = skill_list
-            self.get_info_text(len(self.selected_skills))
+        proficiencies_list = self.proficiencies.check_click()
+        if proficiencies_list:
+            self.selected_proficiencies = proficiencies_list
+            self.get_info_text(len(self.selected_proficiencies))
         taken = set(a.value_index for a in self.abilities)
         for ability in self.abilities:
             operator = ability.handle_click()
@@ -67,7 +67,7 @@ class AbilityPage(Page):
                 ability.change_value(operator, taken)
 
     def update(self):
-        self.skills.update()
+        self.proficiencies.update()
 
     def blitme(self, screen):
         super().blitme(screen)
@@ -75,8 +75,8 @@ class AbilityPage(Page):
             screen.blit(ability.image, ability.parent)
         screen.blit(self.left_title.image, self.left_title.rect)
         screen.blit(self.right_title.image, self.right_title.rect)
-        self.skills.draw_list(screen)
-        screen.blit(self.skill_info.text, self.skill_info.rect)
+        self.proficiencies.draw_list(screen)
+        screen.blit(self.proficiencies_info.text, self.proficiencies_info.rect)
 
 class AbilityBox:
     def __init__(self, label, parent):

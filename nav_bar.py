@@ -2,7 +2,7 @@ import pygame
 
 class NavBar:
     def __init__(self):
-        self.pages = ["general", "religion", "race", "ability", "magic", "submit"]
+        self.pages = ["general", "religion", "race", "ability", "miracles", "submit"]
         pos_x = 836
         pos_y = 82
         self.current = self.pages[0]
