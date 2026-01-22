@@ -25,7 +25,7 @@ class AbilityPage(Page):
             [{"id": proficiencies, "text": proficiencies, "value": proficiencies} for proficiencies in self.proficiencies_list],
             slim = True,
             multi = True,
-            amount = 3
+            amount = self.proficiencies_max_amount
         )
         self.ability_list = ["strength", "wisdom", "constitution", "dexterity", "intelligence", "charisma"]
         self.values = [0, 8, 10, 12, 13, 14, 15]
@@ -66,12 +66,16 @@ class AbilityPage(Page):
             operator = ability.handle_click()
             if operator:
                 ability.change_value(operator, taken)
+        self.check_if_complete()
 
     def check_if_complete(self):
-        if True:
-            self.complete = False
-        else:
-            self.complete = False
+        is_complete = True
+        for a in self.abilities:
+            if a.value_index == 0:
+                is_complete = False
+        if len(self.proficiencies.selected) < self.proficiencies_max_amount:
+            is_complete = False
+        self.complete = is_complete
 
     def update(self):
         self.proficiencies.update()

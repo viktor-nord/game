@@ -3,10 +3,9 @@ from pathlib import Path
 import json
 
 from page import Page
-from font import Title, SmallTitle, Text
+from font import Title, Text, get_text_height
 from button import CheckBoxList
 from text_box import TextBox
-from scroll_bar import ScrollBar
 
 class RacePage(Page):
     def __init__(self, game):
@@ -18,15 +17,12 @@ class RacePage(Page):
         margin = 8
         self.complete = False
         # Left side
-        self.left_title = Title(init_race["name"], self.left_title_container)
         self.size_container = self.left_page.copy()
         self.size_container.top = self.left_title_container.bottom + margin
         self.size_container.left += margin
-        self.size_text = Text(f"Size: {init_race["size"]}", self.size_container, has_underline=False, centered=False)
-        self.size_container.height = self.size_text.image.get_height()
+        self.size_container.height = get_text_height()
         self.speed_container = self.size_container.copy()
         self.speed_container.top = self.size_container.bottom
-        self.speed_text = Text(f"Speed: {init_race["speed"]}", self.speed_container, has_underline=False, centered=False)
         self.get_abi()
         self.get_traits()
 
@@ -68,12 +64,14 @@ class RacePage(Page):
         self.traits_title_container.height = 30
         self.traits_title_container.top = self.abi_container_2.bottom
         self.traits_title = Text("Traits", self.traits_title_container, size=22)
-
         self.traits_surf = pygame.Surface((
             self.left_page.right - self.left_page.left - 8 * 2, 
             self.left_page.bottom - self.traits_title_container.bottom + 8
         ), pygame.SRCALPHA).convert_alpha()
-        self.traits_rect = self.traits_surf.get_rect(top=self.traits_title_container.bottom + 8, left=self.left_page.left + 8)
+        self.traits_rect = self.traits_surf.get_rect(
+            top=self.traits_title_container.bottom + 8, 
+            left=self.left_page.left + 8
+        )
         traits_list = self.current_race["traits"]
         for i, trait in enumerate(traits_list):
             p = self.traits_surf.get_rect()
@@ -90,8 +88,6 @@ class RacePage(Page):
         self.left_title = Title(self.current_race["name"], self.left_title_container)
         self.size_text = Text(f"Size: {self.current_race["size"]}", self.size_container, has_underline=False, centered=False)
         self.speed_text = Text(f"Speed: {self.current_race["speed"]}", self.speed_container, has_underline=False, centered=False)
-        self.get_abi()
-        self.get_traits()
 
     def get_race_list(self):
         arr = []
@@ -105,6 +101,8 @@ class RacePage(Page):
             self.current_race = self.db_races[id]
             self.complete = True
             self.render_text()
+            self.get_abi()
+            self.get_traits()
 
     def update(self):
         self.check_box_list.update()

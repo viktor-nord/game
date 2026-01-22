@@ -1,4 +1,6 @@
 import pygame
+from pathlib import Path
+import json
 
 from book import Book
 
@@ -6,6 +8,9 @@ class Page:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
+
+        self.db_url = "save/player.json"
+        # self.db = json.load(self.db_path.read_text())
         self.bg = pygame.image.load('assets/ui_sprites/Sprites/Book Desk/3.png')
         self.bg_rect = self.bg.get_rect(center = game.screen_rect.center)
         self.book = Book(game)

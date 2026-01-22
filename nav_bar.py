@@ -18,7 +18,6 @@ class NavBar:
     def get_list(self, pages, rect):
         arr = []
         for i, text in enumerate(pages):
-            print(text)
             arr.append(NavItem(i + 1, text, rect.move(0, 50 * i)))
         return arr
 
@@ -27,7 +26,6 @@ class NavBar:
             if i < completed_amount + 1:
                 if page not in self.available_pages:
                     self.available_pages.append(page)
-        print(self.available_pages)
         self.list = self.get_list(self.available_pages, self.base_rect)
         self.render_list()
 

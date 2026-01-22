@@ -1,0 +1,33 @@
+{
+    "general": {
+        "name": "", 
+        "age": 0, 
+        "gender": "", 
+        "race": "", 
+        "size": "m", 
+        "speed": 0, 
+        "traits": [], 
+        "level": 1
+    }, 
+    "religion": {
+        "practice": "", 
+        "faith": "", 
+        "hit_die": ""
+    }, 
+    "stats": {
+        "strength": 0, 
+        "wisdom": 0, 
+        "constitution": 0, 
+        "dexterity": 0, 
+        "intelligence": 0, 
+        "charisma": 0, 
+        "strength_modifier": 0, 
+        "wisdom_modifier": 0, 
+        "constitution_modifier": 0, 
+        "dexterity_modifier": 0, 
+        "intelligence_modifier": 0, 
+        "charisma_modifier": 0
+    }, 
+    "proficiencies": [], 
+    "miracles": []
+}
