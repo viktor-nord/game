@@ -12,7 +12,6 @@ class RacePage(Page):
         super().__init__(game)
         rases_path = Path("data/rases.json")
         self.db_races = json.loads(rases_path.read_text())
-        init_race = self.db_races["dwarf"]
         self.current_race = self.db_races["dwarf"]
         margin = 8
         self.complete = False
@@ -46,15 +45,15 @@ class RacePage(Page):
     def get_abi(self):
         self.abi_container = self.speed_container.copy()
         self.abi_container.top = self.speed_container.bottom
-        name = self.current_race["abs"][0]["name"]
+        name = self.current_race["abi"][0]["name"]
         if self.current_race["name"] == "human":
             name = "all"
-        text = f"Ability Increase: {name} + {self.current_race["abs"][0]["val"]}"
+        text = f"Ability Increase: {name} + {self.current_race["abi"][0]["val"]}"
         self.abi_text = Text(text, self.abi_container, has_underline=False, centered=False)
         self.abi_container_2 = self.abi_container.copy()
         self.abi_container_2.top = self.abi_container.bottom
-        if len(self.current_race["abs"]) > 1 and self.current_race["name"] != "human":
-            text_2 = f"Ability Increase: {self.current_race["abs"][1]["name"]} + {self.current_race["abs"][1]["val"]}"
+        if len(self.current_race["abi"]) > 1 and self.current_race["name"] != "human":
+            text_2 = f"Ability Increase: {self.current_race["abi"][1]["name"]} + {self.current_race["abi"][1]["val"]}"
             self.abi_text_2 = Text(text_2, self.abi_container, has_underline=False, centered=False)
         else:
             self.abi_text_2 = None

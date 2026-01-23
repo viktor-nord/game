@@ -1,7 +1,7 @@
 {
   "dwarf": {
     "name": "dwarf",
-    "abs": [{ "name": "con", "val": 2 }],
+    "abi": [{ "name": "con", "val": 2 }],
     "size": "medium",
     "url": "http://dnd5e.wikidot.com/lineage:dwarf",
     "speed": 25,
@@ -24,7 +24,7 @@
   },
   "human": {
     "name": "human",
-    "abs": [
+    "abi": [
       { "name": "str", "val": 1 },
       { "name": "dex", "val": 1 },
       { "name": "con", "val": 1 },
@@ -41,7 +41,7 @@
   },
   "elf": {
     "name": "elf",
-    "abs": [{ "name": "dex", "val": 2 }],
+    "abi": [{ "name": "dex", "val": 2 }],
     "size": "medium",
     "url": "http://dnd5e.wikidot.com/lineage:elf",
     "speed": 30,
@@ -68,7 +68,7 @@
   },
   "gnome": {
     "name": "gnome",
-    "abs": [{ "name": "int", "val": 2 }],
+    "abi": [{ "name": "int", "val": 2 }],
     "size": "small",
     "url": "https://dnd5e.wikidot.com/lineage:gnome",
     "speed": 25,
@@ -85,7 +85,7 @@
   },
   "half-elf": { 
     "name": "half-elf",
-    "abs": [
+    "abi": [
         { "name": "cha", "val": 2 }, 
         { "name": "int", "val": 1 }
     ],
@@ -108,7 +108,7 @@
 },
   "half-orc": { 
     "name": "half-orc", 
-    "abs": [
+    "abi": [
         { "name": "str", "val": 2 },
         { "name": "con", "val": 1 }
     ],
@@ -138,7 +138,7 @@
 },
   "halfling": { 
     "name": "halfling",
-    "abs": [{ "name": "dex", "val": 2 }],
+    "abi": [{ "name": "dex", "val": 2 }],
     "size": "medium",
     "url": "",
     "speed": 25,
@@ -161,7 +161,7 @@
 },
   "tiefling": { 
     "name": "tiefling", 
-    "abs": [{ "name": "cha", "val": 2 }],
+    "abi": [{ "name": "cha", "val": 2 }],
     "size": "medium",
     "url": "",
     "speed": 30,
@@ -179,9 +179,9 @@
     "toolProficiency": [],
     "lang": []
 },
-  "dragonborn": { 
+  "dovakin": { 
     "name": "dovakin",
-    "abs": [
+    "abi": [
         { "name": "str", "val": 2 },
         { "name": "cha", "val": 1 }
     ],

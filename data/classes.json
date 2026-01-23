@@ -1,22 +1,20 @@
 {
-  "druid": {
-    "name": "Guru",
+  "guru": {
+    "name": "guru",
     "hit_die": 8,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "arcana",
-          "animal handling",
-          "insight",
-          "medicine",
-          "nature",
-          "perception",
-          "religion",
-          "survival"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "arcana",
+        "animal handling",
+        "insight",
+        "medicine",
+        "nature",
+        "perception",
+        "religion",
+        "survival"
+      ]
+    },
     "saving_throws": ["int", "wis"],
     "primary_skill": "wisdom",
     "secondary_skill": "intelligence",
@@ -90,24 +88,22 @@
       }
     ]
   },
-  "fighter": {
-    "name": "Priest",
+  "priest": {
+    "name": "priest",
     "hit_die": 10,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "acrobatics",
-          "animal handling",
-          "athletics",
-          "history",
-          "insight",
-          "intimidation",
-          "perception",
-          "survival"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "acrobatics",
+        "animal handling",
+        "athletics",
+        "history",
+        "insight",
+        "intimidation",
+        "perception",
+        "survival"
+      ]
+    },
     "saving_throws": ["str", "con"],
     "primary_skill": "strength",
     "secondary_skill": "constitution",
@@ -181,22 +177,20 @@
       }
     ]
   },
-  "barbarian": {
-    "name": "Martyr",
+  "martyr": {
+    "name": "martyr",
     "hit_die": 12,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "animal handling",
-          "athletics",
-          "intimidation",
-          "nature",
-          "perception",
-          "survival"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "animal handling",
+        "athletics",
+        "intimidation",
+        "nature",
+        "perception",
+        "survival"
+      ]
+    },
     "saving_throws": ["str", "con"],
     "primary_skill": "strength",
     "secondary_skill": "constitution",
@@ -270,22 +264,20 @@
       }
     ]
   },
-  "wizard": {
-    "name": "Imam",
+  "imam": {
+    "name": "imam",
     "hit_die": 6,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "arcana",
-          "history",
-          "insight",
-          "investigation",
-          "medicine",
-          "religion"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "arcana",
+        "history",
+        "insight",
+        "investigation",
+        "medicine",
+        "religion"
+      ]
+    },
     "saving_throws": ["int", "wis"],
     "primary_skill": "intelligence",
     "secondary_skill": "wisdom",
@@ -360,20 +352,18 @@
     ]
   },
   "cleric": {
-    "name": "Cleric",
+    "name": "cleric",
     "hit_die": 8,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "history",
-          "insight",
-          "medicine",
-          "persuasion",
-          "religion"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "history",
+        "insight",
+        "medicine",
+        "persuasion",
+        "religion"
+      ]
+    },
     "saving_throws": ["wis", "cha"],
     "primary_skill": "wisdom",
     "secondary_skill": "charisma",
@@ -448,21 +438,19 @@
     ]
   },
   "monk": {
-    "name": "Monk",
+    "name": "monk",
     "hit_die": 8,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "acrobatics",
-          "athletics",
-          "history",
-          "insight",
-          "religion",
-          "stealth"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "acrobatics",
+        "athletics",
+        "history",
+        "insight",
+        "religion",
+        "stealth"
+      ]
+    },
     "saving_throws": ["str", "dex"],
     "primary_skill": "wisdom",
     "secondary_skill": "dexterity",
@@ -536,34 +524,32 @@
       }
     ]
   },
-  "bard": {
-    "name": "Apostle",
+  "apostle": {
+    "name": "apostle",
     "hit_die": 8,
-    "proficiency_choices": [
-      {
-        "choose": 3,
-        "options": [
-          "acrobatics",
-          "animal handling",
-          "arcana",
-          "athletics",
-          "deception",
-          "history",
-          "insight",
-          "intimidation",
-          "investigation",
-          "medicine",
-          "nature",
-          "perception",
-          "performance",
-          "persuasion",
-          "religion",
-          "sleight of hand",
-          "stealth",
-          "survival"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 3,
+      "options": [
+        "acrobatics",
+        "animal handling",
+        "arcana",
+        "athletics",
+        "deception",
+        "history",
+        "insight",
+        "intimidation",
+        "investigation",
+        "medicine",
+        "nature",
+        "perception",
+        "performance",
+        "persuasion",
+        "religion",
+        "sleight of hand",
+        "stealth",
+        "survival"
+      ]
+    },
     "saving_throws": ["dex", "cha"],
     "primary_skill": "charisma",
     "secondary_skill": "dexterity",
@@ -648,21 +634,19 @@
     ]
   },
   "paladin": {
-    "name": "Paladin",
+    "name": "paladin",
     "hit_die": 10,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "athletics",
-          "insight",
-          "intimidation",
-          "medicine",
-          "persuasion",
-          "religion"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "athletics",
+        "insight",
+        "intimidation",
+        "medicine",
+        "persuasion",
+        "religion"
+      ]
+    },
     "saving_throws": ["wis", "cha"],
     "primary_skill": "charisma",
     "secondary_skill": "strength",
@@ -736,27 +720,25 @@
       }
     ]
   },
-  "rogue": {
-    "name": "Virgin",
+  "virgin": {
+    "name": "virgin",
     "hit_die": 8,
-    "proficiency_choices": [
-      {
-        "choose": 4,
-        "options": [
-          "acrobatics",
-          "athletics",
-          "deception",
-          "insight",
-          "intimidation",
-          "investigation",
-          "perception",
-          "performance",
-          "persuasion",
-          "sleight of hand",
-          "stealth"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 4,
+      "options": [
+        "acrobatics",
+        "athletics",
+        "deception",
+        "insight",
+        "intimidation",
+        "investigation",
+        "perception",
+        "performance",
+        "persuasion",
+        "sleight of hand",
+        "stealth"
+      ]
+    },
     "saving_throws": ["str", "con"],
     "primary_skill": "intelligence",
     "secondary_skill": "wisdom",
@@ -830,23 +812,21 @@
       }
     ]
   },
-  "warlock": {
-    "name": "Sikh",
+  "sikh": {
+    "name": "sikh",
     "hit_die": 8,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "arcana",
-          "deception",
-          "history",
-          "intimidation",
-          "investigation",
-          "nature",
-          "religion"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "arcana",
+        "deception",
+        "history",
+        "intimidation",
+        "investigation",
+        "nature",
+        "religion"
+      ]
+    },
     "saving_throws": ["wis", "cha"],
     "primary_skill": "charisma",
     "secondary_skill": "constitution",
@@ -930,22 +910,20 @@
       }
     ]
   },
-  "sorcerer": {
-    "name": "Rabbi",
+  "rabbi": {
+    "name": "rabbi",
     "hit_die": 6,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "arcana",
-          "deception",
-          "insight",
-          "intimidation",
-          "persuasion",
-          "religion"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "arcana",
+        "deception",
+        "insight",
+        "intimidation",
+        "persuasion",
+        "religion"
+      ]
+    },
     "saving_throws": ["cha", "con"],
     "primary_skill": "charisma",
     "secondary_skill": "constitution",
@@ -1030,33 +1008,31 @@
     ]
   },
   "none": {
-    "name": "None",
+    "name": "none",
     "hit_die": 10,
-    "proficiency_choices": [
-      {
-        "choose": 2,
-        "options": [
-          "acrobatics",
-          "animal handling",
-          "arcana",
-          "athletics",
-          "deception",
-          "history",
-          "insight",
-          "intimidation",
-          "investigation",
-          "medicine",
-          "nature",
-          "perception",
-          "performance",
-          "persuasion",
-          "religion",
-          "sleight of hand",
-          "stealth",
-          "survival"
-        ]
-      }
-    ],
+    "proficiency_choices": {
+      "choose": 2,
+      "options": [
+        "acrobatics",
+        "animal handling",
+        "arcana",
+        "athletics",
+        "deception",
+        "history",
+        "insight",
+        "intimidation",
+        "investigation",
+        "medicine",
+        "nature",
+        "perception",
+        "performance",
+        "persuasion",
+        "religion",
+        "sleight of hand",
+        "stealth",
+        "survival"
+      ]
+    },
     "saving_throws": ["str", "con"],
     "primary_skill": "strength",
     "secondary_skill": "constitution",
