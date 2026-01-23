@@ -11,6 +11,7 @@ from button import CheckBoxList
 class AbilityPage(Page):
     def __init__(self, game):
         super().__init__(game)
+        self.player = self.get_player()
         self.left_title = Title("Proficiencies", self.left_title_container)
         proficiencies_path = Path("data/proficiencies.json")
         self.proficiencies_list = json.loads(proficiencies_path.read_text()) 
@@ -33,6 +34,29 @@ class AbilityPage(Page):
         self.populate_abilities()
         self.right_title = Title("Ability", self.right_title_container)
         self.get_info_text(0)
+
+    def get_player(self):
+        dic = {
+            "abi": [],
+            "pa": 1,
+            "po": [],
+            "primary": ""
+        }
+        with open(self.db_url, "r") as db:
+            player = json.load(db)
+        if player["general"]["race"] == "" or player["religion"]["practice"] == "":
+            return dic
+        with open("data/rases.json", "r") as races_db:
+            races = json.load(races_db)
+            dic["abi"] = races[player["general"]["race"]]["abi"]
+        with open("data/classes.json", "r") as practice_db:
+            practice = json.load(practice_db)
+            p = practice[player["religion"]["practice"]]
+            dic["pa"] = p["proficiency_choices"]["choose"]
+            dic["po"] = p["proficiency_choices"]["options"]
+            dic["primary"] = p["primary_skill"]
+        print(dic)
+        return dic
 
     def get_info_text(self, selected):
         text = f"{selected} out of {self.proficiencies_max_amount} proficiencies"
@@ -90,7 +114,7 @@ class AbilityPage(Page):
         screen.blit(self.proficiencies_info.text, self.proficiencies_info.rect)
 
 class AbilityBox:
-    def __init__(self, label, parent):
+    def __init__(self, label, parent, bonus=0):
         self.value_index = 0
         self.test = label
         self.parent = parent
@@ -101,6 +125,8 @@ class AbilityBox:
         self.button_holer = pygame.image.load(url + "5 Holders/7.png").convert_alpha()
         self.minus_img = pygame.image.load(url + "2 Icons/2.png").convert_alpha()
         self.plus_img = pygame.image.load(url + "2 Icons/3.png").convert_alpha()
+        self.bonus_image = pygame.image.load(url + "5 Holders/6.png").convert_alpha()
+        self.bonus_text = PlainText(str(bonus), size=24)
         self.font = pygame.font.Font('assets/font/ThaleahFat.ttf', 22)
         self.big_font = pygame.font.Font('assets/font/ThaleahFat.ttf', 42)
         self.label = self.font.render(label, False, Settings().text_color)
@@ -112,6 +138,7 @@ class AbilityBox:
         self.image_holder_container = self.holder_image.get_rect(
             centery = img_rect.centery, right = img_rect.right-8
         )
+        self.bonus_image_rect = self.bonus_image.get_rect(top=self.image_holder_container.top - 8, left = self.image_holder_container.left)
         self.blit_image()
 
     def blit_image(self):
@@ -126,6 +153,8 @@ class AbilityBox:
         self.image.blit(self.label, self.label_container)
         self.image.blit(self.holder_image, self.image_holder_container)
         self.image.blit(self.ability_text, self.ability_text.get_rect(center = self.image_holder_container.center))
+        self.image.blit(self.bonus_image, self.bonus_image_rect)
+        self.image.blit(self.bonus_text.text, self.bonus_text.text.get_rect(center = self.bonus_image_rect.center))
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
