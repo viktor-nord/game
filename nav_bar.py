@@ -3,7 +3,7 @@ import pygame
 class NavBar:
     def __init__(self):
         self.pages = ["general", "religion", "race", "ability", "miracles", "submit"]
-        self.available_pages = ["general"]
+        self.available_pages = ["general", "religion", "race", "ability", "miracles", "submit"]
         pos_x = 836
         pos_y = 82
         self.current = self.pages[0]
@@ -21,13 +21,13 @@ class NavBar:
             arr.append(NavItem(i + 1, text, rect.move(0, 50 * i)))
         return arr
 
-    def update_nav(self, completed_amount):
-        for i, page in enumerate(self.pages):
-            if i < completed_amount + 1:
-                if page not in self.available_pages:
-                    self.available_pages.append(page)
-        self.list = self.get_list(self.available_pages, self.base_rect)
-        self.render_list()
+    # def update_nav(self, completed_amount):
+    #     for i, page in enumerate(self.pages):
+    #         if i < completed_amount + 1:
+    #             if page not in self.available_pages:
+    #                 self.available_pages.append(page)
+    #     self.list = self.get_list(self.available_pages, self.base_rect)
+    #     self.render_list()
 
     def render_list(self):
         for i, item in enumerate(self.list):

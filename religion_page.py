@@ -15,7 +15,7 @@ class ReligionPage(Page):
         self.db_classes = json.loads(classes_path.read_text())
         margin = 8
         self.init_class = self.db_classes["guru"]
-        self.current_class = None
+        self.current_class = self.db_classes["guru"]
         # Left side
         self.left_title = Title(self.init_class["name"], self.left_title_container)
         self.stats_container = pygame.Rect(
