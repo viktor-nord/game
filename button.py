@@ -65,13 +65,14 @@ class Button(Sprite):
 
 # List =  {"id": any, "text": string, "value": any}
 class CheckBoxList():
-    def __init__(self, game, parent, list, slim=False, multi=False, pre_selected=[], amount=0):
+    def __init__(self, game, parent, list, slim=False, multi=False, pre_selected=[], amount=0, disabled=[]):
         self.game = game
         self.parent = parent
         self.multi = multi
         self.slim = slim
         self.pre_selected = pre_selected
         self.amount = amount
+        self.disabled = disabled
         self.list = self.get_list(list)
         self.current = self.list[0].id
         self.selected = []
@@ -86,7 +87,8 @@ class CheckBoxList():
         base_x = box.x
         for i, obj in enumerate(list):
             if self.slim:
-                arr.append(CheckBoxSlim(self.game, obj["id"], obj["text"], box, obj["value"], pre_selected = self.pre_selected))
+                is_disabled = True if obj["text"] in self.disabled else False
+                arr.append(CheckBoxSlim(self.game, obj["id"], obj["text"], box, obj["value"], pre_selected = self.pre_selected, is_disabled=is_disabled))
             else:
                 arr.append(CheckBox(self.game, obj["id"], obj["text"], box, obj["value"]))
             if i % 2 == 0: #Even
@@ -137,7 +139,7 @@ class CheckBoxList():
             button.blitme(screen)
         
 class CheckBox(Button):
-    def __init__(self, game, id, text, parent, value=None, tool_tip=""):
+    def __init__(self, game, id, text, parent, value=None, tool_tip="", is_disabled=False):
         super().__init__(game, id, text, parent, value, tool_tip)
         # self.width = 280
         self.height = game.settings.tile_size
@@ -191,13 +193,18 @@ class CheckBox(Button):
             screen.blit(self.arrow, self.arrow_rect)
 
 class CheckBoxSlim():
-    def __init__(self, game, id, text, parent, value=None, tool_tip="", pre_selected=[]):
+    def __init__(self, game, id, text, parent, value=None, tool_tip="", pre_selected=[], is_disabled=False):
         self.game_screen = game.screen
         self.is_hover = False
+        self.is_disabled = is_disabled
         if id in pre_selected:
             self.is_checked = True
         else:
             self.is_checked = False
+        if is_disabled:
+            text_color = (105, 138, 128)
+        else:
+            text_color = None
         self.value = value
         self.id = id
         self.height = game.settings.tile_size
@@ -208,13 +215,16 @@ class CheckBoxSlim():
         self.check_box_img = pygame.image.load(url + '5 Holders/22.png').convert_alpha()
         self.check_box_img_rect = self.check_box_img.get_rect(centery = self.surf_rect.centery, left = self.surf_rect.left)
         self.check_img = pygame.image.load(url + "2 Icons/5.png").convert_alpha()
+        self.x_img = pygame.image.load(url + "2 Icons/8.png").convert_alpha()
         self.check_img_rect = self.check_img.get_rect(centery = self.rect.centery - 1, left = self.rect.left)
         self.container = self.surf.get_rect(left = self.check_box_img.get_width() + 8, width=self.rect.width - self.check_box_img.get_width() - 8)
-        self.text = PlainText(text, has_underline=False)
-        self.fill_surf()
+        self.text = PlainText(text, color=text_color)
+        self.fill_surf(is_disabled)
 
-    def fill_surf(self):
+    def fill_surf(self, is_disabled):
         self.surf.blit(self.check_box_img, self.check_box_img_rect)
+        if is_disabled:
+            self.surf.blit(self.x_img, self.check_box_img_rect.move(-1, 0))
         tr = self.text.text.get_rect(centery = self.container.centery, left = self.container.left)
         self.surf.blit(self.text.text, tr)
 
@@ -234,6 +244,8 @@ class CheckBoxSlim():
             self.is_hover = False
 
     def check_click(self, pos=None):
+        if self.is_disabled:
+            return False
         pos = pos if pos else pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             return self.id

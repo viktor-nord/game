@@ -11,6 +11,7 @@ from button import CheckBoxList
 class AbilityPage(Page):
     def __init__(self, game):
         super().__init__(game)
+        self.game = game
         self.player = self.get_player()
         self.left_title = Title("Proficiencies", self.left_title_container)
         proficiencies_path = Path("data/proficiencies.json")
@@ -19,19 +20,19 @@ class AbilityPage(Page):
         self.selected_proficiencies = []
         self.proficiencies_list_container = self.left_page.copy()
         self.proficiencies_list_container.top = self.left_title_container.bottom + 8
-        self.proficiencies_max_amount = 3
+        self.proficiencies_max_amount = self.player["pa"]
         self.proficiencies = CheckBoxList(
             game, 
             self.proficiencies_list_container, 
-            [{"id": proficiencies, "text": proficiencies, "value": proficiencies} for proficiencies in self.proficiencies_list],
+            self.get_p_list(),
             slim = True,
             multi = True,
-            amount = self.proficiencies_max_amount
+            amount = self.proficiencies_max_amount,
+            disabled = self.get_disabled_proficiencies(self.player["po"])
         )
         self.ability_list = ["strength", "wisdom", "constitution", "dexterity", "intelligence", "charisma"]
         self.values = [0, 8, 10, 12, 13, 14, 15]
-        self.abilities = []
-        self.populate_abilities()
+        self.abilities = self.populate_abilities()
         self.right_title = Title("Ability", self.right_title_container)
         self.get_info_text(0)
 
@@ -55,8 +56,33 @@ class AbilityPage(Page):
             dic["pa"] = p["proficiency_choices"]["choose"]
             dic["po"] = p["proficiency_choices"]["options"]
             dic["primary"] = p["primary_skill"]
-        print(dic)
         return dic
+
+    def get_disabled_proficiencies(self, acceptable_proficiencies):
+        l = []
+        for pro in self.proficiencies_list:
+            if pro not in acceptable_proficiencies:
+                l.append(pro)
+        return l
+
+    def get_p_list(self):
+        return [{"id": proficiencies, "text": proficiencies, "value": proficiencies} for proficiencies in self.proficiencies_list]
+
+    def reset(self):
+        self.player = self.get_player()
+        self.selected_proficiencies = []
+        self.proficiencies_max_amount = self.player["pa"]
+        self.proficiencies = CheckBoxList(
+            self.game, 
+            self.proficiencies_list_container, 
+            self.get_p_list(),
+            slim = True,
+            multi = True,
+            amount = self.proficiencies_max_amount,
+            disabled = self.get_disabled_proficiencies(self.player["po"])
+        )
+        self.abilities = self.populate_abilities()
+
 
     def get_info_text(self, selected):
         text = f"{selected} out of {self.proficiencies_max_amount} proficiencies"
@@ -65,12 +91,18 @@ class AbilityPage(Page):
         self.proficiencies_info.rect.bottom = self.left_page.bottom
         
     def populate_abilities(self):
+        self.player["abi"]
+        abilities = []
         ac = self.right_page.copy() # ability container
         ac.height -= self.right_title_container.height + 8
         ac.top = self.right_title_container.bottom + 8
         w = ac.width // 2
         h = ac.height // 3
         for i, ability in enumerate(self.ability_list):
+            bonus = 0
+            for abi in self.player["abi"]:
+                if abi["name"] == ability[:3]:
+                    bonus = abi["val"]
             l = ac.left if i % 2 == 0 else ac.left + w
             t = ac.top 
             if i == 2 or i == 3:
@@ -78,7 +110,8 @@ class AbilityPage(Page):
             if i > 3:
                 t += h * 2
             container = pygame.Rect((l, t), (w,h))
-            self.abilities.append(AbilityBox(ability[:3], container))
+            abilities.append(AbilityBox(ability[:3], container, bonus))
+        return abilities
 
     def check_click(self):
         proficiencies_list = self.proficiencies.check_click()
@@ -118,6 +151,7 @@ class AbilityBox:
         self.value_index = 0
         self.test = label
         self.parent = parent
+        self.bonus = bonus
         self.values = [0, 8, 10, 12, 13, 14, 15]
         url = "assets/ui_sprites/Sprites/Content/"
         self.image = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA).convert_alpha()
@@ -142,9 +176,9 @@ class AbilityBox:
         self.blit_image()
 
     def blit_image(self):
-        val = "-"
+        val = str(self.bonus) if self.bonus else "-"
         if self.values[self.value_index] != 0:
-            val = str(self.values[self.value_index])
+            val = str(self.values[self.value_index] + self.bonus)
         self.ability_text = self.big_font.render(val, False, Settings().text_color)
         self.image.blit(self.button_holer, (self.minus_rect))
         self.image.blit(self.button_holer, (self.plus_rect))
@@ -182,3 +216,6 @@ class AbilityBox:
                     self.value_index = i
                     break
         self.blit_image()
+    
+    def get_value(self):
+        return self.values[self.value_index] + self.bonus

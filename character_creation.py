@@ -160,10 +160,32 @@ class CharacterCreation(Page):
         with open(self.db_url, "w") as db:
             json.dump(player, db, indent=4)
 
+    def reset_next_page(self, page):
+        if page == "general":
+            pass
+            # self.general_page.reset()
+        elif page == "religion":
+            pass
+            # self.religion_page.reset()
+        elif page == "race":
+            pass
+            # self.race_page.reset()
+        elif page == "ability":
+            self.ability_page.reset()
+        elif page == "miracles":
+            pass
+            # self.miracles_page.reset()
+        elif page == "submit":
+            pass
+            # self.submit_page.reset()
+        else:
+            pass
+
     def handle_click(self):
         self.nav_bar.handle_click()
-        # if self.page != self.nav_bar.current:
-        #     self.handle_save(self.page)
+        if self.page != self.nav_bar.current:
+            self.handle_save(self.page)
+            self.reset_next_page(self.nav_bar.current)  
         self.page = self.nav_bar.current
         if self.page == "general":
             self.general_page.check_click()

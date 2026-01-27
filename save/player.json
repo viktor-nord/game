@@ -1,22 +1,23 @@
 {
     "general": {
-        "name": "",
-        "age": 0,
-        "gender": "",
-        "race": "halfling",
+        "name": "fwfwe",
+        "age": "333",
+        "gender": "female",
+        "race": "half-orc",
         "size": "medium",
-        "speed": 25,
+        "speed": 30,
         "traits": [
-            "lucky",
-            "brave",
-            "nimble"
+            "darkvision",
+            "menacing",
+            "relentless",
+            "savage attacks"
         ],
         "level": 1
     },
     "religion": {
-        "practice": "monk",
+        "practice": "paladin",
         "faith": "",
-        "hit_die": 8
+        "hit_die": 10
     },
     "stats": {
         "strength": 0,

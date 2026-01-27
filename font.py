@@ -15,11 +15,14 @@ def get_text_height(type="text"):
     return f.render("Dummy text", True, (0,0,0)).convert_alpha().get_height()
 
 class PlainText:
-    def __init__(self, text, size=18, has_underline=False):
+    def __init__(self, text, size=18, has_underline=False, color=None):
         pygame.font.init()
         self.size = size
         self.has_underline = has_underline
-        self.text_color = Settings().text_color
+        if color:
+            self.text_color = color
+        else:
+            self.text_color = Settings().text_color
         self.font = pygame.font.Font('assets/font/ThaleahFat.ttf', size)
         self.text = self.font.render(text, False, self.text_color).convert_alpha()
         self.under_line_img = pygame.image.load('assets/ui_sprites/Sprites/Content/5 Holders/20_2.png').convert_alpha()

@@ -6,7 +6,7 @@
       "choose": 2,
       "options": [
         "arcana",
-        "animal handling",
+        "animal",
         "insight",
         "medicine",
         "nature",
@@ -95,7 +95,7 @@
       "choose": 2,
       "options": [
         "acrobatics",
-        "animal handling",
+        "animal",
         "athletics",
         "history",
         "insight",
@@ -183,7 +183,7 @@
     "proficiency_choices": {
       "choose": 2,
       "options": [
-        "animal handling",
+        "animal",
         "athletics",
         "intimidation",
         "nature",
@@ -531,7 +531,7 @@
       "choose": 3,
       "options": [
         "acrobatics",
-        "animal handling",
+        "animal",
         "arcana",
         "athletics",
         "deception",
@@ -1014,7 +1014,7 @@
       "choose": 2,
       "options": [
         "acrobatics",
-        "animal handling",
+        "animal",
         "arcana",
         "athletics",
         "deception",
