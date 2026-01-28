@@ -1,7 +1,7 @@
 {
   "cantrip": [
     {
-      "higher_level": [],
+      "higher_level": "",
       "index": 0,
       "name": "vicious mockery",
       "desc": "You unleash a string of insults laced with subtle enchantments at a creature you can see within range. If the target can hear you (though it need not understand you), it must succeed on a wisdom saving throw or take 1d4 psychic damage and have disadvantage on the next attack roll it makes before the end of its next turn. This spell's damage increases by 1d4 when you reach 5th level (2d4), 11th level (3d4), and 17th level (4d4).",
@@ -13,24 +13,23 @@
       "casting_time": "1 action",
       "level": 0,
       "damage": {
-          "damage_type": "psychic",
-          "damage_at_character_level": {
-              "1": "1d4",
-              "5": "2d4",
-              "11": "3d4",
-              "17": "4d4"
-          }
+        "damage_type": "psychic",
+        "damage_at_character_level": {
+          "1": "1d4",
+          "5": "2d4",
+          "11": "3d4",
+          "17": "4d4"
+        }
       },
       "dc": {
-          "dc_type": "wis",
-          "dc_success": "none"
+        "dc_type": "wis",
+        "dc_success": "none"
       },
       "school": "enchantment",
-      "classes": ["bard"],
-      "subclasses": []
+      "classes": ["bard"]
     },
     {
-      "higher_level": [],
+      "higher_level": "",
       "index": 1,
       "name": "true-strike",
       "desc": "You extend your hand and point a finger at a target in range. Your magic grants you a brief insight into the target's defenses. On your next turn, you gain advantage on your first attack roll against the target, provided that this spell hasn't ended.",
@@ -49,13 +48,10 @@
         "sorcerer",
         "warlock",
         "wizard"
-      ],
-      "subclasses": [
-        "lore"
       ]
     },
     {
-      "higher_level": ["The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6)."],
+      "higher_level": "The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
       "index": 2,
       "name": "thunderclap",
       "desc": "You create a burst of thunderous sound, which can be heard 100 feet away. Each creature other than you within 5 feet of you must make a Constitution saving throw. On a failed save, the creature takes 1d6 thunder damage.",
@@ -68,6 +64,19 @@
       "concentration": false,
       "casting_time": "1 action",
       "level": 0,
+      "damage": {
+        "damage_type": "thunder",
+        "damage_at_character_level": {
+          "1": "1d6",
+          "5": "2d6",
+          "11": "3d6",
+          "17": "4d6"
+        }
+      },
+      "dc": {
+        "dc_type": "con",
+        "dc_success": "none"
+      },
       "school": "evocation",
       "classes": [
         "bard",
@@ -75,15 +84,12 @@
         "sorcerer",
         "warlock",
         "wizard"
-      ],
-      "subclasses": [
-        "lore"
       ]
     },
     {
-      "higher_level": [],
+      "higher_level": "",
       "name": "mending",
-      "index": 4,
+      "index": 3,
       "desc": "This spell repairs a single break or tear in an object you touch, such as a broken key, a torn cloak, or a leaking wineskin. As long as the break or tear is no longer than 1 foot in any dimension, you mend it, leaving no trace of the former damage. This spell can physically repair a magic item or construct, but the spell can't restore magic to such an object.",
       "range": "Touch",
       "components": [
@@ -104,13 +110,12 @@
         "druid",
         "sorcerer",
         "wizard"
-      ],
-      "subclasses": ["lore"]
+      ]
     },
     {
-      "higher_level": [],
+      "higher_level": "",
       "name": "mage-hand",
-      "index": 5,
+      "index": 4,
       "desc": "A spectral, floating hand appears at a point you choose within range. The hand lasts for the duration or until you dismiss it as an action. The hand vanishes if it is ever more than 30 feet away from you or if you cast this spell again. You can use your action to control the hand. You can use the hand to manipulate an object, open an unlocked door or container, stow or retrieve an item from an open container, or pour the contents out of a vial. You can move the hand up to 30 feet each time you use it. The hand can't attack, activate magic items, or carry more than 10 pounds.",
       "range": "30 feet",
       "components": [
@@ -128,13 +133,12 @@
         "sorcerer",
         "warlock",
         "wizard"
-      ],
-      "subclasses": ["lore"]
+      ]
     },
     {
-      "higher_level": [],
+      "higher_level": "",
       "name": "light",
-      "index": 6,
+      "index": 5,
       "desc": "You touch one object that is no larger than 10 feet in any dimension. Until the spell ends, the object sheds bright light in a 20-foot radius and dim light for an additional 20 feet. The light can be colored as you like. Completely covering the object with something opaque blocks the light. The spell ends if you cast it again or dismiss it as an action. If you target an object held or worn by a hostile creature, that creature must succeed on a dexterity saving throw to avoid the spell.",
       "range": "Touch",
       "components": [
@@ -157,15 +161,12 @@
         "cleric",
         "sorcerer",
         "wizard"
-      ],
-      "subclasses": [
-        "lore"
       ]
     },
     {
-      "higher_level": [],
+      "higher_level": "",
       "name": "friends",
-      "index": 7,
+      "index": 6,
       "desc": "For the duration, you have advantage on all Charisma checks directed at one creature of your choice that isn't hostile toward you. When the spell ends, the creature realizes that you used magic to influence its mood and becomes hostile toward you. A creature prone to violence might attack you. Another creature might seek retribution in other ways, depending on the nature of your interaction with it.",
       "range": "self",
       "components": [
@@ -184,9 +185,816 @@
         "sorcerer",
         "warlock",
         "wizard"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 7,
+      "name": "guidance",
+      "desc": "You touch one willing creature. Once before the spell ends, the target can roll a d4 and add the number rolled to one ability check of its choice. It can roll the die before or after making the ability check. The spell then ends.",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S"
       ],
-      "subclasses": []
+      "ritual": false,
+      "duration": "Up to 1 minute",
+      "concentration": true,
+      "casting_time": "1 action",
+      "level": 0,
+      "school": "divination",
+      "classes": [
+        "cleric",
+        "druid"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 8,
+      "name": "resistance",
+      "desc": "You touch one willing creature. Once before the spell ends, the target can roll a d4 and add the number rolled to one saving throw of its choice. It can roll the die before or after making the saving throw. The spell then ends.",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S",
+          "M"
+      ],
+      "material": "A miniature cloak.",
+      "ritual": false,
+      "duration": "Up to 1 minute",
+      "concentration": true,
+      "casting_time": "1 action",
+      "level": 0,
+      "school": "abjuration",
+      "classes": [
+        "cleric",
+        "druid"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 9,
+      "name": "sacred flame",
+      "desc": "Flame-like radiance descends on a creature that you can see within range. The target must succeed on a dexterity saving throw or take 1d8 radiant damage. The target gains no benefit from cover for this saving throw. The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+      "range": "60 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "radiant",
+        "damage_at_character_level": {
+            "1": "1d8",
+            "5": "2d8",
+            "11": "3d8",
+            "17": "4d8"
+        }
+      },
+      "dc": {
+        "dc_type": "dex",
+        "dc_success": "none"
+      },
+      "school": "evocation",
+      "classes": ["cleric"]
+    },
+    {
+      "higher_level": "",
+      "index": 10,
+      "name": "spare the dying",
+      "desc": "You touch a living creature that has 0 hit points. The creature becomes stable. This spell has no effect on undead or constructs.",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "school": "necromancy",
+      "classes": ["cleric"]
+    },
+    {
+      "higher_level": "The spell's damage increases by one die when you reach 5th level (2d8 or 2d12), 11th level (3d8 or 3d12), and 17th level (4d8 or 4d12).",
+      "index": 11,
+      "name": "toll the dead",
+      "desc": "You point at one creature you can see within range, and the sound of a dolorous bell fills the air around it for a moment. The target must succeed on a Wisdom saving throw or take 1d8 necrotic damage. If the target is missing any of its hit points, it instead takes 1d12 necrotic damage",
+      "range": "60 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "necrotic",
+        "damage_at_character_level": {
+            "1": "1d8",
+            "5": "2d8",
+            "11": "3d8",
+            "17": "4d8"
+        },
+        "damage_at_character_level_when_damaged": {
+            "1": "1d12",
+            "5": "2d12",
+            "11": "3d12",
+            "17": "4d12"
+        }
+      },
+      "dc": {
+        "dc_type": "wis",
+        "dc_success": "none"
+      },
+      "school": "necromancy",
+      "classes": ["cleric", "warlock", "wizard"]
+    },
+    {
+      "higher_level": "",
+      "index": 12,
+      "name": "virtue",
+      "desc": "You touch one creature, imbuing it with vitality. If the target has at least 1 hit point, it gains a number of temporary hit points equal to 1d4 + your spellcasting ability modifier. The temporary hit points are lost when the spell ends.",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Up to 1 round",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "school": "abjuration",
+      "classes": ["cleric"]
+    },
+    {
+      "higher_level": "The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+      "index": 13,
+      "name": "word of radiance",
+      "desc": "You utter a divine word, and burning radiance erupts from you. Each creature of your choice that you can see within range must succeed on a Constitution saving throw or take 1d6 radiant damage.",
+      "range": "5 feet",
+      "components": [
+          "V",
+          "M"
+      ],
+      "material": "holy symbol",
+      "ritual": false,
+      "duration": "Up to 1 round",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "radiant",
+        "damage_at_character_level": {
+            "1": "1d6",
+            "5": "2d6",
+            "11": "3d6",
+            "17": "4d6"
+        }
+      },
+      "dc": {
+        "dc_type": "con",
+        "dc_success": "none"
+      },
+      "school": "evocation",
+      "classes": ["cleric"]
+    },
+    {
+      "higher_level": "The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+      "index": 14,
+      "name": "create bonfire",
+      "desc": "You create a bonfire on ground that you can see within range. Until the spell ends, the bonfire fills a 5-foot cube. Any creature in the bonfire's space when you cast the spell must succeed on a Dexterity saving throw or take 1d8 fire damage. A creature must also make the saving throw when it enters the bonfire's space for the first time on a turn or ends its turn there.",
+      "range": "60 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Up to 1 minute",
+      "concentration": true,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "fire",
+        "damage_at_character_level": {
+            "1": "1d8",
+            "5": "2d8",
+            "11": "3d8",
+            "17": "4d8"
+        }
+      },
+      "dc": {
+        "dc_type": "dex",
+        "dc_success": "none"
+      },
+      "school": "conjuration",
+      "classes": ["druid", "sorcerer", "warlock", "wizard"]
+    },
+    {
+      "higher_level": "The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+      "index": 15,
+      "name": "frostbite",
+      "desc": "You cause numbing frost to form on one creature that you can see within range. The target must make a Constitution saving throw. On a failed save, the target takes 1d6 cold damage, and it has disadvantage on the next weapon attack roll it makes before the end of its next turn.",
+      "range": "60 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "frost",
+        "damage_at_character_level": {
+            "1": "1d6",
+            "5": "2d6",
+            "11": "3d6",
+            "17": "4d6"
+        }
+      },
+      "dc": {
+        "dc_type": "con",
+        "dc_success": "none"
+      },
+      "school": "conjuration",
+      "classes": ["druid", "sorcerer", "warlock", "wizard"]
+    },
+    {
+      "higher_level": "",
+      "index": 16,
+      "name": "guidance",
+      "desc": "You touch one willing creature. Once before the spell ends, the target can roll a d4 and add the number rolled to one ability check of its choice. It can roll the die before or after making the ability check. The spell then ends.",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Up to 1 minute",
+      "concentration": true,
+      "casting_time": "1 action",
+      "level": 0,
+      "school": "divination",
+      "classes": [
+        "cleric",
+        "druid"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 17,
+      "name": "poison spray",
+      "desc": "You extend your hand toward a creature you can see within range and project a puff of noxious gas from your palm. The creature must succeed on a constitution saving throw or take 1d12 poison damage. This spell's damage increases by 1d12 when you reach 5th level (2d12), 11th level (3d12), and 17th level (4d12).",
+      "range": "10 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "poison",
+        "damage_at_character_level": {
+          "1": "1d12",
+          "5": "2d12",
+          "11": "3d12",
+          "17": "4d12"
+        }
+      },
+      "dc": {
+        "dc_type": "con",
+        "dc_success": "none"
+      },
+      "school": "conjuration",
+      "classes": [
+        "sorcerer",
+        "warlock",
+        "wizard",
+        "druid"      
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 18,
+      "name": "shillelagh",
+      "desc": "The wood of a club or a quarterstaff you are holding is imbued with nature's power. For the duration, you can use your spellcasting ability instead of Strength for the attack and damage rolls of melee attacks using that weapon, and the weapon's damage die becomes a d8. The weapon also becomes magical, if it isn't already. The spell ends if you cast it again or if you let go of the weapon.",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S",
+          "M"
+      ],
+      "material": "Mistletoe, a shamrock leaf, and a club or quarterstaff.",
+      "ritual": false,
+      "duration": "1 minute",
+      "concentration": false,
+      "casting_time": "1 bonus action",
+      "level": 0,
+      "school": "transmutation",
+      "classes": ["druid"]
+    },
+    {
+      "higher_level": "This spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+      "index": 19,
+      "name": "thorn whip",
+      "desc": "You create a long, vine-like whip covered in thorns that lashes out at your command toward a creature in range. Make a melee spell attack against the target. If the attack hits, the creature takes 1d6 piercing damage, and if the creature is Large or smaller, you pull the creature up to 10 feet closer to you.",
+      "range": "30 feet",
+      "components": [
+          "V",
+          "S",
+          "M"
+      ],
+      "material": "a plant",
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+          "damage_type": "poison",
+          "damage_at_character_level": {
+              "1": "1d6",
+              "5": "2d6",
+              "11": "3d6",
+              "17": "4d6"
+          }
+      },
+      "school": "conjuration",
+      "classes": [
+        "sorcerer",
+        "warlock",
+        "wizard",
+        "druid"
+      ]
+    },
+    {
+      "higher_level": "When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st.",
+      "index": 20,
+      "name": "bless",
+      "desc": "You bless up to three creatures of your choice within range. Whenever a target makes an attack roll or a saving throw before the spell ends, the target can roll a d4 and add the number rolled to the attack roll or saving throw.",
+      "range": "30 feet",
+      "components": [
+          "V",
+          "S",
+          "M"
+      ],
+      "material": "A sprinkling of holy water.",
+      "ritual": false,
+      "duration": "Up to 1 minute",
+      "concentration": true,
+      "casting_time": "1 action",
+      "level": 1,
+      "school": "enchantment",
+      "classes": [
+        "cleric",
+        "paladin"
+      ]
+    },
+    {
+      "index": 21,
+      "name": "cure wounds",
+      "desc": "A creature you touch regains a number of hit points equal to 1d8 + your spellcasting ability modifier. This spell has no effect on undead or constructs.",
+      "higher_level": "When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d8 for each slot level above 1st.",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 1,
+      "heal_at_slot_level": {
+          "1": "1d8 + MOD",
+          "2": "2d8 + MOD",
+          "3": "3d8 + MOD",
+          "4": "4d8 + MOD",
+          "5": "5d8 + MOD",
+          "6": "6d8 + MOD",
+          "7": "7d8 + MOD",
+          "8": "8d8 + MOD",
+          "9": "9d8 + MOD"
+      },
+      "school": "evocation",
+      "classes": [
+        "bard",
+        "cleric",
+        "druid",
+        "paladin"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 22,
+      "name": "divine favor",
+      "desc": "Your prayer empowers you with divine radiance. Until the spell ends, your weapon attacks deal an extra 1d4 radiant damage on a hit.",
+      "range": "Self",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Up to 1 minute",
+      "concentration": true,
+      "casting_time": "1 bonus action",
+      "level": 1,
+      "damage": {
+          "damage_type": "radiant",
+          "damage_at_slot_level": {
+              "1": "1d4"
+          }
+      },
+      "school": "evocation",
+      "classes": [
+        "paladin"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 23,
+      "name": "heroism",
+      "desc": "A willing creature you touch is imbued with bravery. Until the spell ends, the creature is immune to being frightened and gains temporary hit points equal to your spellcasting ability modifier at the start of each of its turns. When the spell ends, the target loses any remaining temporary hit points from this spell.",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Up to 1 minute",
+      "concentration": true,
+      "casting_time": "1 action",
+      "level": 1,
+      "school": "enchantment",
+      "classes": [
+        "bard",
+        "paladin"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 24,
+      "name": "protection from evil and good",
+      "desc": "Until the spell ends, one willing creature you touch is protected against certain types of creatures: aberrations, celestials, elementals, fey, fiends, and undead. The protection grants several benefits. Creatures of those types have disadvantage on attack rolls against the target. The target also can't be charmed, frightened, or possessed by them. If the target is already charmed, frightened, or possessed by such a creature, the target has advantage on any new saving throw against the relevant effect.",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S",
+          "M"
+      ],
+      "material": "Holy water or powdered silver and iron, which the spell consumes.",
+      "ritual": false,
+      "duration": "Up to 10 minutes",
+      "concentration": true,
+      "casting_time": "1 action",
+      "level": 1,
+      "school": "abjuration",
+      "classes": [
+        "cleric",
+        "paladin",
+        "warlock",
+        "wizard"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 25,
+      "name": "shield of faith",
+      "desc": "A shimmering field appears and surrounds a creature of your choice within range, granting it a +2 bonus to AC for the duration.",
+      "range": "60 feet",
+      "components": [
+          "V",
+          "S",
+          "M"
+      ],
+      "material": "A small parchment with a bit of holy text written on it.",
+      "ritual": false,
+      "duration": "Up to 10 minutes",
+      "concentration": true,
+      "casting_time": "1 bonus action",
+      "level": 1,
+      "school": "abjuration",
+      "classes": [
+        "cleric",
+        "paladin"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 26,
+      "name": "acid splash",
+      "desc": "You hurl a bubble of acid. Choose one creature within range, or choose two creatures within range that are within 5 feet of each other. A target must succeed on a dexterity saving throw or take 1d6 acid damage. This spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+      "range": "60 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "acid",
+        "damage_at_character_level": {
+          "1": "1d6",
+          "5": "2d6",
+          "11": "3d6",
+          "17": "4d6"
+        }
+      },
+      "dc": {
+        "dc_type": "dex",
+        "dc_success": "none"
+      },
+      "school": "conjuration",
+      "classes": [
+        "sorcerer",
+        "wizard"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 27,
+      "name": "blade ward",
+      "desc": "You extend your hand and trace a sigil of warding in the air. Until the end of your next turn, you have resistance against bludgeoning, piercing, and slashing damage dealt by weapon attacks.",
+      "range": "self",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Up to 1 round",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "school": "abjuration",
+      "classes": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ]
+    },
+    {
+      "higher_level": "This spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+      "index": 28,
+      "name": "chill touch",
+      "desc": "You create a ghostly, skeletal hand in the space of a creature within range. Make a ranged spell attack against the creature to assail it with the chill of the grave. On a hit, the target takes 1d8 necrotic damage, and it can't regain hit points until the start of your next turn. Until then, the hand clings to the target. If you hit an undead target, it also has disadvantage on attack rolls against you until the end of your next turn. This spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+      "range": "120 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "1 round",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "attack_type": "ranged",
+      "damage": {
+        "damage_type": "necrotic",
+        "damage_at_character_level": {
+          "1": "1d8",
+          "5": "2d8",
+          "11": "3d8",
+          "17": "4d8"
+        }
+      },
+      "school": "necromancy",
+      "classes": [
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ]
+    },
+    {
+      "higher_level": "This spell's damage increases by 1d10 when you reach 5th level (2d10), 11th level (3d10), and 17th level (4d10).",
+      "index": 29,
+      "name": "fire bolt",
+      "desc": "You hurl a mote of fire at a creature or object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 fire damage. A flammable object hit by this spell ignites if it isn't being worn or carried. This spell's damage increases by 1d10 when you reach 5th level (2d10), 11th level (3d10), and 17th level (4d10).",
+      "range": "120 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "attack_type": "ranged",
+      "damage": {
+        "damage_type": "fire",
+        "damage_at_character_level": {
+          "1": "1d10",
+          "5": "2d10",
+          "11": "3d10",
+          "17": "4d10"
+        }
+      },
+      "school": "evocation",
+      "classes": [
+        "sorcerer",
+        "wizard"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 30,
+      "name": "poison spray",
+      "desc": "You extend your hand toward a creature you can see within range and project a puff of noxious gas from your palm. The creature must succeed on a constitution saving throw or take 1d12 poison damage. This spell's damage increases by 1d12 when you reach 5th level (2d12), 11th level (3d12), and 17th level (4d12).",
+      "range": "10 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "poison",
+        "damage_at_character_level": {
+          "1": "1d12",
+          "5": "2d12",
+          "11": "3d12",
+          "17": "4d12"
+        }
+      },
+      "dc": {
+        "dc_type": "con",
+        "dc_success": "none"
+      },
+      "school": "conjuration",
+      "classes": [
+        "sorcerer",
+        "warlock",
+        "wizard",
+        "druid"
+      ]
+    },
+    {
+      "higher_level": "",
+      "index": 31,
+      "name": "ray of frost",
+      "desc": "A frigid beam of blue-white light streaks toward a creature within range. Make a ranged spell attack against the target. On a hit, it takes 1d8 cold damage, and its speed is reduced by 10 feet until the start of your next turn. The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+      "range": "60 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "attack_type": "ranged",
+      "damage": {
+        "damage_type": "cold",
+        "damage_at_character_level": {
+          "1": "1d8",
+          "5": "2d8",
+          "11": "3d8",
+          "17": "4d8"
+        }
+      },
+      "school": "evocation",
+      "classes": [
+        "sorcerer",
+        "wizard"
+      ]
+    },
+    {
+      "higher_level": "The spell creates more than one beam when you reach higher levels: two beams at 5th level, three beams at 11th level, and four beams at 17th level. You can direct the beams at the same target or at different ones. Make a separate attack roll for each beam.",
+      "index": 32,
+      "name": "eldritch blast",
+      "desc": "A beam of crackling energy streaks toward a creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 force damage. The spell creates more than one beam when you reach higher levels: two beams at 5th level, three beams at 11th level, and four beams at 17th level. You can direct the beams at the same target or at different ones. Make a separate attack roll for each beam.",
+      "range": "120 feet",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "attack_type": "ranged",
+      "damage": {
+        "damage_type": "force",
+        "damage_at_character_level": {
+          "1": "1d10",
+          "5": "2d10",
+          "11": "3d10",
+          "17": "4d10"
+        }
+      },
+      "school": "evocation",
+      "classes": [
+        "warlock"
+      ]
+    },
+    {
+      "higher_level": "This spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+      "index": 33,
+      "name": "sword burst",
+      "desc": "You create a momentary circle of spectral blades that sweep around you. All other creatures within 5 feet of you must succeed on a Dexterity saving throw or take 1d6 force damage.",
+      "range": "self",
+      "components": ["V"],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "force",
+        "damage_at_character_level": {
+          "1": "1d6",
+          "5": "2d6",
+          "11": "3d6",
+          "17": "4d6"
+        }
+      },
+      "dc": {
+        "dc_type": "dex",
+        "dc_success": "none"
+      },
+      "school": "conjuration",
+      "classes": ["warlock"]
+    },
+    {
+      "higher_level": "This spell's damage increases by 1d4 when you reach 5th level (2d4), 11th level (3d4), and 17th level (4d4).",
+      "index": 34,
+      "name": "sapping sting",
+      "desc": "You sap the vitality of one creature you can see in range. The target must succeed on a Constitution saving throw or take 1d4 necrotic damage and fall prone.",
+      "range": "30 feet",
+      "components": ["V", "S"],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "damage": {
+        "damage_type": "necrotic",
+        "damage_at_character_level": {
+          "1": "1d4",
+          "5": "2d4",
+          "11": "3d4",
+          "17": "4d4"
+        }
+      },
+      "dc": {
+        "dc_type": "con",
+        "dc_success": "none"
+      },
+      "school": "necromancy",
+      "classes": ["wizard"]
+    },
+    {
+      "higher_level": "The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+      "index": 35,
+      "name": "shocking grasp",
+      "desc": "Lightning springs from your hand to deliver a shock to a creature you try to touch. Make a melee spell attack against the target. You have advantage on the attack roll if the target is wearing armor made of metal. On a hit, the target takes 1d8 lightning damage, and it can't take reactions until the start of its next turn. The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+      "range": "Touch",
+      "components": [
+          "V",
+          "S"
+      ],
+      "ritual": false,
+      "duration": "Instantaneous",
+      "concentration": false,
+      "casting_time": "1 action",
+      "level": 0,
+      "attack_type": "melee",
+      "damage": {
+        "damage_type": "lightning",
+        "damage_at_character_level": {
+          "1": "1d8",
+          "5": "2d8",
+          "11": "3d8",
+          "17": "4d8"
+        }
+      },
+      "school": "evocation",
+      "classes": [
+        "sorcerer",
+        "wizard"
+      ]
     }
-
   ]
 }
