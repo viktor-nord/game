@@ -153,11 +153,11 @@ class CharacterCreation(Page):
         # self.save(player)
 
     def get_save(self):
-        with open(self.db_url, "r") as db:
+        with open("save/player.json", "r") as db:
             return json.load(db)
 
     def save(self, player):
-        with open(self.db_url, "w") as db:
+        with open("save/player.json", "w") as db:
             json.dump(player, db, indent=4)
 
     def reset_next_page(self, page):
@@ -173,8 +173,7 @@ class CharacterCreation(Page):
         elif page == "ability":
             self.ability_page.reset()
         elif page == "miracles":
-            pass
-            # self.miracles_page.reset()
+            self.miracles_page.reset()
         elif page == "submit":
             pass
             # self.submit_page.reset()

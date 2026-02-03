@@ -8,10 +8,9 @@ class Page:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
-
-        self.db_url = "save/player.json"
-        # self.db = json.load(self.db_path.read_text())
-        self.bg = pygame.image.load('assets/ui_sprites/Sprites/Book Desk/3.png')
+        self.bg = pygame.image.load(
+            'assets/ui_sprites/Sprites/Book Desk/3.png'
+        ).convert_alpha()
         self.bg_rect = self.bg.get_rect(center = game.screen_rect.center)
         self.book = Book(game)
         self.right_page = pygame.Rect((532, 64),(291, 360))
@@ -24,3 +23,7 @@ class Page:
     def blitme(self, screen):
         screen.blit(self.bg, self.bg_rect)
         self.book.blitme(screen)
+
+    def get_db(self, path):
+        with open(path, "r") as db:
+            return json.load(db)

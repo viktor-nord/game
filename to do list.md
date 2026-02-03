@@ -28,13 +28,13 @@ sneak attack
 0 = amount of d6
 
 * cleric = cleric
-* wisard = imam
+* wizard = imam
 * paladin = paladin
 * fighter = prest
 * monk = monk
 * barbarian = martyr
 * bard = apostle
-* durid = Guru
+* druid = Guru
 * rogue = virgin
 * sorcerer = rabbi
 * warlock = Sikh
@@ -74,7 +74,7 @@ sneak attack
       "type": "cone",
       "size": 15
     },
-
+    
     "school": string,
     "classes": [string]
   }

@@ -14,29 +14,24 @@ class MiraclesPage(Page):
         super().__init__(game)
         self.right_title = Title("Miracles", self.right_title_container)
         self.complete = False
-        cantrip_path = Path("data/miracles/cantrips.json")
-        self.db_cantrip = json.loads(cantrip_path.read_text())
-        lv1_path = Path("data/miracles/cantrips.json")
-        self.db_lv1 = json.loads(lv1_path.read_text())
+        self.non_magic_users = ["priest", "martyr", "monk", "virgin", "none"]
+        self.db_cantrip = self.get_cantrips()
+        self.db_lv1 = super().get_db("data/miracles/lv1.json")
         margin = 8
         self.display_spell = self.db_cantrip[0]
-
-        self.left_title = Title(self.display_spell["name"], self.left_title_container)
-
         # Left side
+        self.left_title = Title(self.display_spell["name"], self.left_title_container)
         self.stats_container = pygame.Rect(
             (self.left_page.left + margin, self.left_title_container.bottom + margin), 
             ((self.left_page.width/2) - (margin*2), 100)
         )
         self.range = SmallTitle(f"Range: {self.display_spell["range"]}", self.stats_container, centered=False)
         self.get_miracle_info(margin)
-
         # Right side
         self.text_box_container = self.right_page.copy()
         info_text = "How you practice your faith effect everything from spells, abilities and personality. You can change your religion later."
         self.text_box = TextBox(info_text, self.text_box_container)
         self.text_box.rect.bottom = self.right_page.bottom
-
         self.check_box_container = self.right_page.copy()
         self.check_box_container.y += self.right_title.rect.height + 16
         self.check_box_container.height = self.right_page.height - self.right_title_container.height - self.text_box.rect.height
@@ -51,12 +46,32 @@ class MiraclesPage(Page):
             (16, self.check_box_container.height)
         )
         self.scroll_bar = ScrollBar(self.scroll_bar_container)
-        # self.render_text()
+        self.render_text()
+
+    def get_cantrips(self):
+        val = []
+        arr = super().get_db("data/miracles/cantrips.json")
+        player = super().get_db("save/player.json")
+        faith = player["religion"]["practice"]
+        if faith in self.non_magic_users:
+            val.append(arr[0])
+        else:
+            for spell in arr:
+                if faith in spell["classes"]:
+                    val.append(spell)
+        return val 
+
+    def reset(self):
+        self.db_cantrip = self.get_cantrips()
+        self.render_text()
 
     def get_spell_list(self):
         arr = []
         for value in self.db_cantrip:
-            arr.append({"id": value["name"], "text": value["name"], "value": value["index"]})
+            t = value["name"]
+            if len(t) > 7:
+                t = value["name"][:7] + "..."
+            arr.append({"id": value["name"], "text": t, "value": value["name"]})
         return arr
         
     def get_miracle_info(self, margin):
@@ -105,11 +120,9 @@ class MiraclesPage(Page):
     def check_click(self):
         id = self.check_box_list.check_click()
         if id:
-            self.display_spell = self.db_cantrip[int(id)]
-            self.complete = True
-            self.render_text()
-        if id == 0:
-            self.display_spell = self.db_cantrip[int(id)]
+            for spell in self.db_cantrip:
+                if spell["name"] == id:
+                    self.display_spell = spell
             self.complete = True
             self.render_text()
 

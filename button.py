@@ -120,7 +120,6 @@ class CheckBoxList():
                         btn.is_checked = True
         return self.selected
 
-
     def check_click(self, pos=None):
         pos = pos if pos else pygame.mouse.get_pos()
         val = False

@@ -3,36 +3,37 @@
         "name": "",
         "age": 0,
         "gender": "",
-        "race": "half-orc",
-        "size": "medium",
-        "speed": 30,
+        "race": "gnome",
+        "size": "small",
+        "speed": 25,
         "traits": [
             "darkvision",
-            "menacing",
-            "relentless",
-            "savage attacks"
+            "gnome cunning"
         ],
         "level": 1
     },
     "religion": {
-        "practice": "sikh",
+        "practice": "imam",
         "faith": "",
-        "hit_die": 8
+        "hit_die": 6
     },
     "stats": {
-        "strength": 0,
-        "wisdom": 0,
-        "constitution": 0,
-        "dexterity": 0,
-        "intelligence": 0,
-        "charisma": 0,
-        "strength_modifier": 0,
-        "wisdom_modifier": 0,
-        "constitution_modifier": 0,
+        "strength": 15,
+        "wisdom": 8,
+        "constitution": 12,
+        "dexterity": 10,
+        "intelligence": 15,
+        "charisma": 14,
+        "strength_modifier": 2,
+        "wisdom_modifier": -1,
+        "constitution_modifier": 1,
         "dexterity_modifier": 0,
-        "intelligence_modifier": 0,
-        "charisma_modifier": 0
+        "intelligence_modifier": 2,
+        "charisma_modifier": 2
     },
-    "proficiencies": [],
+    "proficiencies": [
+        "arcana",
+        "history"
+    ],
     "miracles": []
 }

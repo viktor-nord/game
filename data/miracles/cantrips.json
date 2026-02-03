@@ -3,8 +3,7 @@
     "higher_level": "",
     "index": 0,
     "name": "vicious mockery",
-    "desc": "You unleash a string of insults laced with subtle enchantments at a creature you can see within range. it must succeed on a wisdom saving throw or take 1d4 psychic damage and have disadvantage on the next attack roll it makes before the end of its next turn.",
-    "og_desc": "You unleash a string of insults laced with subtle enchantments at a creature you can see within range. If the target can hear you (though it need not understand you), it must succeed on a wisdom saving throw or take 1d4 psychic damage and have disadvantage on the next attack roll it makes before the end of its next turn. This spell's damage increases by 1d4 when you reach 5th level (2d4), 11th level (3d4), and 17th level (4d4).",
+    "desc": "You unleash a string of insults laced with subtle enchantments. It must succeed on a wisdom saving throw or take 1d4 psychic damage and have disadvantage on the next attack roll it makes before the end of its next turn.",
     "range": "60 feet",
     "components": ["V"],
     "ritual": false,
@@ -25,8 +24,13 @@
       "dc_type": "wis",
       "dc_success": "none"
     },
+    "effect": {
+      "type": "disadvantage",
+      "target": "target",
+      "duration": "1 round"
+    },
     "school": "enchantment",
-    "classes": ["bard"]
+    "classes": ["apostle"]
   },
   {
     "higher_level": "",
@@ -42,12 +46,18 @@
     "concentration": true,
     "casting_time": "1 action",
     "level": 0,
+    "effect": {
+      "type": "advantage",
+      "target": "self",
+      "duration": "use"
+    },
+
     "school": "divination",
     "classes": [
-      "bard",
-      "sorcerer",
-      "warlock",
-      "wizard"
+      "apostle",
+      "rabbi",
+      "sikh",
+      "imam"
     ]
   },
   {
@@ -79,11 +89,11 @@
     },
     "school": "evocation",
     "classes": [
-      "bard",
-      "druid",
-      "sorcerer",
-      "warlock",
-      "wizard"
+      "apostle",
+      "guru",
+      "rabbi",
+      "sikh",
+      "imam"
     ]
   },
   {
@@ -106,10 +116,10 @@
     "school": "transmutation",
     "classes": [
       "cleric",
-      "bard",
-      "druid",
-      "sorcerer",
-      "wizard"
+      "apostle",
+      "guru",
+      "rabbi",
+      "imam"
     ]
   },
   {
@@ -129,10 +139,10 @@
     "level": 0,
     "school": "conjuration",
     "classes": [
-      "bard",
-      "sorcerer",
-      "warlock",
-      "wizard"
+      "apostle",
+      "rabbi",
+      "sikh",
+      "imam"
     ]
   },
   {
@@ -157,10 +167,10 @@
     },
     "school": "evocation",
     "classes": [
-      "bard",
+      "apostle",
       "cleric",
-      "sorcerer",
-      "wizard"
+      "rabbi",
+      "imam"
     ]
   },
   {
@@ -181,10 +191,10 @@
     "level": 0,
     "school": "enchantment",
     "classes": [
-      "bard",
-      "sorcerer",
-      "warlock",
-      "wizard"
+      "apostle",
+      "rabbi",
+      "sikh",
+      "imam"
     ]
   },
   {
@@ -205,7 +215,7 @@
     "school": "divination",
     "classes": [
       "cleric",
-      "druid"
+      "guru"
     ]
   },
   {
@@ -228,7 +238,7 @@
     "school": "abjuration",
     "classes": [
       "cleric",
-      "druid"
+      "guru"
     ]
   },
   {
@@ -315,7 +325,7 @@
       "dc_success": "none"
     },
     "school": "necromancy",
-    "classes": ["cleric", "warlock", "wizard"]
+    "classes": ["cleric", "sikh", "imam"]
   },
   {
     "higher_level": "",
@@ -396,7 +406,7 @@
       "dc_success": "none"
     },
     "school": "conjuration",
-    "classes": ["druid", "sorcerer", "warlock", "wizard"]
+    "classes": ["guru", "rabbi", "sikh", "imam"]
   },
   {
     "higher_level": "The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
@@ -427,7 +437,7 @@
       "dc_success": "none"
     },
     "school": "conjuration",
-    "classes": ["druid", "sorcerer", "warlock", "wizard"]
+    "classes": ["guru", "rabbi", "sikh", "imam"]
   },
   {
     "higher_level": "",
@@ -447,7 +457,7 @@
     "school": "divination",
     "classes": [
       "cleric",
-      "druid"
+      "guru"
     ]
   },
   {
@@ -480,10 +490,10 @@
     },
     "school": "conjuration",
     "classes": [
-      "sorcerer",
-      "warlock",
-      "wizard",
-      "druid"      
+      "rabbi",
+      "sikh",
+      "imam",
+      "guru"      
     ]
   },
   {
@@ -504,7 +514,7 @@
     "casting_time": "1 bonus action",
     "level": 0,
     "school": "transmutation",
-    "classes": ["druid"]
+    "classes": ["guru"]
   },
   {
     "higher_level": "This spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
@@ -534,10 +544,10 @@
     },
     "school": "conjuration",
     "classes": [
-      "sorcerer",
-      "warlock",
-      "wizard",
-      "druid"
+      "rabbi",
+      "sikh",
+      "imam",
+      "guru"
     ]
   },
   {
@@ -591,9 +601,9 @@
     },
     "school": "evocation",
     "classes": [
-      "bard",
+      "apostle",
       "cleric",
-      "druid",
+      "guru",
       "paladin"
     ]
   },
@@ -640,7 +650,7 @@
     "level": 1,
     "school": "enchantment",
     "classes": [
-      "bard",
+      "apostle",
       "paladin"
     ]
   },
@@ -665,8 +675,8 @@
     "classes": [
       "cleric",
       "paladin",
-      "warlock",
-      "wizard"
+      "sikh",
+      "imam"
     ]
   },
   {
@@ -722,8 +732,8 @@
     },
     "school": "conjuration",
     "classes": [
-      "sorcerer",
-      "wizard"
+      "rabbi",
+      "imam"
     ]
   },
   {
@@ -743,10 +753,10 @@
     "level": 0,
     "school": "abjuration",
     "classes": [
-      "bard",
-      "sorcerer",
-      "warlock",
-      "wizard"
+      "apostle",
+      "rabbi",
+      "sikh",
+      "imam"
     ]
   },
   {
@@ -776,9 +786,9 @@
     },
     "school": "necromancy",
     "classes": [
-      "sorcerer",
-      "warlock",
-      "wizard"
+      "rabbi",
+      "sikh",
+      "imam"
     ]
   },
   {
@@ -808,8 +818,8 @@
     },
     "school": "evocation",
     "classes": [
-      "sorcerer",
-      "wizard"
+      "rabbi",
+      "imam"
     ]
   },
   {
@@ -842,10 +852,10 @@
     },
     "school": "conjuration",
     "classes": [
-      "sorcerer",
-      "warlock",
-      "wizard",
-      "druid"
+      "rabbi",
+      "sikh",
+      "imam",
+      "guru"
     ]
   },
   {
@@ -875,8 +885,8 @@
     },
     "school": "evocation",
     "classes": [
-      "sorcerer",
-      "wizard"
+      "rabbi",
+      "imam"
     ]
   },
   {
@@ -906,7 +916,7 @@
     },
     "school": "evocation",
     "classes": [
-      "warlock"
+      "sikh"
     ]
   },
   {
@@ -935,7 +945,7 @@
       "dc_success": "none"
     },
     "school": "conjuration",
-    "classes": ["warlock"]
+    "classes": ["sikh"]
   },
   {
     "higher_level": "This spell's damage increases by 1d4 when you reach 5th level (2d4), 11th level (3d4), and 17th level (4d4).",
@@ -963,7 +973,7 @@
       "dc_success": "none"
     },
     "school": "necromancy",
-    "classes": ["wizard"]
+    "classes": ["imam"]
   },
   {
     "higher_level": "The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
@@ -992,8 +1002,8 @@
     },
     "school": "evocation",
     "classes": [
-      "sorcerer",
-      "wizard"
+      "rabbi",
+      "imam"
     ]
   }
 ]

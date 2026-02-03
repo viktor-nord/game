@@ -10,8 +10,7 @@ from text_box import TextBox
 class RacePage(Page):
     def __init__(self, game):
         super().__init__(game)
-        rases_path = Path("data/rases.json")
-        self.db_races = json.loads(rases_path.read_text())
+        self.db_races = super().get_db("data/rases.json")
         self.current_race = self.db_races["dwarf"]
         margin = 8
         self.complete = False

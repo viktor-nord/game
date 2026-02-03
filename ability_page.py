@@ -14,8 +14,7 @@ class AbilityPage(Page):
         self.game = game
         self.player = self.get_player()
         self.left_title = Title("Proficiencies", self.left_title_container)
-        proficiencies_path = Path("data/proficiencies.json")
-        self.proficiencies_list = json.loads(proficiencies_path.read_text()) 
+        self.proficiencies_list = super().get_db("data/proficiencies.json")
         self.complete = False
         self.selected_proficiencies = []
         self.proficiencies_list_container = self.left_page.copy()
@@ -43,7 +42,7 @@ class AbilityPage(Page):
             "po": [],
             "primary": ""
         }
-        with open(self.db_url, "r") as db:
+        with open("save/player.json", "r") as db:
             player = json.load(db)
         if player["general"]["race"] == "" or player["religion"]["practice"] == "":
             return dic
