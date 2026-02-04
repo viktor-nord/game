@@ -48,6 +48,12 @@ class ReligionPage(Page):
         self.scroll_bar = ScrollBar(self.scroll_bar_container)
         # self.render_text()
 
+    def reset(self):
+        player = super().get_db(self.player_url)
+        if player["religion"]["practice"]:
+            self.current_class = self.db_classes[player["religion"]["practice"]]
+            self.render_text()
+
     def get_class_data(self, margin):
         self.primary_skill_container = self.stats_container.copy()
         self.primary_skill_container.y += self.hp.rect.height + margin

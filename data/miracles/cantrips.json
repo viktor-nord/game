@@ -2,8 +2,8 @@
   {
     "higher_level": "",
     "index": 0,
-    "name": "vicious mockery",
-    "desc": "You unleash a string of insults laced with subtle enchantments. It must succeed on a wisdom saving throw or take 1d4 psychic damage and have disadvantage on the next attack roll it makes before the end of its next turn.",
+    "name": "holy tomfoolery",
+    "desc": "You unleash a string of holy tomfoolery laced with subtle enchantments. It must succeed on a wisdom saving throw or take 1d4 psychic damage and have disadvantage until the end of its next turn.",
     "range": "60 feet",
     "components": ["V"],
     "ritual": false,
@@ -13,30 +13,33 @@
     "level": 0,
     "damage": {
       "damage_type": "psychic",
-      "damage_at_character_level": {
-        "1": "1d4",
-        "5": "2d4",
-        "11": "3d4",
-        "17": "4d4"
+      "die": 4,
+      "level": {
+        "1": 1,
+        "5": 2,
+        "11": 3,
+        "17": 4
       }
     },
     "dc": {
       "dc_type": "wis",
       "dc_success": "none"
     },
-    "effect": {
-      "type": "disadvantage",
-      "target": "target",
-      "duration": "1 round"
-    },
+    "effect": [
+      {
+        "type": "disadvantage",
+        "target": "target",
+        "duration": "1 round"
+      }
+    ],
     "school": "enchantment",
     "classes": ["apostle"]
   },
   {
     "higher_level": "",
     "index": 1,
-    "name": "true-strike",
-    "desc": "You extend your hand and point a finger at a target in range. Your magic grants you a brief insight into the target's defenses. On your next turn, you gain advantage on your first attack roll against the target, provided that this spell hasn't ended.",
+    "name": "truth strike",
+    "desc": "You point a finger at a target and gain a brief insight into the target's defenses. On your next turn, you gain advantage on your attack against the target, provided that this spell hasn't ended.",
     "range": "30 feet",
     "components": [
         "S"
@@ -46,12 +49,13 @@
     "concentration": true,
     "casting_time": "1 action",
     "level": 0,
-    "effect": {
-      "type": "advantage",
-      "target": "self",
-      "duration": "use"
-    },
-
+    "effect": [
+      {
+        "type": "advantage",
+        "target": "self",
+        "duration": "use"
+      }
+    ], 
     "school": "divination",
     "classes": [
       "apostle",
@@ -63,8 +67,8 @@
   {
     "higher_level": "The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
     "index": 2,
-    "name": "thunderclap",
-    "desc": "You create a burst of thunderous sound, which can be heard 100 feet away. Each creature other than you within 5 feet of you must make a Constitution saving throw. On a failed save, the creature takes 1d6 thunder damage.",
+    "name": "ass clap",
+    "desc": "You clap your cheeks in a burst of thunderous sound, which can be heard 100 feet away. Each creature other than you within 5 feet of you must make a Constitution saving throw. On a failed save, the creature takes 1d6 thunder damage.",
     "range": "self",
     "components": [
         "S"
@@ -76,7 +80,7 @@
     "level": 0,
     "damage": {
       "damage_type": "thunder",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d6",
         "5": "2d6",
         "11": "3d6",
@@ -258,7 +262,7 @@
     "level": 0,
     "damage": {
       "damage_type": "radiant",
-      "damage_at_character_level": {
+      "level": {
           "1": "1d8",
           "5": "2d8",
           "11": "3d8",
@@ -307,13 +311,13 @@
     "level": 0,
     "damage": {
       "damage_type": "necrotic",
-      "damage_at_character_level": {
+      "level": {
           "1": "1d8",
           "5": "2d8",
           "11": "3d8",
           "17": "4d8"
       },
-      "damage_at_character_level_when_damaged": {
+      "level_when_damaged": {
           "1": "1d12",
           "5": "2d12",
           "11": "3d12",
@@ -363,7 +367,7 @@
     "level": 0,
     "damage": {
       "damage_type": "radiant",
-      "damage_at_character_level": {
+      "level": {
           "1": "1d6",
           "5": "2d6",
           "11": "3d6",
@@ -394,7 +398,7 @@
     "level": 0,
     "damage": {
       "damage_type": "fire",
-      "damage_at_character_level": {
+      "level": {
           "1": "1d8",
           "5": "2d8",
           "11": "3d8",
@@ -425,7 +429,7 @@
     "level": 0,
     "damage": {
       "damage_type": "frost",
-      "damage_at_character_level": {
+      "level": {
           "1": "1d6",
           "5": "2d6",
           "11": "3d6",
@@ -477,7 +481,7 @@
     "level": 0,
     "damage": {
       "damage_type": "poison",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d12",
         "5": "2d12",
         "11": "3d12",
@@ -535,7 +539,7 @@
     "level": 0,
     "damage": {
         "damage_type": "poison",
-        "damage_at_character_level": {
+        "level": {
             "1": "1d6",
             "5": "2d6",
             "11": "3d6",
@@ -719,7 +723,7 @@
     "level": 0,
     "damage": {
       "damage_type": "acid",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d6",
         "5": "2d6",
         "11": "3d6",
@@ -777,7 +781,7 @@
     "attack_type": "ranged",
     "damage": {
       "damage_type": "necrotic",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d8",
         "5": "2d8",
         "11": "3d8",
@@ -809,7 +813,7 @@
     "attack_type": "ranged",
     "damage": {
       "damage_type": "fire",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d10",
         "5": "2d10",
         "11": "3d10",
@@ -839,7 +843,7 @@
     "level": 0,
     "damage": {
       "damage_type": "poison",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d12",
         "5": "2d12",
         "11": "3d12",
@@ -876,7 +880,7 @@
     "attack_type": "ranged",
     "damage": {
       "damage_type": "cold",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d8",
         "5": "2d8",
         "11": "3d8",
@@ -907,7 +911,7 @@
     "attack_type": "ranged",
     "damage": {
       "damage_type": "force",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d10",
         "5": "2d10",
         "11": "3d10",
@@ -933,7 +937,7 @@
     "level": 0,
     "damage": {
       "damage_type": "force",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d6",
         "5": "2d6",
         "11": "3d6",
@@ -961,7 +965,7 @@
     "level": 0,
     "damage": {
       "damage_type": "necrotic",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d4",
         "5": "2d4",
         "11": "3d4",
@@ -993,7 +997,7 @@
     "attack_type": "melee",
     "damage": {
       "damage_type": "lightning",
-      "damage_at_character_level": {
+      "level": {
         "1": "1d8",
         "5": "2d8",
         "11": "3d8",

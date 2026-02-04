@@ -57,13 +57,12 @@ sneak attack
     "level": int,
     "damage":? {
       "damage_type": string,
-      <!-- "die": int,
-      "amount_at_level": int -->
-      "damage_at_character_level": {
-        "1": string,
-        "5": string,
-        "11": string,
-        "17": string
+      "die": int,
+      "level": {
+        "1": int,
+        "5": int,
+        "11": int,
+        "17": int
       }
     },
     "dc":? {
@@ -74,7 +73,13 @@ sneak attack
       "type": "cone",
       "size": 15
     },
-    
+    "effect":? [
+      {
+        "type": "disadvantage",
+        "target": "target",
+        "duration": "use"
+      }
+    ],
     "school": string,
     "classes": [string]
   }

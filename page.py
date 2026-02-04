@@ -8,6 +8,7 @@ class Page:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
+        self.player_url = "save/player.json"
         self.bg = pygame.image.load(
             'assets/ui_sprites/Sprites/Book Desk/3.png'
         ).convert_alpha()

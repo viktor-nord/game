@@ -165,8 +165,7 @@ class CharacterCreation(Page):
             pass
             # self.general_page.reset()
         elif page == "religion":
-            pass
-            # self.religion_page.reset()
+            self.religion_page.reset()
         elif page == "race":
             pass
             # self.race_page.reset()

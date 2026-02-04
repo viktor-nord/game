@@ -19,6 +19,7 @@ class Main():
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height)
         )
+        # screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height), pygame.SCALED)
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption('Akavir: God of none')
         self.animations = pygame.sprite.Group()

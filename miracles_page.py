@@ -14,11 +14,13 @@ class MiraclesPage(Page):
         super().__init__(game)
         self.right_title = Title("Miracles", self.right_title_container)
         self.complete = False
+        self.cantrip_url = "data/miracles/cantrips.json"
+
         self.non_magic_users = ["priest", "martyr", "monk", "virgin", "none"]
         self.db_cantrip = self.get_cantrips()
         self.db_lv1 = super().get_db("data/miracles/lv1.json")
         margin = 8
-        self.display_spell = self.db_cantrip[0]
+        self.display_spell = self.db_cantrip[0] 
         # Left side
         self.left_title = Title(self.display_spell["name"], self.left_title_container)
         self.stats_container = pygame.Rect(
@@ -28,13 +30,13 @@ class MiraclesPage(Page):
         self.range = SmallTitle(f"Range: {self.display_spell["range"]}", self.stats_container, centered=False)
         self.get_miracle_info(margin)
         # Right side
-        self.text_box_container = self.right_page.copy()
-        info_text = "How you practice your faith effect everything from spells, abilities and personality. You can change your religion later."
-        self.text_box = TextBox(info_text, self.text_box_container)
-        self.text_box.rect.bottom = self.right_page.bottom
+        # self.text_box_container = self.right_page.copy()
+        # info_text = "How you practice your faith effect everything from spells, abilities and personality. You can change your religion later."
+        # self.text_box = TextBox(info_text, self.text_box_container)
+        # self.text_box.rect.bottom = self.right_page.bottom
         self.check_box_container = self.right_page.copy()
-        self.check_box_container.y += self.right_title.rect.height + 16
-        self.check_box_container.height = self.right_page.height - self.right_title_container.height - self.text_box.rect.height
+        self.check_box_container.y += self.right_title.rect.height
+        # self.check_box_container.height = self.right_page.height - self.right_title_container.height - self.text_box.rect.height
         self.spell_list = self.get_spell_list()
         self.check_box_list = CheckBoxList(
             game,
@@ -43,15 +45,15 @@ class MiraclesPage(Page):
         )
         self.scroll_bar_container = pygame.Rect(
             (self.right_page.right - 16, self.right_title_container.bottom), 
-            (16, self.check_box_container.height)
+            (16, self.right_page.height - self.right_title_container.height - 16)
         )
         self.scroll_bar = ScrollBar(self.scroll_bar_container)
         self.render_text()
 
     def get_cantrips(self):
         val = []
-        arr = super().get_db("data/miracles/cantrips.json")
-        player = super().get_db("save/player.json")
+        arr = super().get_db(self.cantrip_url)
+        player = super().get_db(self.player_url)
         faith = player["religion"]["practice"]
         if faith in self.non_magic_users:
             val.append(arr[0])
@@ -138,7 +140,7 @@ class MiraclesPage(Page):
         screen.blit(self.left_title.image, self.left_title.rect)
         self.check_box_list.draw_list(screen)
         screen.blit(self.scroll_bar.image, self.scroll_bar.rect)
-        screen.blit(self.text_box.image, self.text_box.rect)
+        # screen.blit(self.text_box.image, self.text_box.rect)
         screen.blit(self.range.image, self.range.rect)
         screen.blit(self.primary_skill.image, self.primary_skill.rect)
         screen.blit(self.secondary_skill.image, self.secondary_skill.rect)
