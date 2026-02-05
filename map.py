@@ -12,72 +12,8 @@ class Map:
     def __init__(self):
         self.settings = Settings()
         self.size = self.settings.tile_size
-        self.tmxdata = Tmx()
+        # self.tmxdata = Tmx()
         self.removed_tiles = []
-
-    def get_tile(self, x, y, l):
-        val = NoTile()
-        if len(self.tmxdata.tiles[y][x]["layers"]) == l + 1:
-            val = self.tmxdata.tiles[y][x]["layers"][l]
-        return val
-    
-    def is_colliding(self, pos):
-        collide = False
-        if len(self.tmxdata.tiles) == pos[1]:
-            return True
-        if len(self.tmxdata.tiles[pos[1]]) == pos[0]:
-            return True
-        layers = self.tmxdata.tiles[pos[1]][pos[0]]["layers"]
-        for layer in layers:
-            if layer.collision == 1 and layer.exist == True:
-                collide = True
-        return collide
-
-    def blit_all_tiles(self, screen):
-        for y in self.tmxdata.tiles:
-            for x in y:
-                for tile in x["layers"]:
-                    if tile.exist:
-                        self.blit_tile(tile, x["x"], x["y"], screen)
-                        tile.update_frame_counter()
-    
-    def blit_overlay(self, player_rect, screen):
-        x = int((player_rect.x + self.size / 2) // self.size)
-        y = int((player_rect.y + self.size / 2) // self.size)
-        positions = [
-            (x, y),
-            (x + 1, y),
-            (x, y + 1),
-            (x + 1, y + 1),
-        ]
-        for pos in positions:
-            for tile in self.tmxdata.tiles[pos[1]][pos[0]]["layers"]:
-                if tile.is_overlay:
-                    self.blit_tile(tile, self.tmxdata.tiles[pos[1]][pos[0]]["x"], self.tmxdata.tiles[pos[1]][pos[0]]["y"], screen)
-    
-    def blit_tile(self, tile, x, y, screen):
-        img = tile.image
-        if len(tile.frame_images) > 0:
-            img = tile.frame_images[tile.frame_index]
-        transformed_image = pygame.transform.scale(img, (self.size, self.size))
-        screen.blit(transformed_image, (x, y))
-
-    def change_state(self, pos):
-        x = int((pos[0] + self.size / 2) // self.size)
-        y = int((pos[1] + self.size / 2) // self.size)
-        for i, layer in enumerate(self.tmxdata.tiles[y - 1][x]["layers"]):
-            if layer.type == "door":
-                self.tmxdata.tiles[y][x]["layers"][i].change_state()
-
-class Tmx:
-    def __init__(self):
-        self.tmxdata = load_pygame('map/fan_tasy_1.tmx')
-        self.settings = Settings()
-        self.y_tiles = self.settings.y_tiles
-        self.x_tiles = self.settings.x_tiles
-        self.screen_width = self.settings.screen_width
-        self.screen_height = self.settings.screen_height
-        self.size = self.settings.tile_size
         self.layers_amount = 0
         self.base_tile_prop = {
             'id': -1, 
@@ -91,15 +27,75 @@ class Tmx:
             'exist': True,
             'frame_images': []
         }
-        self.tiles = self.get_tiles()
+        self.tmxdata = load_pygame('map/fan_tasy_1.tmx')
+        self.tiles = self.get_tile_grid()
+
+    def get_tile(self, x, y, l):
+        val = NoTile()
+        if len(self.tiles[y][x]["layers"]) == l + 1:
+            val = self.tiles[y][x]["layers"][l]
+        return val
     
-    def get_tiles(self):
-        tiles = list(range(0, self.y_tiles))
+    def check_collision(self, player_rect):
+        not_colliding = True
+        return not_colliding
+
+    def is_colliding(self, pos):
+        collide = False
+        if len(self.tiles) == pos[1]:
+            return True
+        if len(self.tiles[pos[1]]) == pos[0]:
+            return True
+        layers = self.tiles[pos[1]][pos[0]]["layers"]
+        for layer in layers:
+            if layer.collision == 1 and layer.exist == True:
+                collide = True
+        return collide
+
+    def blit_all_tiles(self, screen):
+        for y in self.tiles:
+            for x in y:
+                for tile in x["layers"]:
+                    if tile.exist:
+                        self.blit_tile(tile, x["x"], x["y"], screen)
+                        tile.update_frame_counter()
+    
+    def blit_overlay(self, player_rect, screen):
+        x = int((player_rect.x + self.size / 2) // self.size)
+        y = int((player_rect.y + self.size / 2) // self.size)
+        positions = [
+            (x, y),
+            (x, y + 1),
+            (x + 1, y),
+            (x + 1, y + 1),
+            (x - 1, y),
+            (x - 1, y + 1)
+        ]
+        for pos in positions:
+            for tile in self.tiles[pos[1]][pos[0]]["layers"]:
+                if tile.is_overlay:
+                    self.blit_tile(tile, self.tiles[pos[1]][pos[0]]["x"], self.tiles[pos[1]][pos[0]]["y"], screen)
+    
+    def blit_tile(self, tile, x, y, screen):
+        img = tile.image
+        if len(tile.frame_images) > 0:
+            img = tile.frame_images[tile.frame_index]
+        transformed_image = pygame.transform.scale(img, (self.size, self.size))
+        screen.blit(transformed_image, (x, y))
+
+    def change_state(self, pos):
+        x = int((pos[0] + self.size / 2) // self.size)
+        y = int((pos[1] + self.size / 2) // self.size)
+        for i, layer in enumerate(self.tiles[y - 1][x]["layers"]):
+            if layer.type == "door":
+                self.tiles[y][x]["layers"][i].change_state()
+
+    def get_tile_grid(self):
+        tiles = list(range(0, self.settings.y_tiles))
         for y in tiles:
-            tiles[y] = list(range(0, self.x_tiles))
+            tiles[y] = list(range(0, self.settings.x_tiles))
             for x in tiles[y]:
                 tiles[y][x] = {"x": x * self.size, "y": y * self.size, "layers": []}
-        # self.tmxdata.get_tile_image()
         for layer_index, layer in enumerate(self.tmxdata):
             self.layers_amount = layer_index + 1
             for tile in layer.tiles():

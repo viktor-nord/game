@@ -98,8 +98,12 @@ class Main():
         elif key == pygame.K_q:
             sys.exit()
         else:
-            self.player.handle_movement()
+            self.handle_player_movement()
 
+    def handle_player_movement(self):
+        not_colliding = self.map.check_collision(self.player.rect)
+        if not_colliding:
+            self.player.handle_movement()
 
     def handle_action(self):
         gg=0
