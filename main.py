@@ -6,6 +6,7 @@ from settings import Settings
 from start_screen import StartScreen
 from character_creation import CharacterCreation
 from map import Map
+from npc import Npc
 
 class Main():
     def __init__(self):
@@ -14,16 +15,16 @@ class Main():
         self.game_pause = True
         self.character_creation_active = False
         self.settings = Settings()
+        sw, sh = self.settings.screen_width, self.settings.screen_height
         self.clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode(
-            (self.settings.screen_width, self.settings.screen_height)
-        )
+        self.screen = pygame.display.set_mode((sw, sh))
         # screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height), pygame.SCALED)
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption('Akavir: God of none')
         self.animations = pygame.sprite.Group()
         self.map = Map()
         self.player = Player(self)
+        self.npc = Npc(self)
         self.start_screen = StartScreen(self)
         self.character_creation = CharacterCreation(self)
 
@@ -46,6 +47,8 @@ class Main():
 
     def update_world(self):
         self.player.update()
+        self.npc.check_movement()
+        self.npc.update()
 
     def update_screen(self):
         self.screen.fill((100,100,100))
@@ -63,6 +66,7 @@ class Main():
 
     def blit_world(self):
         self.map.blit_all_tiles(self.screen)
+        self.screen.blit(self.npc.image, self.npc.rect)
         self.screen.blit(self.player.image, self.player.rect)
         self.map.blit_overlay(self.player.rect, self.screen)
 
@@ -98,12 +102,12 @@ class Main():
         elif key == pygame.K_q:
             sys.exit()
         else:
-            self.handle_player_movement()
+            self.handle_player_movement(key, is_down)
 
-    def handle_player_movement(self):
+    def handle_player_movement(self, key, is_down):
         not_colliding = self.map.check_collision(self.player.rect)
         if not_colliding:
-            self.player.handle_movement()
+            self.player.handle_movement(key, is_down)
 
     def handle_action(self):
         gg=0
