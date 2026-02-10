@@ -42,14 +42,9 @@ class Map:
 
     def is_colliding(self, pos):
         collide = False
-        if pos[0] < 0 or pos[1] < 0:
+        if pos[0] < 0 or pos[1] < 0 or len(self.tiles) == pos[1] or len(self.tiles[pos[1]]) == pos[0]:
             return True
-        if len(self.tiles) == pos[1]:
-            return True
-        if len(self.tiles[pos[1]]) == pos[0]:
-            return True
-        layers = self.tiles[pos[1]][pos[0]]["layers"]
-        for layer in layers:
+        for layer in self.tiles[pos[1]][pos[0]]["layers"]:
             if layer.collision == 1 and layer.exist == True:
                 collide = True
         return collide
@@ -73,11 +68,20 @@ class Map:
             (x - 1, y),
             (x - 1, y + 1)
         ]
+        for p in positions[:]:
+            if self.tile_does_not_exist(p[0], p[1]):
+                positions.remove(p)
         for pos in positions:
             for tile in self.tiles[pos[1]][pos[0]]["layers"]:
                 if tile.is_overlay:
                     self.blit_tile(tile, self.tiles[pos[1]][pos[0]]["x"], self.tiles[pos[1]][pos[0]]["y"], screen)
     
+    def tile_does_not_exist(self, x, y):
+        if x < 0 or y < 0 or len(self.tiles) == y or len(self.tiles[y]) == x:
+            return True
+        else:
+            return False
+
     def blit_tile(self, tile, x, y, screen):
         img = tile.image
         if len(tile.frame_images) > 0:
