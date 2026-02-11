@@ -102,9 +102,9 @@ class Map:
         for y in tiles:
             tiles[y] = list(range(0, self.settings.x_tiles))
             for x in tiles[y]:
-                tiles[y][x] = []
-                for layer in enumerate(self.tmxdata):
-                    tiles[y][x].append(NoTile())
+                tiles[y][x] = {"x": x * self.size, "y": y * self.size, "layers": []}
+                # for layer in enumerate(self.tmxdata):
+                #     tiles[y][x].append(NoTile())
         for layer_index, layer in enumerate(self.tmxdata):
             self.layers_amount = layer_index + 1
             for tile in layer.tiles():
@@ -114,7 +114,7 @@ class Map:
                     img = self.tmxdata.get_tile_image_by_gid(frame.gid)
                     properties["frame_images"].append(img)
                 tile_obj = Tile(tile, layer_index, properties)                
-                tiles[tile[1]][tile[0]][layer_index] = tile_obj
+                tiles[tile[1]][tile[0]]["layers"].append(tile_obj)
         return tiles
     
     def try_get_prop(self, tile, layer):
@@ -150,7 +150,6 @@ class Tile:
         self.exist = True
     
     def change_state(self):
-        print("ee")
         if self.exist:
             self.exist = False
         else:

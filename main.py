@@ -27,7 +27,6 @@ class Main():
         self.npc = Npc(self, self.map, movement_pattern='random')
         self.start_screen = StartScreen(self)
         self.character_creation = CharacterCreation(self)
-        self.npc = Npc(self)
 
     def run(self):
         while self.running:
