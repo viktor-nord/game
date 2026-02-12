@@ -24,7 +24,10 @@ class Main():
         self.animations = pygame.sprite.Group()
         self.map = Map()
         self.player = Player(self)
-        self.npc = Npc(self, self.map, movement_pattern='random')
+        self.npc_1 = Npc(self, self.map, (1, 13), movement_pattern='random')
+        self.npc_2 = Npc(self, self.map, (11, 11), movement_pattern=['right', 'down', 'up', 'left'])
+        self.npc_3 = Npc(self, self.map, (11, 8))
+        self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
         self.start_screen = StartScreen(self)
         self.character_creation = CharacterCreation(self)
 
@@ -46,9 +49,16 @@ class Main():
             self.start_screen.update()
 
     def update_world(self):
+
         self.player.update()
-        self.npc.check_movement()
-        self.npc.update()
+        # player_pos = self.player.get_coordinates()
+        # self.map.mobile_collision_grid.append(player_pos)
+        self.map.mobile_collision_grid = []
+        for npc in self.npc_group:
+            npc.check_movement()
+            npc.update()
+            pos = npc.get_coordinates()
+            self.map.mobile_collision_grid.append(pos)
 
     def update_screen(self):
         self.screen.fill((100,100,100))
@@ -66,7 +76,8 @@ class Main():
 
     def blit_world(self):
         self.map.blit_all_tiles(self.screen)
-        self.screen.blit(self.npc.image, self.npc.rect)
+        for npc in self.npc_group:
+            self.screen.blit(npc.image, npc.rect)
         self.screen.blit(self.player.image, self.player.rect)
         self.map.blit_overlay(self.player.rect, self.screen)
 
@@ -75,20 +86,16 @@ class Main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.MOUSEWHEEL:
+                pass
+                # scroll_down = True if event.y < 0 else False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.handle_click()
             elif event.type == pygame.KEYDOWN:
                 self.handle_key(event.key, True)
             elif event.type == pygame.KEYUP:
                 self.handle_key(event.key, False)
-    #         elif event.type == pygame.MOUSEWHEEL:
-    #             self.handle_scroll(event.y)
 
-    # def handle_scroll(self, y):
-    #     scroll_down = True
-    #     if y > 0:
-    #         scroll_down = False
-    #     print(f"scroll_down: {scroll_down}")
 
     def handle_key(self, key, is_down):
         if self.character_creation.general_page.name_input.is_active or self.character_creation.general_page.age_input.is_active:
