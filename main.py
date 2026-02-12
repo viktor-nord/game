@@ -7,6 +7,7 @@ from start_screen import StartScreen
 from character_creation import CharacterCreation
 from map import Map
 from npc import Npc
+from dialogs import Dialog
 
 class Main():
     def __init__(self):
@@ -116,8 +117,23 @@ class Main():
             self.player.handle_movement(key, is_down)
 
     def handle_action(self):
-        gg=0
-        # self.map.change_state((self.player.rect.x, self.player.rect.y))
+        x, y = self.player.get_coordinates()
+        dir = self.player.dir
+        npc = None
+        if dir == 'right':
+            x += 1
+        elif dir == 'left':
+            x -= 1
+        elif dir == 'down':
+            y += 1
+        elif dir == 'up':
+            y -= 1
+        for npc_id, pos in self.map.mobile_collision_grid.items():
+            if x == pos[0] and y == pos[1]:
+                npc = npc_id
+        if npc:
+            text = Dialog(npc)
+            print(text.text)
 
     def handle_click(self):
         if self.game_pause == False:

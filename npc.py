@@ -11,7 +11,6 @@ class Npc(Character):
         self.rect.y = self.size * pos[1]
         self.moving_to = None
         self.id = id
-        self.dir = ''
         self.map = map
         self.dir_options = ['up', 'down', 'right', 'left']
         self.movement_pattern = movement_pattern

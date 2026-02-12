@@ -11,6 +11,7 @@ class Character():
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+        self.dir = ''
         self.speed = 1
         self.inventory = []
         self.collision = True
