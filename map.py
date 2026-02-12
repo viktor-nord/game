@@ -27,7 +27,7 @@ class Map:
             'exist': True,
             'frame_images': []
         }
-        self.mobile_collision_grid = []
+        self.mobile_collision_grid = {}
         self.tmxdata = load_pygame('map/fan_tasy_1.tmx')
         self.tiles = self.get_tile_grid()
 
@@ -41,13 +41,14 @@ class Map:
         not_colliding = True
         return not_colliding
 
-    def is_colliding(self, pos):
+    def is_colliding(self, pos, id):
         collide = False
         if pos[0] < 0 or pos[1] < 0 or len(self.tiles) == pos[1] or len(self.tiles[pos[1]]) == pos[0]:
             return True
-        for npc in self.mobile_collision_grid:
-            if npc[0] == pos[0] and npc[1] == pos[1]:
-                collide = True
+        for npc_id, npc in self.mobile_collision_grid.items():
+            if npc_id != id:
+                if npc[0] == pos[0] and npc[1] == pos[1]:
+                    collide = True
         for layer in self.tiles[pos[1]][pos[0]]["layers"]:
             if layer.collision == 1 and layer.exist == True:
                 collide = True

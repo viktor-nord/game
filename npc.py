@@ -3,13 +3,14 @@ from character import Character
 import random
 
 class Npc(Character):
-    def __init__(self, game, map, pos, movement_pattern=None):
+    def __init__(self, game, id, map, pos, movement_pattern=None):
         super().__init__(game)
         self.starting_position = pos
         self.prev_pos = pos
         self.rect.x = self.size * pos[0]
         self.rect.y = self.size * pos[1]
         self.moving_to = None
+        self.id = id
         self.dir = ''
         self.map = map
         self.dir_options = ['up', 'down', 'right', 'left']
@@ -86,7 +87,7 @@ class Npc(Character):
             return
         self.dir = self.generate_dir()
         self.handle_dir()
-        if self.map.is_colliding(self.moving_to):
+        if self.map.is_colliding(self.moving_to, self.id):
             self.reset_movement()
             self.dir_options.remove(self.dir)
             self.moving_to = None

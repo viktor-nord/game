@@ -24,9 +24,9 @@ class Main():
         self.animations = pygame.sprite.Group()
         self.map = Map()
         self.player = Player(self)
-        self.npc_1 = Npc(self, self.map, (1, 13), movement_pattern='random')
-        self.npc_2 = Npc(self, self.map, (11, 11), movement_pattern=['right', 'down', 'up', 'left'])
-        self.npc_3 = Npc(self, self.map, (11, 8))
+        self.npc_1 = Npc(self, 'jon', self.map, (1, 13), movement_pattern='random')
+        self.npc_2 = Npc(self, 'bob', self.map, (11, 11), movement_pattern=['right', 'down', 'up', 'left'])
+        self.npc_3 = Npc(self, 'jim', self.map, (11, 8))
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
         self.start_screen = StartScreen(self)
         self.character_creation = CharacterCreation(self)
@@ -49,16 +49,15 @@ class Main():
             self.start_screen.update()
 
     def update_world(self):
-
+        self.map.mobile_collision_grid = {}
+        self.map.mobile_collision_grid[self.player.id] = self.player.get_coordinates()
+        for npc in self.npc_group:
+            pos = npc.get_coordinates()
+            self.map.mobile_collision_grid[npc.id] = pos
         self.player.update()
-        # player_pos = self.player.get_coordinates()
-        # self.map.mobile_collision_grid.append(player_pos)
-        self.map.mobile_collision_grid = []
         for npc in self.npc_group:
             npc.check_movement()
             npc.update()
-            pos = npc.get_coordinates()
-            self.map.mobile_collision_grid.append(pos)
 
     def update_screen(self):
         self.screen.fill((100,100,100))

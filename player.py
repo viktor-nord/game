@@ -10,6 +10,7 @@ class Player(Character):
         self.rect.x = self.size * 10
         self.rect.y = self.size * 10
         self.speed = 4
+        self.id = 'player'
 
     def handle_movement(self, key, is_down):
         if key == pygame.K_DOWN:
