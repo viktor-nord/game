@@ -11,6 +11,7 @@ class Character():
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+        self.dir = ''
         self.speed = 1
         self.inventory = []
         self.collision = True
@@ -60,8 +61,8 @@ class Character():
         if dir == 'up':
             pos_y_1 = (y - extra - self.speed) // size
             pos_y_2 = (y - extra - self.speed) // size
-        col_1 = self.game.map.is_colliding((pos_x_1, pos_y_1))
-        col_2 = self.game.map.is_colliding((pos_x_2, pos_y_2))
+        col_1 = self.game.map.is_colliding((pos_x_1, pos_y_1), self.id)
+        col_2 = self.game.map.is_colliding((pos_x_2, pos_y_2), self.id)
         if col_1 or col_2:
             not_colliding = False
         return not_colliding

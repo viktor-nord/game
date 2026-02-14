@@ -10,13 +10,18 @@ class Player(Character):
         self.rect.x = self.size * 10
         self.rect.y = self.size * 10
         self.speed = 4
+        self.id = 'player'
 
     def handle_movement(self, key, is_down):
         if key == pygame.K_DOWN:
             self.moving_down = is_down
+            self.dir = 'down' if is_down else self.dir
         if key == pygame.K_UP:
             self.moving_up = is_down
+            self.dir = 'up' if is_down else self.dir
         if key == pygame.K_RIGHT:
             self.moving_right = is_down
+            self.dir = 'right' if is_down else self.dir
         if key == pygame.K_LEFT:
             self.moving_left = is_down
+            self.dir = 'left' if is_down else self.dir
