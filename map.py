@@ -29,7 +29,8 @@ class Map:
             'frame_images': []
         }
         self.mobile_collision_grid = {}
-        self.tmxdata = load_pygame('map/fan_tasy_1.tmx')
+        # self.tmxdata = load_pygame('map/fan_tasy_1.tmx')
+        self.tmxdata = load_pygame('assets/maps/map_1.tmx')
         self.tiles = self.get_tile_grid()
 
     def get_tile(self, x, y, l):

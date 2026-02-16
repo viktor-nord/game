@@ -30,7 +30,7 @@ class Main():
         self.battle_map = BattleMap()
         self.player = Player(self)
         self.npc_1 = Npc(self, 'jon', self.map, (1, 13), movement_pattern='random')
-        self.npc_2 = Npc(self, 'bob', self.map, (11, 11), movement_pattern=['right', 'down', 'up', 'left'])
+        self.npc_2 = Npc(self, 'bob', self.map, (11, 5), movement_pattern=['right', 'down', 'up', 'left'])
         self.npc_3 = Npc(self, 'mike', self.map, (11, 8))
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
         self.start_screen = StartScreen(self)
