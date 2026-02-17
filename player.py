@@ -7,8 +7,8 @@ class Player(Character):
         super().__init__(game)
         img = pygame.image.load('assets/New Piskel-1.bmp')
         self.image = pygame.transform.scale(img, (self.size, self.size))
-        self.rect.x = self.size * 10
-        self.rect.y = self.size * 10
+        self.rect.x = self.size * 8
+        self.rect.y = self.size * 8
         self.speed = 4
         self.id = 'player'
 

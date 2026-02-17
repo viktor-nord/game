@@ -1,34 +1,34 @@
 {
     "general": {
-        "name": "wefwef",
-        "age": "333",
+        "name": "wfwef",
+        "age": "2222",
         "gender": "female",
-        "race": "dwarf",
+        "race": "halfling",
         "size": "medium",
         "speed": 25,
         "traits": [
-            "darkvision",
-            "resilience",
-            "Stonecunning"
+            "lucky",
+            "brave",
+            "nimble"
         ],
         "level": 1
     },
     "religion": {
-        "practice": "guru",
+        "practice": "martyr",
         "faith": "",
-        "hit_die": 8
+        "hit_die": 12
     },
     "stats": {
         "strength": 0,
-        "wisdom": 0,
-        "constitution": 2,
-        "dexterity": 0,
+        "wisdom": 10,
+        "constitution": 0,
+        "dexterity": 14,
         "intelligence": 0,
         "charisma": 0,
         "strength_modifier": -5,
-        "wisdom_modifier": -5,
-        "constitution_modifier": -4,
-        "dexterity_modifier": -5,
+        "wisdom_modifier": 0,
+        "constitution_modifier": -5,
+        "dexterity_modifier": 2,
         "intelligence_modifier": -5,
         "charisma_modifier": -5
     },

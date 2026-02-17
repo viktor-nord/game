@@ -64,6 +64,37 @@ class CharacterCreation(Page):
             self.general_page.blitme(screen)
         self.nav_bar.blitme(screen)
 
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.handle_click()
+        elif event.type == pygame.KEYDOWN:
+            self.handle_key(event.key)
+
+    def handle_click(self):
+        self.nav_bar.handle_click()
+        if self.page != self.nav_bar.current:
+            self.handle_save(self.page)
+            self.reset_next_page(self.nav_bar.current)  
+        self.page = self.nav_bar.current
+        if self.page == "general":
+            self.general_page.check_click()
+        elif self.page == "religion":
+            self.religion_page.check_click()
+        elif self.page == "race":
+            self.race_page.check_click()
+        elif self.page == "ability":
+            self.ability_page.check_click()
+        elif self.page == "miracles":
+            self.miracles_page.check_click()
+        elif self.page == "submit":
+            self.submit_page.check_click()
+        else:
+            self.religion_page.check_click()
+
+    def handle_key(self, key):
+        self.general_page.handle_key(key)
+
+
     def get_completed_amount(self):
         val = 0
         if self.general_page.complete:
@@ -179,30 +210,3 @@ class CharacterCreation(Page):
         else:
             pass
 
-    def handle_click(self):
-        self.nav_bar.handle_click()
-        if self.page != self.nav_bar.current:
-            self.handle_save(self.page)
-            self.reset_next_page(self.nav_bar.current)  
-        self.page = self.nav_bar.current
-        if self.page == "general":
-            self.general_page.check_click()
-        elif self.page == "religion":
-            self.religion_page.check_click()
-        elif self.page == "race":
-            self.race_page.check_click()
-        elif self.page == "ability":
-            self.ability_page.check_click()
-        elif self.page == "miracles":
-            self.miracles_page.check_click()
-        elif self.page == "submit":
-            self.submit_page.check_click()
-        else:
-            self.religion_page.check_click()
-        # completed = self.get_completed_amount()
-        # self.nav_bar.update_nav(completed)
-
-    def handle_key(self, key):
-        self.general_page.handle_key(key)
-        # completed = self.get_completed_amount()
-        # self.nav_bar.update_nav(completed)
