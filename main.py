@@ -170,12 +170,15 @@ class Main():
             print(text.text)
 
     def handle_click(self):
-        if self.game_pause == False:
-            return 
-        if self.character_creation_active:
-            self.character_creation.handle_click()
+        if self.battle_active:
+            self.action_wheel.handle_click()
         else:
-            self.start_screen.handle_click()
+            if self.game_pause == False:
+                return 
+            if self.character_creation_active:
+                self.character_creation.handle_click()
+            else:
+                self.start_screen.handle_click()
 
 if __name__ == '__main__':
     game = Main()

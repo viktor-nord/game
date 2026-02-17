@@ -14,8 +14,10 @@ class BattleMap(Map):
         ).convert_alpha()
         vertical = pygame.Surface((1, self.size)).convert_alpha()
         vertical.fill((0,0,30))
+        vertical.set_alpha(50)
         horizontal = pygame.Surface((self.size, 1)).convert_alpha()
         horizontal.fill((0,0,30))
+        horizontal.set_alpha(50)
         x = 0
         y = 0
         while y < self.settings.screen_height:

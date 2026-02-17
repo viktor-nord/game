@@ -3,57 +3,82 @@ import pygame
 class ActionWheel:
     def __init__(self, player_rect):
         self.player_rect = player_rect
-        self.options = ['melee', 'spell', 'move', 'items', 'bonus', 'dodge', 'talk', 'disengage']
-        url = "assets/ui_sprites/ActionWheel/"
-        curl = "assets/ui_sprites/Sprites/Content/"
-        self.base_image = self.get_image(f"{url}base_action_wheel.png", True)
-        self.base_top_right_image = self.get_image(f"{url}action_wheel_topright.png", True)
-        self.base_top_left_image = self.get_image(f"{url}action_wheel_topleft.png", True)
-        self.holder_image = self.get_image(f"{curl}5 Holders/24.png")
-        self.attack_image = self.get_image(f"{curl}1 Items/1.png")
-        self.move_image = self.get_image(f"{curl}1 Items/2.png")
-        self.base_rect = self.base_image.get_rect()
+        self.options = ['melee', 'spell', 'move', 'items', 'bonus', 'dash', 'talk', 'other']
+        self.actions_db = {
+            'melee': {'slot': 1, 'icon': 1, 'pos': (28, -66)},
+            'spell': {'slot': 8, 'icon': 2, 'pos': (-28, -66)},
+            'move': {'slot': 2, 'icon': 3, 'pos': (66, -28)},
+            'items': {'slot': 7, 'icon': 4, 'pos': (-66, -28)},
+            'bonus': {'slot': 3, 'icon': 5, 'pos': (66, 28)},
+            'dash': {'slot': 6, 'icon': 6, 'pos': (-66, 28)},
+            'talk': {'slot': 4, 'icon': 7, 'pos': (28, 66)},
+            'other': {'slot': 5, 'icon': 8, 'pos': (-28, 66)}
+        }
+        self.actions = []
+        self.load_images()
         self.image = pygame.Surface((self.base_rect.width, self.base_rect.height), pygame.SRCALPHA).convert_alpha()
         self.image.blit(self.base_image, (0,0))
         self.rect = self.image.get_rect(center = player_rect.center)
-        self.holder_top_right_rect = self.holder_image.get_rect(center = (player_rect.centerx + 18, player_rect.centery - 48))
-        self.holder_top_left_rect = self.holder_image.get_rect(center = (player_rect.centerx - 20, player_rect.centery - 48))
-        self.item_top_right_rect = self.attack_image.get_rect(center = self.holder_top_right_rect.center)
-        self.item_top_left_rect = self.attack_image.get_rect(center = self.holder_top_left_rect.center)
         self.active_option = ''
         self.action = ''
 
-    def get_image(self, src, big=False):
-        if big:
-            base = pygame.image.load(src).convert_alpha()
-            return pygame.transform.scale(base, (base.get_width() * 2, base.get_height() * 2))
-        else:
-            return pygame.image.load(src).convert_alpha()
+    def load_images(self):
+        url = "assets/ui_sprites/ActionWheel/"
+        curl = "assets/ui_sprites/Sprites/Content/"
+        self.base_image = get_image(f"{url}aw_base.png", 2)
+        self.base_rect = self.base_image.get_rect(center = self.player_rect.center)
+        self.holder_image = get_image(f"{curl}5 Holders/24.png")
+        for key, val in self.actions_db.items():
+            self.actions.append(WheelAction(key, val['slot'], val['icon'], val['pos'], self.player_rect))
 
     def update(self):
         pos = pygame.mouse.get_pos()
-        self.active_option = self.check_collision(pos)
+        if self.rect.collidepoint(pos):
+            for a in self.actions:
+                a.check_hover(pos)
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
-        self.action = self.check_collision(pos)
-
-    def check_collision(self, pos):
-        val = ''
-        if self.holder_top_right_rect.collidepoint(pos):
-            val = 'melee'
-        if self.holder_top_left_rect.collidepoint(pos):
-            val = 'move'
-        return val
-
+        val = None
+        for a in self.actions:
+            val = a.check_click(pos)
+            if val:
+                self.action = val
+        print(self.action)
 
     def blitme(self, screen):
         screen.blit(self.image, self.rect)
-        screen.blit(self.holder_image, self.holder_top_right_rect)
-        screen.blit(self.holder_image, self.holder_top_left_rect)
-        screen.blit(self.attack_image, self.item_top_right_rect)
-        screen.blit(self.move_image, self.item_top_left_rect)
-        if self.active_option == 'melee':
-            screen.blit(self.base_top_right_image, self.base_top_right_image.get_rect(center = self.player_rect.center))
-        if self.active_option == 'move':
-            screen.blit(self.base_top_left_image, self.base_top_left_image.get_rect(center = self.player_rect.center))
+        for a in self.actions:
+            a.blitme(screen)
+
+class WheelAction:
+    def __init__(self, value, index, icon, pos, player_rect):
+        url = "assets/ui_sprites/Sprites/Content/"
+        holder_image = get_image(f"{url}5 Holders/24.png")
+        icon = get_image(f"{url}1 Items/{icon}.png")
+        self.value = value
+        self.surf = pygame.Surface((holder_image.get_width(), holder_image.get_height()), pygame.SRCALPHA).convert_alpha()
+        self.rect = self.surf.get_rect(center = (player_rect.centerx + pos[0], player_rect.centery + pos[1]))
+        self.surf.blit(holder_image, (0,0))
+        self.surf.blit(icon, (8,8))
+        self.hover_img = get_image(f"assets/ui_sprites/ActionWheel/aw_{index}.png", 2)
+        self.is_hover = False
+        self.hover_rect = self.hover_img.get_rect(center = player_rect.center)
+
+    def blitme(self, screen):
+        screen.blit(self.surf, self.rect)
+        if self.is_hover:
+            screen.blit(self.hover_img, self.hover_rect)
+
+    def check_hover(self, pos):
+        self.is_hover = self.rect.collidepoint(pos)
+
+    def check_click(self, pos):
+        if self.rect.collidepoint(pos):
+            return self.value
+        else:
+            return None
+
+def get_image(src, scale=1):
+    base = pygame.image.load(src).convert_alpha()
+    return pygame.transform.scale(base, (base.get_width() * scale, base.get_height() * scale))
