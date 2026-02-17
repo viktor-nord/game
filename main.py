@@ -15,9 +15,9 @@ class Main():
     def __init__(self):
         pygame.init()
         self.running = True
-        self.game_pause = True
+        self.game_pause = False
         self.character_creation_active = False
-        self.battle_active = False
+        self.battle_active = True
         self.settings = Settings()
         sw, sh = self.settings.screen_width, self.settings.screen_height
         self.clock = pygame.time.Clock()
@@ -35,7 +35,8 @@ class Main():
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
         self.start_screen = StartScreen(self)
         self.character_creation = CharacterCreation(self)
-        self.action_wheel = None
+        # self.action_wheel = None
+        self.action_wheel = ActionWheel(self.player.rect)
 
     def run(self):
         while self.running:
@@ -64,6 +65,7 @@ class Main():
             pos = npc.get_coordinates()
             self.map.mobile_collision_grid[npc.id] = pos
         self.player.update()
+        self.action_wheel.update()
 
     def update_world(self):
         self.map.mobile_collision_grid = {}
@@ -123,7 +125,6 @@ class Main():
                 self.handle_key(event.key, True)
             elif event.type == pygame.KEYUP:
                 self.handle_key(event.key, False)
-
 
     def handle_key(self, key, is_down):
         if self.character_creation.general_page.name_input.is_active or self.character_creation.general_page.age_input.is_active:
