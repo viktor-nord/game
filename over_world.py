@@ -34,8 +34,10 @@ class OverWorld():
     def blitme(self, screen):
         self.map.blit_all_tiles(screen)
         for npc in self.npc_group:
-            screen.blit(npc.image, npc.rect)
-        screen.blit(self.player.image, self.player.rect)
+            npc.blitme(screen)
+            # screen.blit(npc.image, npc.rect)
+        # screen.blit(self.player.image, self.player.rect)
+        self.player.blitme(screen)
         self.map.blit_overlay(self.player.rect, screen)
 
     def handle_event(self, event):

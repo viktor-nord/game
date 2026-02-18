@@ -1,8 +1,10 @@
 import pygame
+from font import PlainText
 
 class ActionWheel:
     def __init__(self, player_rect):
         self.player_rect = player_rect
+        op_1 = ['action', 'move', ]
         self.options = ['melee', 'spell', 'move', 'items', 'bonus', 'dash', 'talk', 'other']
         self.actions_db = {
             'melee': {'slot': 1, 'icon': 1, 'pos': (28, -66)},
@@ -34,8 +36,11 @@ class ActionWheel:
     def update(self):
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
+            self.active_option = ''
             for a in self.actions:
-                a.check_hover(pos)
+                val = a.check_hover(pos)
+                if val:
+                    self.active_option = val
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
@@ -50,6 +55,9 @@ class ActionWheel:
         screen.blit(self.image, self.rect)
         for a in self.actions:
             a.blitme(screen)
+        if self.active_option:
+            t = PlainText(self.active_option)
+            screen.blit(t.image, t.image.get_rect(center=self.player_rect.center))
 
 class WheelAction:
     def __init__(self, value, index, icon, pos, player_rect):
@@ -71,7 +79,11 @@ class WheelAction:
             screen.blit(self.hover_img, self.hover_rect)
 
     def check_hover(self, pos):
-        self.is_hover = self.rect.collidepoint(pos)
+        if self.rect.collidepoint(pos):
+            self.is_hover = True
+            return self.value
+        else:
+            self.is_hover = False
 
     def check_click(self, pos):
         if self.rect.collidepoint(pos):

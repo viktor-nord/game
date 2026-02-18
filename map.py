@@ -55,6 +55,7 @@ class Map:
         return collide
 
     def blit_all_tiles(self, screen):
+        # return
         for y in self.tiles:
             for x in y:
                 for tile in x["layers"]:
