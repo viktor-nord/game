@@ -2,6 +2,8 @@
 
 * change checkbox. two buttons per line
 
+pixel perfect collision - https://www.youtube.com/watch?v=tJiKYMQJnYg
+
 # Akavir
 
 ## changes

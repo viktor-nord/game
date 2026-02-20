@@ -35,10 +35,8 @@ class OverWorld():
         self.map.blit_all_tiles(screen)
         for npc in self.npc_group:
             npc.blitme(screen)
-            # screen.blit(npc.image, npc.rect)
-        # screen.blit(self.player.image, self.player.rect)
         self.player.blitme(screen)
-        self.map.blit_overlay(self.player.rect, screen)
+        # self.map.blit_overlay(self.player.rect, screen)
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -67,6 +65,10 @@ class OverWorld():
             self.player.handle_movement(key, is_down)
 
     def handle_action(self):
+        self.player.counter = 0
+        self.player.frame = 0
+        self.player.action = 'attack'
+        return 
         x, y = self.player.get_coordinates()
         dir = self.player.dir
         npc = None
