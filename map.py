@@ -115,8 +115,6 @@ class Map:
                 if npc[0] == tl_pos[0] and npc[1] == tl_pos[1]:
                     collide = True
         for pos in [br_pos, bl_pos, tr_pos, tl_pos]:
-            if pos[0] == 12 and pos[1] == 11:
-                print(id)
             for layer in self.tiles[pos[1]][pos[0]]["layers"]:
                 if layer.exist == True and layer.collision > 0:
                     x = pos[0] * self.size

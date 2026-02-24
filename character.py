@@ -63,7 +63,7 @@ class Character():
         not_colliding = True
         r = self.rect.copy()
         r.x += self.movement[dir][0] * self.speed
-        r.y = self.movement[dir][1] * self.speed
+        r.y += self.movement[dir][1] * self.speed
         # r = self.rect.move(movement[dir][0] * self.speed, movement[dir][1] * self.speed)
         test = self.game.map.is_colliding(r, self.id)
         if test:
