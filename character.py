@@ -19,6 +19,12 @@ class Character():
         self.collision = True
         self.coordinates = self.get_coordinates()
         self.action = 'idle'
+        self.movement = {
+            'right': [1, 0],
+            'down': [0, 1],
+            'left': [-1, 0],
+            'up': [0, -1],
+        }
 
     def get_coordinates(self):
         x = int((self.rect.x + (self.size / 2)) / self.size)
@@ -36,6 +42,12 @@ class Character():
         self.moving_up = False
         self.moving_down = False
 
+    def change_action(self, action):
+        if self.action != action:
+            self.counter = 0
+            self.frame = 0
+            self.action = action
+
     def update(self):
         if self.moving_right and self.not_colliding('right'):
             self.rect.x += self.speed
@@ -48,30 +60,13 @@ class Character():
         self.coordinates = self.get_coordinates()
 
     def not_colliding(self, dir):
-        size = self.size
         not_colliding = True
-        x = self.rect.x + (size // 2)
-        y = self.rect.y + (size // 2)
-        extra = 10
-        pos_x_1 = (x - extra) // size
-        pos_x_2 = (x + extra) // size
-        pos_y_1 = (y - extra) // size
-        pos_y_2 = (y + extra) // size
-        if dir == 'right':
-            pos_x_1 = (x + extra + self.speed) // size
-            pos_x_2 = (x + extra + self.speed) // size
-        if dir == 'left':
-            pos_x_1 = (x - extra - self.speed) // size
-            pos_x_2 = (x - extra - self.speed) // size
-        if dir == 'down':
-            pos_y_1 = (y + extra + self.speed) // size
-            pos_y_2 = (y + extra + self.speed) // size
-        if dir == 'up':
-            pos_y_1 = (y - extra - self.speed) // size
-            pos_y_2 = (y - extra - self.speed) // size
-        col_1 = self.game.map.is_colliding((pos_x_1, pos_y_1), self.id)
-        col_2 = self.game.map.is_colliding((pos_x_2, pos_y_2), self.id)
-        if col_1 or col_2:
+        r = self.rect.copy()
+        r.x += self.movement[dir][0] * self.speed
+        r.y = self.movement[dir][1] * self.speed
+        # r = self.rect.move(movement[dir][0] * self.speed, movement[dir][1] * self.speed)
+        test = self.game.map.is_colliding(r, self.id)
+        if test:
             not_colliding = False
         return not_colliding
 

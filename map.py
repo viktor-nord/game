@@ -2,6 +2,62 @@ import pygame
 from pytmx.util_pygame import load_pygame
 from settings import Settings
 
+# collision
+# 2 = right
+# 3 = bottom right
+# 4 = bottom
+# 5 = bottom left
+# 6 = left
+# 7 = top left
+# 8 = top
+# 9 = top right
+
+def x_y_w_h(x_pos, y_pos, count, type):
+    x = x_pos
+    y = y_pos
+    w = 1
+    h = 1
+    if type == 1:
+        w = 32
+        h = 32
+    elif type == 2:
+        x = x_pos + 31
+        h = 32
+    elif type == 3:
+        x = x_pos + 31 - count
+        y = y_pos + count
+        w = 1 + count
+    elif type == 4:
+        y = y_pos + 31
+        w = 32
+    elif type == 5:
+        y = y_pos + count
+        w = 1 + count
+    elif type == 6:
+        h = 32
+    elif type == 7:
+        y = y_pos + count
+        w = 32 - count
+    elif type == 8:
+        w = 32
+    elif type == 9:
+        x = x_pos + count
+        y = y_pos + count
+        w = 32 - count
+    return x, y, w, h
+
+def get_collision_box_arr(x_pos, y_pos, type):
+    arr = []
+    count = 0
+    if type == 1 or type == 2 or type == 4 or type == 6 or type == 8:
+        count = 31
+    while count < 32:
+        x, y, w, h = x_y_w_h(x_pos, y_pos, count, type)
+        r = pygame.Rect((x, y), (w, h))
+        arr.append(r)
+        count += 1
+    return arr
+
 class NoTile():
     def __init__(self):
         self.id = -1
@@ -9,7 +65,9 @@ class NoTile():
         self.exist = True
 
 class Map:
-    def __init__(self):
+    def __init__(self, id='map_1'):
+        base_url = 'assets/maps/'
+        src = f"{base_url}{id}.tmx"
         self.settings = Settings()
         self.size = self.settings.tile_size
         # self.tmxdata = Tmx()
@@ -28,8 +86,9 @@ class Map:
             'frame_images': []
         }
         self.mobile_collision_grid = {}
-        self.tmxdata = load_pygame('assets/maps/map_1.tmx')
+        self.tmxdata = load_pygame(src)
         self.tiles = self.get_tile_grid()
+
 
     def get_tile(self, x, y, l):
         val = NoTile()
@@ -41,18 +100,45 @@ class Map:
         not_colliding = True
         return not_colliding
 
-    def is_colliding(self, pos, id):
+    def is_colliding(self, rect, id):
+        # print(f"r: {rect} id: {id}")
         collide = False
-        if pos[0] < 0 or pos[1] < 0 or len(self.tiles) == pos[1] or len(self.tiles[pos[1]]) == pos[0]:
+        r, b, t, l = rect.right, rect.bottom, rect.top, rect.left
+        br_pos = [r // self.size, b // self.size]
+        bl_pos = [l // self.size, b // self.size]
+        tr_pos = [r // self.size, t // self.size]
+        tl_pos = [l // self.size, t // self.size]
+        if rect.x < 0 or rect.y < 0 or len(self.tiles) == bl_pos[1] or len(self.tiles[bl_pos[1]]) == bl_pos[0]:
             return True
         for npc_id, npc in self.mobile_collision_grid.items():
             if npc_id != id:
-                if npc[0] == pos[0] and npc[1] == pos[1]:
+                if npc[0] == tl_pos[0] and npc[1] == tl_pos[1]:
                     collide = True
-        for layer in self.tiles[pos[1]][pos[0]]["layers"]:
-            if layer.collision == 1 and layer.exist == True:
-                collide = True
+        for pos in [br_pos, bl_pos, tr_pos, tl_pos]:
+            if pos[0] == 12 and pos[1] == 11:
+                print(id)
+            for layer in self.tiles[pos[1]][pos[0]]["layers"]:
+                if layer.exist == True and layer.collision > 0:
+                    x = pos[0] * self.size
+                    y = pos[1] * self.size
+                    collision_box_arr = get_collision_box_arr(x, y, layer.collision)
+                    for collision_box in collision_box_arr:
+                        if rect.colliderect(collision_box):
+                            collide = True
         return collide
+
+    # def is_colliding(self, pos, id):
+    #     collide = False
+    #     if pos[0] < 0 or pos[1] < 0 or len(self.tiles) == pos[1] or len(self.tiles[pos[1]]) == pos[0]:
+    #         return True
+    #     for npc_id, npc in self.mobile_collision_grid.items():
+    #         if npc_id != id:
+    #             if npc[0] == pos[0] and npc[1] == pos[1]:
+    #                 collide = True
+    #     for layer in self.tiles[pos[1]][pos[0]]["layers"]:
+    #         if layer.collision == 1 and layer.exist == True:
+    #             collide = True
+    #     return collide
 
     def blit_all_tiles(self, screen):
         # return
@@ -80,7 +166,9 @@ class Map:
         for pos in positions:
             for tile in self.tiles[pos[1]][pos[0]]["layers"]:
                 if tile.is_overlay:
-                    self.blit_tile(tile, self.tiles[pos[1]][pos[0]]["x"], self.tiles[pos[1]][pos[0]]["y"], screen)
+                    tile_x = self.tiles[pos[1]][pos[0]]["x"]
+                    tile_y = self.tiles[pos[1]][pos[0]]["y"]
+                    self.blit_tile(tile, tile_x, tile_y, screen)
     
     def tile_does_not_exist(self, x, y):
         if x < 0 or y < 0 or len(self.tiles) == y or len(self.tiles[y]) == x:

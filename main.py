@@ -18,7 +18,6 @@ class Main():
         sw, sh = self.settings.screen_width, self.settings.screen_height
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((sw, sh))
-        # screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height), pygame.SCALED)
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption('Akavir: God of none')
         self.start_screen = StartScreen(self)

@@ -21,7 +21,6 @@ class Npc(Character):
             'attack': self.load_animation('attack')
         }
 
-
     def load_animation(self, type):
         arr = []
         if self.type == 'goblin':
@@ -116,7 +115,10 @@ class Npc(Character):
             return
         self.dir = self.generate_dir()
         self.handle_dir()
-        if self.map.is_colliding(self.moving_to, self.id):
+        r = self.rect.copy()
+        r.x += self.movement[self.dir][0] * self.speed
+        r.y = self.movement[self.dir][1] * self.speed
+        if self.map.is_colliding(r, self.id):
             self.reset_movement()
             self.dir_options.remove(self.dir)
             self.moving_to = None

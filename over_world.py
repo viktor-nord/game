@@ -13,12 +13,13 @@ class OverWorld():
         self.game_pause = False
         self.start_battle = False
         self.settings = Settings()
-        self.map = Map()
+        self.map = Map("test_collision_map_2")
         self.player = Player(self)
         self.npc_1 = Npc(self, 'jon', self.map, (1, 13), movement_pattern='random')
         self.npc_2 = Npc(self, 'bob', self.map, (11, 11), movement_pattern=['right', 'down', 'up', 'left'])
         self.npc_3 = Npc(self, 'mike', self.map, (11, 8))
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
+        # self.npc_group = []
 
     def update(self):
         self.map.mobile_collision_grid = {}
@@ -65,10 +66,7 @@ class OverWorld():
             self.player.handle_movement(key, is_down)
 
     def handle_action(self):
-        self.player.counter = 0
-        self.player.frame = 0
-        self.player.action = 'attack'
-        return 
+        # self.player.change_action('attack')
         x, y = self.player.get_coordinates()
         dir = self.player.dir
         npc = None

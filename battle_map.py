@@ -3,7 +3,7 @@ from map import Map
 
 class BattleMap(Map):
     def __init__(self):
-        super().__init__()
+        super().__init__('battle_1')
         self.spacing_grid = self.get_spacing_grid()
         self.spacing_grid_rect = self.spacing_grid.get_rect()
     
