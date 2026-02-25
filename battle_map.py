@@ -5,7 +5,6 @@ class BattleMap(Map):
     def __init__(self):
         super().__init__('battle_1')
         self.spacing_grid = self.get_spacing_grid()
-        self.spacing_grid_rect = self.spacing_grid.get_rect()
     
     def get_spacing_grid(self):
         grid = pygame.Surface(
@@ -32,7 +31,7 @@ class BattleMap(Map):
         return grid
     
     def blit_spacing_grid(self, screen):
-        screen.blit(self.spacing_grid, self.spacing_grid_rect)
+        screen.blit(self.spacing_grid, (0,0))
 
     # def blit_overlay(self, player_rect, screen):
     #     pass

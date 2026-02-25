@@ -96,9 +96,26 @@ class Map:
             val = self.tiles[y][x]["layers"][l]
         return val
     
-    def check_collision(self, player_rect):
-        not_colliding = True
-        return not_colliding
+    def check_collision(self, character):
+        posible_moves = {
+            'right': self.not_colliding('right', character),
+            'left': self.not_colliding('left', character),
+            'down': self.not_colliding('down', character),  
+            'up': self.not_colliding('up', character)
+        }
+        return posible_moves
+
+    def not_colliding(self, dir, character):
+        r = pygame.Rect(
+            (character.rect.x + 4, character.rect.y + 4), 
+            (character.rect.width - 8, character.rect.height - 8)
+        )
+        r.x += character.movement[dir][0] * character.speed
+        r.y += character.movement[dir][1] * character.speed
+        if self.is_colliding(r, character.id):
+            return False
+        else:
+            return True
 
     def is_colliding(self, rect, id):
         collide = False
@@ -120,31 +137,23 @@ class Map:
                 )
                 if rect.colliderect(npc_rect):
                     collide = True
+        # change this shit
+        for layer_speci in self.tiles[(rect.y + rect.height // 2) // self.size][(rect.x + rect.width // 2) // self.size]["layers"]:
+            if layer_speci.collision == 10:
+                return False
+        # can be raplaced with a list of collision and check all of them for collision with rect
         for pos in [br_pos, bl_pos, tr_pos, tl_pos]:
             for layer in self.tiles[pos[1]][pos[0]]["layers"]:
                 if layer.exist == True and layer.collision > 0:
                     x = pos[0] * self.size
                     y = pos[1] * self.size
-                    if layer.collision == 10:
-                        return False
+                    # if layer.collision == 10:
+                    #     return False
                     collision_box_arr = get_collision_box_arr(x, y, layer.collision)
                     for collision_box in collision_box_arr:
                         if rect.colliderect(collision_box):
                             collide = True
         return collide
-
-    # def is_colliding(self, pos, id):
-    #     collide = False
-    #     if pos[0] < 0 or pos[1] < 0 or len(self.tiles) == pos[1] or len(self.tiles[pos[1]]) == pos[0]:
-    #         return True
-    #     for npc_id, npc in self.mobile_collision_grid.items():
-    #         if npc_id != id:
-    #             if npc[0] == pos[0] and npc[1] == pos[1]:
-    #                 collide = True
-    #     for layer in self.tiles[pos[1]][pos[0]]["layers"]:
-    #         if layer.collision == 1 and layer.exist == True:
-    #             collide = True
-    #     return collide
 
     def blit_all_tiles(self, screen):
         # return

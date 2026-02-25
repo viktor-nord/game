@@ -8,15 +8,14 @@ from battle_map import BattleMap
 from action_wheel import ActionWheel
 
 class Battle():
-    def __init__(self, game):
-        self.game = game
+    def __init__(self):
         self.game_pause = False
         self.settings = Settings()
         self.battle_map = BattleMap()
-        self.player = Player(self)
-        self.npc_1 = Npc(self, 'jon', self.battle_map, (1, 13), movement_pattern='random')
-        self.npc_2 = Npc(self, 'bob', self.battle_map, (11, 11), movement_pattern=['right', 'down', 'up', 'left'])
-        self.npc_3 = Npc(self, 'mike', self.battle_map, (11, 8))
+        self.player = Player()
+        self.npc_1 = Npc('jon', (1, 13))
+        self.npc_2 = Npc('bob', (11, 11))
+        self.npc_3 = Npc('mike', (11, 8))
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
         # self.action_wheel = ActionWheel(self.player.rect)
 
@@ -26,7 +25,8 @@ class Battle():
         for npc in self.npc_group:
             pos = npc.get_coordinates()
             self.battle_map.mobile_collision_grid[npc.id] = pos
-        self.player.update()
+        posible_moves = self.battle_map.check_collision(self.player)
+        self.player.update(posible_moves)
         # self.action_wheel.update()
 
     def blitme(self, screen):
@@ -57,12 +57,7 @@ class Battle():
         elif key == pygame.K_p:
             self.game_pause = True
         else:
-            self.handle_player_movement(key, is_down)
-
-    def handle_player_movement(self, key, is_down):
-        not_colliding = self.battle_map.check_collision(self.player.rect)
-        if not_colliding:
-            self.player.handle_movement(key, is_down)
+            self.player.handle_movement(key, is_down)        
 
     def handle_action(self):
         pass

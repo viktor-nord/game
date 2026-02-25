@@ -3,8 +3,8 @@ from character import Character
 import random
 
 class Npc(Character):
-    def __init__(self, game, id, map, pos, type='goblin', movement_pattern=None):
-        super().__init__(game)
+    def __init__(self, id, pos, type='goblin', movement_pattern=None):
+        super().__init__()
         self.starting_position = pos
         self.prev_pos = pos
         self.rect.x = self.size * pos[0]
@@ -12,7 +12,6 @@ class Npc(Character):
         self.type = type
         self.moving_to = None
         self.id = id
-        self.map = map
         self.dir_options = ['up', 'down', 'right', 'left']
         self.movement_pattern = movement_pattern
         self.movement_step_counter = 0
@@ -44,15 +43,14 @@ class Npc(Character):
             arr.append(s)
         return arr
 
-
-    def check_movement(self):
+    def check_movement(self, posible_moves):
         if self.movement_pattern == None:
             return
         if self.movement_pattern == 'random':
             if self.moving_to:
                 self.handle_moving_to()
             else:
-                self.handle_new_movement()
+                self.handle_new_movement(posible_moves)
         else:
             self.handle_fixed_movement()
     
@@ -109,22 +107,22 @@ class Npc(Character):
             x -= 1
         self.moving_to = [x, y]
 
-    def handle_new_movement(self):
+    def handle_new_movement(self, posible_moves):
         is_moving_num = random.randrange(0, 30)
         self.dir = self.generate_dir()
         if is_moving_num > 0 or self.dir == None:
             return
         self.handle_dir()
-        r = self.rect.copy()
-        r.x += self.movement[self.dir][0] * self.speed
-        r.y = self.movement[self.dir][1] * self.speed
-        if self.map.is_colliding(r, self.id):
+        # r = self.rect.copy()
+        # r.x += self.movement[self.dir][0] * self.speed
+        # r.y = self.movement[self.dir][1] * self.speed
+        if posible_moves[self.dir]:
+            self.dir_options = ['up', 'down', 'right', 'left']
+        else:
             self.reset_movement()
             self.dir_options.remove(self.dir)
             self.moving_to = None
-        else:
-            self.dir_options = ['up', 'down', 'right', 'left']
-        
+
     def generate_dir(self):
         if len(self.dir_options):
             return random.choice(self.dir_options)

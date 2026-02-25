@@ -4,7 +4,7 @@
     "abi": [{ "name": "con", "val": 2 }],
     "size": "medium",
     "url": "http://dnd5e.wikidot.com/lineage:dwarf",
-    "speed": 25,
+    "speed": 50,
     "traits": [
       {
         "name": "darkvision",
@@ -34,7 +34,7 @@
     ],
     "size": "medium",
     "url": "http://dnd5e.wikidot.com/lineage:human",
-    "speed": 30,
+    "speed": 60,
     "traits": [],
     "toolProficiency": [],
     "lang": ["common", "choose"]
@@ -44,7 +44,7 @@
     "abi": [{ "name": "dex", "val": 2 }],
     "size": "medium",
     "url": "http://dnd5e.wikidot.com/lineage:elf",
-    "speed": 30,
+    "speed": 60,
     "traits": [
       {
         "name": "darkvision",
@@ -71,7 +71,7 @@
     "abi": [{ "name": "int", "val": 2 }],
     "size": "small",
     "url": "https://dnd5e.wikidot.com/lineage:gnome",
-    "speed": 25,
+    "speed": 50,
     "traits": [
       {
         "name": "darkvision",
@@ -91,7 +91,7 @@
     ],
     "size": "medium",
     "url": "https://dnd5e.wikidot.com/lineage:half-elf",
-    "speed": 35,
+    "speed": 70,
     "traits": [
       {
         "name": "darkvision",
@@ -101,7 +101,6 @@
         "name": "fey ancestry",
         "desc": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
       }
-
     ],
     "toolProficiency": [],
     "lang": []
@@ -114,7 +113,7 @@
     ],
     "size": "medium",
     "url": "https://dnd5e.wikidot.com/lineage:half-orc",
-    "speed": 30,
+    "speed": 60,
     "traits": [
       {
         "name": "darkvision",
@@ -141,7 +140,7 @@
     "abi": [{ "name": "dex", "val": 2 }],
     "size": "medium",
     "url": "",
-    "speed": 25,
+    "speed": 50,
     "traits": [
       {
         "name": "lucky",
@@ -164,7 +163,7 @@
     "abi": [{ "name": "cha", "val": 2 }],
     "size": "medium",
     "url": "",
-    "speed": 30,
+    "speed": 60,
     "traits": [
       {
         "name": "darkvision",
@@ -174,7 +173,6 @@
         "name": "resistance",
         "desc": " You have resistance to fire damage."
       }
-
     ],
     "toolProficiency": [],
     "lang": []
@@ -187,7 +185,7 @@
     ],
     "size": "medium",
     "url": "",
-    "speed": 30,
+    "speed": 60,
     "traits": [
       {
         "name": "bad breath",
@@ -197,7 +195,6 @@
         "name": "resistance",
         "desc": "You have resistance to fire damage."
       }
-
     ],
     "toolProficiency": [],
     "lang": []

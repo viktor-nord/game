@@ -22,8 +22,8 @@ class Main():
         pygame.display.set_caption('Akavir: God of none')
         self.start_screen = StartScreen(self)
         self.character_creation = CharacterCreation(self)
-        self.battle = Battle(self)
-        self.over_world = OverWorld(self)
+        self.battle = Battle()
+        self.over_world = OverWorld()
 
     def run(self):
         while self.running:

@@ -3,8 +3,8 @@ import pygame
 from character import Character
 
 class Player(Character):
-    def __init__(self, game):
-        super().__init__(game)
+    def __init__(self):
+        super().__init__()
         self.rect.x = self.size * 13
         self.rect.y = self.size * 8
         self.speed = 4
