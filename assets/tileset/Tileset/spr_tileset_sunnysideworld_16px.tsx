@@ -1179,7 +1179,7 @@
  </tile>
  <tile id="147">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="7"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value=""/>
    <property name="value" value=""/>
@@ -1203,7 +1203,7 @@
  </tile>
  <tile id="149">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="9"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value=""/>
    <property name="value" value=""/>
@@ -1631,7 +1631,7 @@
  </tile>
  <tile id="202">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="9"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -1639,7 +1639,7 @@
  </tile>
  <tile id="203">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="1"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -1647,7 +1647,7 @@
  </tile>
  <tile id="204">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="7"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -2123,7 +2123,7 @@
  </tile>
  <tile id="262">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="5"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -2131,7 +2131,7 @@
  </tile>
  <tile id="263">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="3"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -2155,7 +2155,7 @@
  </tile>
  <tile id="266">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="1"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -2163,7 +2163,7 @@
  </tile>
  <tile id="267">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="1"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -2171,7 +2171,7 @@
  </tile>
  <tile id="268">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="1"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -2683,7 +2683,7 @@
  </tile>
  <tile id="330">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="9"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -2699,7 +2699,7 @@
  </tile>
  <tile id="332">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="7"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -3207,7 +3207,7 @@
  </tile>
  <tile id="394">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="9"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -3223,7 +3223,7 @@
  </tile>
  <tile id="396">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="7"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -3455,7 +3455,7 @@
  </tile>
  <tile id="418">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="1"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value=""/>
    <property name="value" value=""/>
@@ -6127,7 +6127,7 @@
  </tile>
  <tile id="746">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="10"/>
    <property name="is_overlay" type="int" value="1"/>
    <property name="type" value="stairs"/>
    <property name="value" value=""/>
@@ -6623,7 +6623,7 @@
  </tile>
  <tile id="808">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="10"/>
    <property name="is_overlay" type="int" value="1"/>
    <property name="type" value="floor"/>
    <property name="value" value=""/>
@@ -6639,7 +6639,7 @@
  </tile>
  <tile id="810">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="10"/>
    <property name="is_overlay" type="int" value="1"/>
    <property name="type" value="stairs"/>
    <property name="value" value=""/>
@@ -7151,7 +7151,7 @@
  </tile>
  <tile id="874">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="10"/>
    <property name="is_overlay" type="int" value="1"/>
    <property name="type" value="stairs"/>
    <property name="value" value=""/>
@@ -14605,7 +14605,7 @@
  </tile>
  <tile id="1793">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="7"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value=""/>
    <property name="value" value=""/>
@@ -14613,7 +14613,7 @@
  </tile>
  <tile id="1794">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="8"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value=""/>
    <property name="value" value=""/>
@@ -14621,7 +14621,7 @@
  </tile>
  <tile id="1795">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="9"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value=""/>
    <property name="value" value=""/>
@@ -15117,7 +15117,7 @@
  </tile>
  <tile id="1857">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="6"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value=""/>
    <property name="value" value=""/>
@@ -15133,7 +15133,7 @@
  </tile>
  <tile id="1859">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="2"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value=""/>
    <property name="value" value=""/>
@@ -15189,7 +15189,7 @@
  </tile>
  <tile id="1866">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="7"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -15197,7 +15197,7 @@
  </tile>
  <tile id="1867">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="0"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -15205,7 +15205,7 @@
  </tile>
  <tile id="1868">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="9"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -15629,7 +15629,7 @@
  </tile>
  <tile id="1921">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="5"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -15637,7 +15637,7 @@
  </tile>
  <tile id="1922">
   <properties>
-   <property name="collision" type="int" value="0"/>
+   <property name="collision" type="int" value="4"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value=""/>
    <property name="value" value=""/>
@@ -15645,7 +15645,7 @@
  </tile>
  <tile id="1923">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="3"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -15701,7 +15701,7 @@
  </tile>
  <tile id="1930">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="0"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -15709,7 +15709,7 @@
  </tile>
  <tile id="1931">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="0"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -15717,7 +15717,7 @@
  </tile>
  <tile id="1932">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="0"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -16213,7 +16213,7 @@
  </tile>
  <tile id="1994">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="5"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -16221,7 +16221,7 @@
  </tile>
  <tile id="1995">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="0"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -16229,7 +16229,7 @@
  </tile>
  <tile id="1996">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="3"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -16653,7 +16653,7 @@
  </tile>
  <tile id="2049">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="9"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>
@@ -16669,7 +16669,7 @@
  </tile>
  <tile id="2051">
   <properties>
-   <property name="collision" type="int" value="1"/>
+   <property name="collision" type="int" value="7"/>
    <property name="is_overlay" type="int" value="0"/>
    <property name="type" value="wall"/>
    <property name="value" value=""/>

@@ -6,7 +6,7 @@ class Player(Character):
     def __init__(self, game):
         super().__init__(game)
         self.rect.x = self.size * 13
-        self.rect.y = self.size * 10
+        self.rect.y = self.size * 8
         self.speed = 4
         self.id = 'player'
         self.frames = {

@@ -101,9 +101,11 @@ class Map:
         return not_colliding
 
     def is_colliding(self, rect, id):
-        # print(f"r: {rect} id: {id}")
         collide = False
-        r, b, t, l = rect.right, rect.bottom, rect.top, rect.left
+        r = rect.x + rect.width
+        b = rect.y + rect.height
+        l = rect.x
+        t = rect.y
         br_pos = [r // self.size, b // self.size]
         bl_pos = [l // self.size, b // self.size]
         tr_pos = [r // self.size, t // self.size]
@@ -112,13 +114,19 @@ class Map:
             return True
         for npc_id, npc in self.mobile_collision_grid.items():
             if npc_id != id:
-                if npc[0] == tl_pos[0] and npc[1] == tl_pos[1]:
+                npc_rect = pygame.Rect(
+                    (npc[0] * self.size + 2, npc[1] * self.size + 2), 
+                    (self.size - 4, self.size - 4)
+                )
+                if rect.colliderect(npc_rect):
                     collide = True
         for pos in [br_pos, bl_pos, tr_pos, tl_pos]:
             for layer in self.tiles[pos[1]][pos[0]]["layers"]:
                 if layer.exist == True and layer.collision > 0:
                     x = pos[0] * self.size
                     y = pos[1] * self.size
+                    if layer.collision == 10:
+                        return False
                     collision_box_arr = get_collision_box_arr(x, y, layer.collision)
                     for collision_box in collision_box_arr:
                         if rect.colliderect(collision_box):

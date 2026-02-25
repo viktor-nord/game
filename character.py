@@ -25,6 +25,7 @@ class Character():
             'left': [-1, 0],
             'up': [0, -1],
         }
+        self.is_flipped = False
 
     def get_coordinates(self):
         x = int((self.rect.x + (self.size / 2)) / self.size)
@@ -51,8 +52,10 @@ class Character():
     def update(self):
         if self.moving_right and self.not_colliding('right'):
             self.rect.x += self.speed
+            self.is_flipped = False
         if self.moving_left and self.not_colliding('left'):
             self.rect.x -= self.speed
+            self.is_flipped = True
         if self.moving_down and self.not_colliding('down'):
             self.rect.y += self.speed
         if self.moving_up and self.not_colliding('up'):
@@ -60,15 +63,16 @@ class Character():
         self.coordinates = self.get_coordinates()
 
     def not_colliding(self, dir):
-        not_colliding = True
-        r = self.rect.copy()
+        r = pygame.Rect(
+            (self.rect.x + 4, self.rect.y + 4), 
+            (self.rect.width - 8, self.rect.height - 8)
+        )
         r.x += self.movement[dir][0] * self.speed
         r.y += self.movement[dir][1] * self.speed
-        # r = self.rect.move(movement[dir][0] * self.speed, movement[dir][1] * self.speed)
-        test = self.game.map.is_colliding(r, self.id)
-        if test:
-            not_colliding = False
-        return not_colliding
+        if self.game.map.is_colliding(r, self.id):
+            return False
+        else:
+            return True
 
     def blitme(self, screen):
         offset = self.rect.move(-64, -32)
@@ -80,6 +84,8 @@ class Character():
             self.action = 'idle'
         else:
             self.counter += 1
-
-        screen.blit(self.frames[self.action][self.frame], offset)
-        # pygame.draw.rect(screen, (0,0,0), self.rect)
+        if self.is_flipped:
+            img = pygame.transform.flip(self.frames[self.action][self.frame], True, False)
+            screen.blit(img, offset)
+        else:
+            screen.blit(self.frames[self.action][self.frame], offset)

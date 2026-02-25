@@ -111,9 +111,9 @@ class Npc(Character):
 
     def handle_new_movement(self):
         is_moving_num = random.randrange(0, 30)
-        if is_moving_num > 0:
-            return
         self.dir = self.generate_dir()
+        if is_moving_num > 0 or self.dir == None:
+            return
         self.handle_dir()
         r = self.rect.copy()
         r.x += self.movement[self.dir][0] * self.speed
@@ -126,4 +126,7 @@ class Npc(Character):
             self.dir_options = ['up', 'down', 'right', 'left']
         
     def generate_dir(self):
-        return random.choice(self.dir_options)
+        if len(self.dir_options):
+            return random.choice(self.dir_options)
+        else:
+            return None

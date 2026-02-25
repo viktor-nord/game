@@ -13,7 +13,7 @@ class OverWorld():
         self.game_pause = False
         self.start_battle = False
         self.settings = Settings()
-        self.map = Map("test_collision_map_2")
+        self.map = Map("map_1")
         self.player = Player(self)
         self.npc_1 = Npc(self, 'jon', self.map, (1, 13), movement_pattern='random')
         self.npc_2 = Npc(self, 'bob', self.map, (11, 11), movement_pattern=['right', 'down', 'up', 'left'])
