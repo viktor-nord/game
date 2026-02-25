@@ -62,7 +62,7 @@ class NoTile():
     def __init__(self):
         self.id = -1
         self.collision = 0
-        self.exist = True
+        self.exist = False
 
 class Map:
     def __init__(self, id='map_1'):

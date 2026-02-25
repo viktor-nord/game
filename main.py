@@ -11,9 +11,9 @@ class Main():
     def __init__(self):
         pygame.init()
         self.running = True
-        self.game_pause = True
+        self.game_pause = False
         self.character_creation_active = False
-        self.battle_active = False
+        self.battle_active = True
         self.settings = Settings()
         sw, sh = self.settings.screen_width, self.settings.screen_height
         self.clock = pygame.time.Clock()

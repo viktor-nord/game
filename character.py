@@ -30,7 +30,7 @@ class Character():
     def get_coordinates(self):
         x = int((self.rect.x + (self.size / 2)) / self.size)
         y = int((self.rect.y + (self.size / 2)) / self.size)
-        return (x, y)
+        return [x, y]
 
     def get_img(self, src, scale=2):
         img = pygame.image.load(src).convert_alpha()
