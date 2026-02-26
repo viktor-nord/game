@@ -6,6 +6,7 @@ from settings import Settings
 from npc import Npc
 from battle_map import BattleMap
 from action_wheel import ActionWheel
+from battle_ui import BattleUI
 
 class Battle():
     def __init__(self):
@@ -17,6 +18,7 @@ class Battle():
         self.npc_1 = Npc('jon', (6, 3))
         self.npc_2 = Npc('bob', (24, 3))
         self.npc_3 = Npc('mike', (5, 11))
+        self.ui = BattleUI()
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
         self.player_moves_amount = self.player.data.speed // 10
         for npc in self.npc_group:
@@ -74,6 +76,7 @@ class Battle():
             npc.blitme(screen)
         self.player.blitme(screen)
         self.map.blit_spacing_grid(screen)
+        self.ui.blitme(screen)
         if self.player_moves_amount > 0:
             circle_radius = self.player_moves_amount * self.settings.tile_size + self.player.rect.width // 2
             pygame.draw.circle(screen, (0,0,255), self.player.rect.center, circle_radius, width=2)
