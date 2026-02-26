@@ -21,8 +21,9 @@ class Battle():
             pos = npc.get_coordinates()
             self.map.mobile_collision_grid[npc.id] = pos
         self.available_tiles = [] 
+        self.unavailable_tiles = []
         self.get_available_tiles()
-        self.map.update_grid(self.available_tiles)
+        self.map.update_grid(self.available_tiles, self.unavailable_tiles)
         # self.action_wheel = ActionWheel(self.player.rect)
     
     def get_available_tiles(self):
@@ -35,12 +36,11 @@ class Battle():
             [x, y + 1],
         ]
         for pos in dirs:
-            for layer in range(self.map.layers_amount):
-                tile = self.map.get_tile(pos[0], pos[1], layer)
-                if tile.collision == 0 and tile.id > 0 and [pos[0], pos[1]] not in self.map.mobile_collision_grid.values():
-                # if tile.collision == 0 and tile.id > 0:
-                    self.available_tiles.append([pos[0], pos[1]])
-        print(self.available_tiles)
+            collision = self.map.get_tile_collision(pos[0], pos[1])
+            if collision == None:
+                self.available_tiles.append([pos[0], pos[1]])
+            else:
+                self.unavailable_tiles.append([pos[0], pos[1]])
 
     def update(self):
         self.map.mobile_collision_grid = {}
