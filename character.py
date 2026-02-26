@@ -50,7 +50,8 @@ class Character():
             self.action = action
 
     # def update(self, posible_moves={'right': True, 'left': True, 'down': True, 'up': True}):
-    def update(self, posible_moves):
+    all_moves = {'right': True, 'left': True, 'down': True, 'up': True}
+    def update(self, posible_moves=all_moves):
         if self.moving_right and posible_moves['right']:
             self.rect.x += self.speed
             self.is_flipped = False

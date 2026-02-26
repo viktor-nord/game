@@ -10,6 +10,7 @@ class Player(Character):
         self.rect.y = self.size * pos[1]
         self.speed = 4
         self.id = 'player'
+        self.moving_to = [self.rect.x, self.rect.y]
         self.frames = {
             'idle': self.load_animation('idle'),
             'attack': self.load_animation('attack')

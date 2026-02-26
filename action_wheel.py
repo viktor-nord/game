@@ -4,7 +4,6 @@ from font import PlainText
 class ActionWheel:
     def __init__(self, player_rect):
         self.player_rect = player_rect
-        op_1 = ['action', 'move', ]
         self.options = ['melee', 'spell', 'move', 'items', 'bonus', 'dash', 'talk', 'other']
         self.actions_db = {
             'melee': {'slot': 1, 'icon': 1, 'pos': (28, -66)},
@@ -49,7 +48,7 @@ class ActionWheel:
             val = a.check_click(pos)
             if val:
                 self.action = val
-        print(self.action)
+        return val
 
     def blitme(self, screen):
         screen.blit(self.image, self.rect)

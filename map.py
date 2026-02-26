@@ -48,9 +48,17 @@ class Map:
         if len(self.tiles[y][x]["layers"]) == l + 1:
             val = self.tiles[y][x]["layers"][l]
         return val
-    
+
+    def get_tile_layers(self, x, y):
+        val = []
+        for tile in self.tiles[y][x]["layers"]:
+            val.append(tile)                
+        return val
+
     def get_tile_collision(self, x, y):
         val = None
+        if all(x.id < 0 for x in self.get_tile_layers(x, y)):
+            return 1
         for pos in self.mobile_collision_grid.values():
             if pos[0] == x and pos[1] == y:
                 return 1

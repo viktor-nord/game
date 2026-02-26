@@ -79,9 +79,6 @@ class Main():
                         self.battle_active = True
                         self.over_world.start_battle = False
 
-    def change_state(self, state, value):
-        print(f"{state}: {value}")
-
 
 if __name__ == '__main__':
     game = Main()
