@@ -21,18 +21,22 @@ class Battle():
         self.ui = BattleUI()
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
         self.player_moves_amount = self.player.data.speed // 10
-        for npc in self.npc_group:
-            pos = npc.get_coordinates()
-            self.map.mobile_collision_grid[npc.id] = pos
         self.available_tiles = [] 
         self.unavailable_tiles = []
-        self.get_tile_availability()
-        self.map.update_grid(self.available_tiles, self.unavailable_tiles)
+        self.load_init_data()
         player_rect_copy = self.player.rect.copy()
         player_rect_copy.x = 80
         player_rect_copy.y = 80
-        self.action_wheel = ActionWheel(player_rect_copy)
+        self.action_wheel_target = None
+        self.action_wheel = ActionWheel()
     
+    def load_init_data(self):
+        for npc in self.npc_group:
+            pos = npc.get_coordinates()
+            self.map.mobile_collision_grid[npc.id] = pos
+        self.get_tile_availability()
+        self.map.update_grid(self.available_tiles, self.unavailable_tiles)
+
     def get_tile_availability(self):
         self.available_tiles = []
         self.unavailable_tiles = []
@@ -55,7 +59,8 @@ class Battle():
         if self.walking_animation:
             self.check_walking_animation()
         self.player.update()
-        self.action_wheel.update()
+        if self.action_wheel_target:
+            self.action_wheel.update()
 
     def check_walking_animation(self):
         pos = [
@@ -69,7 +74,6 @@ class Battle():
             self.get_tile_availability()
             self.map.update_grid(self.available_tiles, self.unavailable_tiles)
 
-
     def blitme(self, screen):
         self.map.blit_all_tiles(screen)
         for npc in self.npc_group:
@@ -80,7 +84,8 @@ class Battle():
         if self.player_moves_amount > 0:
             circle_radius = self.player_moves_amount * self.settings.tile_size + self.player.rect.width // 2
             pygame.draw.circle(screen, (0,0,255), self.player.rect.center, circle_radius, width=2)
-        self.action_wheel.blitme(screen)
+        if self.action_wheel_target:
+            self.action_wheel.blitme(screen)
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -130,8 +135,23 @@ class Battle():
             self.player.moving_to = [x, y]
             self.player.handle_movement(key, True)
 
-    def handle_action(self):
-        pass
+    def handle_action(self, action):
+        print(action)
 
     def handle_click(self):
-        action = self.action_wheel.handle_click()
+        pos = pygame.mouse.get_pos()
+        if self.action_wheel_target:
+            action = self.action_wheel.handle_click(pos)
+            if action:
+                self.handle_action(action)
+            else:
+                self.action_wheel_target = None
+        else:
+            if self.player.rect.collidepoint(pos):
+                self.action_wheel.change_target(self.player)
+                self.action_wheel_target = self.player.id
+            else:
+                for npc in self.npc_group:
+                    if npc.rect.collidepoint(pos):
+                        self.action_wheel.change_target(npc)
+                        self.action_wheel_target = npc.id

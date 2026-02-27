@@ -49,6 +49,13 @@ class Character():
             self.frame = 0
             self.action = action
 
+    def get_hitbox(self, padding=8):
+        r = pygame.Rect(
+            (self.rect.x + padding // 2, self.rect.y + padding // 2),
+            (self.rect.width - padding, self.rect.height - padding)
+        )
+        return r
+
     # def update(self, posible_moves={'right': True, 'left': True, 'down': True, 'up': True}):
     all_moves = {'right': True, 'left': True, 'down': True, 'up': True}
     def update(self, posible_moves=all_moves):
