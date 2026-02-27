@@ -24,9 +24,6 @@ class Battle():
         self.available_tiles = [] 
         self.unavailable_tiles = []
         self.load_init_data()
-        player_rect_copy = self.player.rect.copy()
-        player_rect_copy.x = 80
-        player_rect_copy.y = 80
         self.action_wheel_target = None
         self.action_wheel = ActionWheel()
     

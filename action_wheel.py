@@ -6,11 +6,11 @@ class ActionWheel:
         self.target_rect = pygame.Rect((0,0),(0,0))
         self.options = ['melee', 'spell', 'move', 'items', 'bonus', 'dash', 'talk', 'other']
         self.actions_db = {
-            'melee': {'slot': 1, 'icon': 1, 'pos': (28, -66)},
-            'spell': {'slot': 8, 'icon': 2, 'pos': (-28, -66)},
-            'move': {'slot': 2, 'icon': 3, 'pos': (66, -28)},
+            'primary': {'slot': 1, 'icon': 1, 'pos': (28, -66)},
+            'secondary': {'slot': 8, 'icon': 2, 'pos': (-28, -66)},
+            'spell': {'slot': 2, 'icon': 3, 'pos': (66, -28)},
             'items': {'slot': 7, 'icon': 4, 'pos': (-66, -28)},
-            'bonus': {'slot': 3, 'icon': 5, 'pos': (66, 28)},
+            'range': {'slot': 3, 'icon': 5, 'pos': (66, 28)},
             'dash': {'slot': 6, 'icon': 6, 'pos': (-66, 28)},
             'talk': {'slot': 4, 'icon': 7, 'pos': (28, 66)},
             'other': {'slot': 5, 'icon': 8, 'pos': (-28, 66)}
