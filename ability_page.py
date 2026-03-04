@@ -1,6 +1,5 @@
 import pygame
 import pygame.font
-from pathlib import Path
 import json
 
 from page import Page
@@ -42,19 +41,28 @@ class AbilityPage(Page):
             "po": [],
             "primary": ""
         }
-        with open("save/player.json", "r") as db:
-            player = json.load(db)
+        player = self.get_db("save/player.json")
+        # with open("save/player.json", "r") as db:
+        #     player = json.load(db)
         if player["general"]["race"] == "" or player["religion"]["practice"] == "":
             return dic
-        with open("data/rases.json", "r") as races_db:
-            races = json.load(races_db)
-            dic["abi"] = races[player["general"]["race"]]["abi"]
-        with open("data/classes.json", "r") as practice_db:
-            practice = json.load(practice_db)
-            p = practice[player["religion"]["practice"]]
-            dic["pa"] = p["proficiency_choices"]["choose"]
-            dic["po"] = p["proficiency_choices"]["options"]
-            dic["primary"] = p["primary_skill"]
+        races = self.get_db("data/rases.json")
+        dic["abi"] = races[player["general"]["race"]]["abi"]
+        # with open("data/rases.json", "r") as races_db:
+        #     races = json.load(races_db)
+        #     dic["abi"] = races[player["general"]["race"]]["abi"]
+        practice = self.get_db("data/classes.json")
+        p = practice[player["religion"]["practice"]]
+        dic["pa"] = p["proficiency_choices"]["choose"]
+        dic["po"] = p["proficiency_choices"]["options"]
+        dic["primary"] = p["primary_skill"]
+
+        # with open("data/classes.json", "r") as practice_db:
+        #     practice = json.load(practice_db)
+        #     p = practice[player["religion"]["practice"]]
+        #     dic["pa"] = p["proficiency_choices"]["choose"]
+        #     dic["po"] = p["proficiency_choices"]["options"]
+        #     dic["primary"] = p["primary_skill"]
         return dic
 
     def get_disabled_proficiencies(self, acceptable_proficiencies):
@@ -187,10 +195,10 @@ class AbilityBox:
         if self.values[self.value_index] != 0:
             val = str(self.values[self.value_index] + self.bonus)
         self.ability_text = self.big_font.render(val, False, Settings().text_color)
-        self.image.blit(self.button_holer, (self.minus_rect))
-        self.image.blit(self.button_holer, (self.plus_rect))
-        self.image.blit(self.minus_img, (self.minus_img.get_rect(center = self.minus_rect.center)))
-        self.image.blit(self.plus_img, (self.plus_img.get_rect(center = self.plus_rect.center)))
+        self.image.blit(self.button_holer, self.minus_rect)
+        self.image.blit(self.button_holer, self.plus_rect)
+        self.image.blit(self.minus_img, self.minus_img.get_rect(center = self.minus_rect.center))
+        self.image.blit(self.plus_img, self.plus_img.get_rect(center = self.plus_rect.center))
         self.image.blit(self.label, self.label_container)
         self.image.blit(self.holder_image, self.image_holder_container)
         self.image.blit(self.ability_text, self.ability_text.get_rect(center = self.image_holder_container.center))

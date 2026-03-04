@@ -83,20 +83,20 @@ class PlayerData:
     def load(self):
         with open("save/player.json", "r") as db:
             data = json.load(db)
-            self.name = data["general"]["name"]
-            self.age = data["general"]["age"]
-            self.gender = data["general"]["gender"]
-            self.race = data["general"]["race"]
-            self.size = data["general"]["size"]
-            self.speed = data["general"]["speed"]
-            self.traits = data["general"]["traits"]
-            self.level = data["general"]["level"]
-            self.practice = data["religion"]["practice"]
-            self.faith = data["religion"]["faith"]
-            self.hit_die = data["religion"]["hit_die"]
-            self.proficiencies = data["proficiencies"]
-            self.miracles = data["miracles"]
-            self.stats = PlayerStats(data["stats"])
+        self.name = data["general"]["name"]
+        self.age = data["general"]["age"]
+        self.gender = data["general"]["gender"]
+        self.race = data["general"]["race"]
+        self.size = data["general"]["size"]
+        self.speed = data["general"]["speed"]
+        self.traits = data["general"]["traits"]
+        self.level = data["general"]["level"]
+        self.practice = data["religion"]["practice"]
+        self.faith = data["religion"]["faith"]
+        self.hit_die = data["religion"]["hit_die"]
+        self.proficiencies = data["proficiencies"]
+        self.miracles = data["miracles"]
+        self.stats = PlayerStats(data["stats"])
 
 class PlayerStats:
     def __init__(self, stats):

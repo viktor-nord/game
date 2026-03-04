@@ -1,10 +1,7 @@
 import pygame
-from pathlib import Path
-import json
 
 from page import Page
-from font import Title, SmallTitle, Text, LongText
-from text_box import TextBox
+from font import Title, Text, LongText
 from input import Input
 from button import CheckBoxList
 

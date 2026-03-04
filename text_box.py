@@ -1,7 +1,5 @@
-from email.mime import image
-from turtle import width
 import pygame as py
-from font import Text, LongText
+from font import LongText
 
 class TextBox:
     def __init__(self, text, parent, title=""):

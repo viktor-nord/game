@@ -1,6 +1,4 @@
 import pygame
-from pathlib import Path
-import json
 
 from page import Page
 from font import Title, SmallTitle, Text, get_text_height
@@ -11,7 +9,7 @@ from scroll_bar import ScrollBar
 class ReligionPage(Page):
     def __init__(self, game):
         super().__init__(game)
-        self.db_classes = super().get_db("data/classes.json")
+        self.db_classes = self.get_db("data/classes.json")
         margin = 8
         self.init_class = self.db_classes["guru"]
         self.current_class = self.db_classes["guru"]
@@ -49,7 +47,7 @@ class ReligionPage(Page):
         # self.render_text()
 
     def reset(self):
-        player = super().get_db(self.player_url)
+        player = self.get_db(self.player_url)
         if player["religion"]["practice"]:
             self.current_class = self.db_classes[player["religion"]["practice"]]
             self.render_text()

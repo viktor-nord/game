@@ -1,9 +1,7 @@
 import pygame
-from pathlib import Path
-import json
 
 from page import Page
-from font import PlainText, Title
+from font import Title
 from button import Button
 
 class SubmitPage(Page):
