@@ -11,7 +11,55 @@ class BattleUI():
         self.current_character_id = 'player'
         self.render_characters_display()
         self.render_current_character()
+        action = 1
+        bonus_action = 0
+        speed = 10
+        self.render_action_pannel(action, bonus_action, speed)
         # self.action_pannel = pygame.Surface(())
+
+    def get_scaled_img(self, path, scale=2):
+        img = pygame.image.load(path).convert_alpha()
+        return pygame.transform.scale(img, (img.get_width() * scale, img.get_height() * scale))
+
+    def render_action_pannel(self, action, bonus, speed):
+        url = 'assets/ui_sprites/Sprites/Content/'
+        start = self.get_scaled_img(url + '5 Holders/26.png')
+        middle = self.get_scaled_img(url + '5 Holders/27.png')
+        end = self.get_scaled_img(url + '5 Holders/28.png')
+        font = pygame.font.Font('freesansbold.ttf', 18)
+        action_url = '2 Icons/green-box.png' if action > 0 else '2 Icons/red-box.png'
+        action_img = pygame.image.load(url + action_url).convert_alpha()
+        bonus_url = '2 Icons/green-triangle.png' if bonus > 0 else '2 Icons/red-triangle.png'
+        bonus_img = pygame.image.load(url + bonus_url).convert_alpha()
+        speed_url = '2 Icons/green-circle.png' if speed > 0 else '2 Icons/red-circle.png'
+        speed_img = pygame.image.load(url + speed_url).convert_alpha()
+        action_text = font.render(str(action), True, (0,0,0))
+        bonus_action_text = font.render(str(bonus), True, (0,0,0))
+        speed_text = font.render(str(speed), True, (0,0,0))
+        margin = 4
+        width = action_img.get_width() * 3 + margin * 5 + action_text.get_width() + bonus_action_text.get_width() + speed_text.get_width()
+        self.action_pannel = pygame.Surface((start.get_width() + width + end.get_width(), start.get_height()), pygame.SRCALPHA).convert_alpha()
+        self.action_pannel_rect = self.action_pannel.get_rect(centerx = self.settings.screen_width / 2, bottom = self.settings.screen_height)
+        self.action_pannel.blit(start, (0,0))
+        while_x = start.get_width()
+        while while_x < width:
+            self.action_pannel.blit(middle, (while_x,0))
+            while_x += middle.get_width()
+        self.action_pannel.blit(middle, middle.get_rect(right = self.action_pannel_rect.width - end.get_width()))
+        self.action_pannel.blit(end, end.get_rect(right = self.action_pannel_rect.width))
+        x = start.get_width()
+        centery = self.action_pannel_rect.height / 2
+        self.action_pannel.blit(action_img, action_img.get_rect(x = x, centery = centery))
+        x += action_img.get_width() + margin
+        self.action_pannel.blit(action_text, action_text.get_rect(x = x, centery = centery))
+        x += action_text.get_width() + margin
+        self.action_pannel.blit(bonus_img, bonus_img.get_rect(x = x, centery = centery))
+        x += bonus_img.get_width() + margin
+        self.action_pannel.blit(bonus_action_text, bonus_action_text.get_rect(x = x, centery = centery))
+        x += bonus_action_text.get_width() + margin
+        self.action_pannel.blit(speed_img, speed_img.get_rect(x = x, centery = centery))
+        x += speed_img.get_width() + margin
+        self.action_pannel.blit(speed_text, speed_text.get_rect(x = x, centery = centery))
 
     def render_characters_display(self):
         index = 0
@@ -48,6 +96,7 @@ class BattleUI():
     def blitme(self, screen):
         screen.blit(self.characters_display, self.characters_display_rect)
         screen.blit(self.character_display, self.character_display_rect)
+        screen.blit(self.action_pannel, self.action_pannel_rect)
 
     def handle_action(self):
         pass
@@ -57,14 +106,7 @@ class BattleUI():
 
 class CharacterCard:
     def __init__(self, id, index, is_active=False):
-        images = [
-            "assets/ui_sprites/character/Frame 19.png",
-            "assets/ui_sprites/character/Frame 20.png",
-            "assets/ui_sprites/character/Frame 21.png",
-            "assets/ui_sprites/character/Frame 22.png",
-            "assets/ui_sprites/character/Frame 23.png",
-            "assets/ui_sprites/character/Frame 24.png",
-        ]
+        images = ["Frame 19.png", "Frame 20.png", "Frame 21.png", "Frame 22.png", "Frame 23.png", "Frame 24.png", "Frame 25.png", "Frame 26.png"]
         self.id = id
         self.index = index
         self.is_active = is_active
@@ -78,7 +120,7 @@ class CharacterCard:
             self.image.blit(self.active_bg, (0,0))
         else:
             self.image.blit(self.bg, (0,0))
-        portret = pygame.image.load(images[index]).convert_alpha()
+        portret = pygame.image.load('assets/ui_sprites/character/' + images[index]).convert_alpha()
         self.portret = pygame.transform.scale(portret, (64,64))
         self.portret_rect = self.portret.get_rect(center = self.rect.center)
         self.image.blit(self.portret, self.portret_rect)

@@ -8,7 +8,8 @@ class Settings():
         self.screen_width = self.x_tiles * self.tile_size # 1024
         self.screen_height = self.y_tiles * self.tile_size # 512
         self.text_color = (13, 141, 103)
-        self.color_active = (110, 197, 49)
+        self.color_active = (110, 197, 49) # hex 6ec531
+        self.color_red = (201, 37, 25) # hex C92519
         self.color_silver = (217, 218, 219)
         self.special_keys = special_keys
         self.letter_keys = letter_keys

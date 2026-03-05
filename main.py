@@ -11,9 +11,9 @@ class Main():
     def __init__(self):
         pygame.init()
         self.running = True
-        self.game_pause = True
+        self.game_pause = False
         self.character_creation_active = False
-        self.battle_active = False
+        self.battle_active = True
         self.settings = Settings()
         sw, sh = self.settings.screen_width, self.settings.screen_height
         self.clock = pygame.time.Clock()
@@ -56,12 +56,11 @@ class Main():
         pygame.display.flip()
 
     def check_event(self):
-        # pygame.event.set_blocked(pygame.MOUSEWHEEL)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_q:
-                sys.exit()
+            # elif event.type == pygame.KEYDOWN and event.key == pygame.K_q:
+            #     sys.exit()
             elif  event.type == pygame.KEYDOWN and event.key == pygame.K_p:
                 self.game_pause = True                
 
