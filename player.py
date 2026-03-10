@@ -5,11 +5,11 @@ from character import Character
 
 class Player(Character):
     def __init__(self, pos=[13, 8]):
+        self.id = 'player'
         super().__init__()
         self.rect.x = self.size * pos[0]
         self.rect.y = self.size * pos[1]
         self.speed = 4
-        self.id = 'player'
         self.moving_to = [self.rect.x, self.rect.y]
         self.frames = {
             'idle': self.load_animation('idle'),
@@ -19,6 +19,9 @@ class Player(Character):
         self.max_hp = self.data.max_hp
         self.hp = self.data.max_hp
         self.steps_amount = self.data.speed // 10
+        self.max_steps_amount = self.data.speed // 10
+        self.is_party_member = True
+        self.is_player = True
 
     def load_animation(self, type):
         arr = []

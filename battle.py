@@ -14,28 +14,23 @@ class Battle():
     def __init__(self):
         self.game_pause = False
         self.walking_animation = False
+        self.allow_events = True
         self.turn_order = []
-        self.current_active_character_id = 'player'
+        self.current_id = 'player'
         self.settings = Settings()
         self.map = BattleMap()
         self.player = Player([5, 10])
-        self.npc_1 = Npc('jon', (6, 3))
-        self.npc_2 = Npc('bob', (24, 3), type='skeleton')
-        self.npc_3 = Npc('mike', (20, 11))
-        self.ally_1 = Ally(id='buddy', pos=(6, 11))
-        # self.get_ui()
-        self.ui = BattleUI({
+        self.battle_object = {
             f"{self.player.id}": self.player, 
-            f"{self.npc_1.id}": self.npc_1, 
-            f"{self.npc_2.id}": self.npc_2, 
-            f"{self.npc_3.id}": self.npc_3, 
-            f"{self.ally_1.id}": self.ally_1 
-        })
-        self.npc_group = [self.npc_1, self.npc_2, self.npc_3, self.ally_1]
-        self.player_moves_amount = self.player.data.speed // 10
+            "buddy": Ally(id='buddy', pos=(6, 11)),
+            "jon": Npc('jon', (6, 3)), 
+            "bob": Npc('bob', (24, 3), type='skeleton'), 
+            "mike": Npc('mike', (5, 11)), 
+        }
+        self.ui = BattleUI(self.battle_object)
         self.available_tiles = [] 
         self.unavailable_tiles = []
-        self.load_init_data()
+        self.load_grid_data()
         self.action_wheel_target = None
         self.action_wheel = ActionWheel()
         self.init_battle() # call from parent instead
@@ -43,88 +38,82 @@ class Battle():
     def get_ui(self):
         dic = {}
         for id in self.turn_order:
-            if id == self.player.id:
-                dic[f"{id}"] = self.player
-            elif id == self.npc_1.id:
-                dic[f"{id}"] = self.npc_1
-            elif id == self.npc_2.id:
-                dic[f"{id}"] = self.npc_2
-            elif id == self.npc_3.id:
-                dic[f"{id}"] = self.npc_3
-            elif id == self.ally_1.id:
-                dic[f"{id}"] = self.ally_1
-        self.ui = BattleUI(dic)
+            dic[f"{id}"] = self.battle_object[f"{id}"]
+        self.ui = BattleUI(dic, self.current_id)
 
     def init_battle(self):
         self.roll_inisiative()
         self.get_ui()
 
-    def load_init_data(self):
-        for npc in self.npc_group:
-            pos = npc.get_coordinates()
-            self.map.mobile_collision_grid[npc.id] = pos
+    def load_grid_data(self):
+        for key, val in self.battle_object.items():
+            pos = val.get_coordinates()
+            self.map.mobile_collision_grid[key] = pos
         self.get_tile_availability()
         self.map.update_grid(self.available_tiles, self.unavailable_tiles)
 
     def roll_inisiative(self):
-        arr = [self.player.id, self.npc_1.id, self.npc_2.id, self.npc_3.id, self.ally_1.id]
-        dic = {}
-        for char in arr:
-            dic[char] = randrange(1,21)
-        self.turn_order = [k for k, v in sorted(dic.items(), key=lambda item: item[1])]
+        for id in self.battle_object.keys():
+            self.turn_order.append(id)
+        # dic = {}
+        # for id in self.battle_object.keys():
+        #     dic[id] = randrange(1,21)
+        # self.turn_order = [k for k, v in sorted(dic.items(), key=lambda item: item[1])]
+        self.current_id = self.turn_order[0]
 
     def get_tile_availability(self):
         self.available_tiles = []
         self.unavailable_tiles = []
-        x = self.player.rect.x // self.settings.tile_size
-        y = self.player.rect.y // self.settings.tile_size
+        x = self.battle_object[self.current_id].rect.x // self.settings.tile_size
+        y = self.battle_object[self.current_id].rect.y // self.settings.tile_size
         dirs = [
             [x - 1, y],
             [x + 1, y],
             [x, y - 1],
             [x, y + 1],
         ]
-        if self.player_moves_amount:
+        if self.battle_object[self.current_id].steps_amount:
             for pos in dirs:
-                collision = self.map.get_tile_collision(pos[0], pos[1])
+                collision = self.map.get_tile_collision(self.current_id, pos[0], pos[1])
                 if collision == None:
                     self.available_tiles.append([pos[0], pos[1]])
                 else:
                     self.unavailable_tiles.append([pos[0], pos[1]])
 
+    def handle_turn(self):
+        c = self.battle_object[self.current_id]
+        if c.is_party_member:
+            self.allow_events = True
+        else:
+            if c.steps_amount < 1:
+                self.end_turn()
+            else:
+                self.battle_object[self.current_id].battle_ai()
+                self.walking_animation = True
+
     def update(self):
         if self.walking_animation:
             self.check_walking_animation()
-        self.player.update()
+        else:
+            self.handle_turn()
+        for char in self.battle_object.values():
+            char.update()
+        # self.battle_object[self.current_id].update()
         if self.action_wheel_target:
             self.action_wheel.update()
 
     def check_walking_animation(self):
+        c = self.battle_object[self.current_id]
         pos = [
-            self.player.rect.x / self.settings.tile_size, 
-            self.player.rect.y / self.settings.tile_size
+            c.rect.x / self.settings.tile_size,
+            c.rect.y / self.settings.tile_size
         ]
-        if pos[0] == float(self.player.moving_to[0]) and pos[1] == float(self.player.moving_to[1]):
-            self.player.reset_movement()
-            self.player_moves_amount -= 1
-            self.player.steps_amount -= 1
+        if pos[0] == float(c.moving_to[0]) and pos[1] == float(c.moving_to[1]):
+            self.battle_object[self.current_id].reset_movement()
+            self.battle_object[self.current_id].steps_amount -= 1
             self.get_ui()
             self.walking_animation = False
-            self.get_tile_availability()
-            self.map.update_grid(self.available_tiles, self.unavailable_tiles)
-
-    def blitme(self, screen):
-        self.map.blit_all_tiles(screen)
-        for npc in self.npc_group:
-            npc.blitme(screen)
-        self.player.blitme(screen)
-        self.map.blit_spacing_grid(screen)
-        self.ui.blitme(screen)
-        if self.player_moves_amount > 0:
-            circle_radius = self.player_moves_amount * self.settings.tile_size + self.player.rect.width // 2
-            pygame.draw.circle(screen, (0,0,255), self.player.rect.center, circle_radius, width=2)
-        if self.action_wheel_target:
-            self.action_wheel.blitme(screen)
+            self.load_grid_data()
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -142,18 +131,20 @@ class Battle():
         if key == pygame.K_SPACE:
             if is_down:
                 self.handle_action()
-        elif key == pygame.K_p:
+        elif key == pygame.K_p and is_down:
             self.game_pause = True
-        elif key == pygame.K_q:
+        elif key == pygame.K_q and is_down:
             self.end_turn()
         elif key == pygame.K_RIGHT or key == pygame.K_LEFT or key == pygame.K_UP or key == pygame.K_DOWN:
             self.handle_movement(key, is_down)
 
     def handle_movement(self, key, is_down):
-        if is_down or self.player_moves_amount < 1:
+        # self.load_grid_data()
+        c = self.battle_object[self.current_id]
+        if is_down or c.steps_amount < 1:
             return
-        x = self.player.rect.x // self.settings.tile_size
-        y = self.player.rect.y // self.settings.tile_size
+        x = c.rect.x // self.settings.tile_size
+        y = c.rect.y // self.settings.tile_size
         is_moving = False
         if key == pygame.K_RIGHT:
             if [x + 1, y] in self.available_tiles:
@@ -173,33 +164,57 @@ class Battle():
                 is_moving = True
         if self.walking_animation == False and is_moving:
             self.walking_animation = True
-            self.player.moving_to = [x, y]
-            self.player.handle_movement(key, True)
+            self.battle_object[self.current_id].moving_to = [x, y]
+            self.battle_object[self.current_id].handle_movement(key, True)
 
     def handle_action(self):
         pass
 
     def melee_attack(self, id):
-        self.current_active_character_id # person attacking
-        for npc in self.npc_group:
-            if npc.id == id:
-                npc.take_damage(1, 'bludgeoning')
+        self.current_id # person attacking
+        for key, val in self.battle_object.items():
+            if key == id:
+                val.take_damage(1, 'bludgeoning')
+                print(f"{self.current_id} is attacking {key}")
 
     def handle_action_wheel(self, action_obj):
         if action_obj['val'] == 'primary':
-            self.melee_attack(action_obj['id'])
-            self.player.actions_amount -= 1
-            self.get_ui()
-            if self.player.actions_amount < 1 and self.player.bonus_action_amount < 1 and self.player.steps_amount < 1:
-                self.end_turn()
+            if self.battle_object[self.current_id].actions_amount < 1:
+                print('You have already used your action')
+                return
+            if self.check_if_next_to():
+                self.melee_attack(action_obj['id'])
+                self.battle_object[self.current_id].actions_amount -= 1
+                self.get_ui()
+            else:
+                print("you are to far away")
+
+    def check_if_next_to(self):
+        pos = self.battle_object[self.current_id].get_coordinates()
+        dirs = [
+            [pos[0] - 1, pos[1]],
+            [pos[0] + 1, pos[1]],
+            [pos[0], pos[1] - 1],
+            [pos[0], pos[1] + 1],
+        ]
+        for dir in dirs:
+            for char in self.map.mobile_collision_grid.values():
+                if char[0] == dir[0] and char[1] == dir[1]:
+                    return True
+        return False
 
     def end_turn(self):
+        print('end turn')
+        self.load_grid_data()
+        self.battle_object[self.current_id].reset_battle_stats()
         for i, x in enumerate(self.turn_order):
-            if x == self.current_active_character_id:
+            if x == self.current_id:
                 if i == len(self.turn_order) - 1:
-                    self.current_active_character_id = self.turn_order[0]
+                    self.current_id = self.turn_order[0]
                 else:
-                    self.current_active_character_id = self.turn_order[i + 1]
+                    self.current_id = self.turn_order[i + 1]
+                break
+        self.get_ui()
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
@@ -212,11 +227,25 @@ class Battle():
             else:
                 self.action_wheel_target = None
         else:
-            if self.player.rect.collidepoint(pos):
-                self.action_wheel.change_target(self.player)
-                self.action_wheel_target = self.player.id
-            else:
-                for npc in self.npc_group:
-                    if npc.rect.collidepoint(pos):
-                        self.action_wheel.change_target(npc)
-                        self.action_wheel_target = npc.id
+            # if self.player.rect.collidepoint(pos):
+            #     self.action_wheel.change_target(self.player)
+            #     self.action_wheel_target = self.player.id
+            # else:
+            for key, val in self.battle_object.items():
+                if val.rect.collidepoint(pos) and key != self.current_id:
+                    self.action_wheel.change_target(val)
+                    self.action_wheel_target = key
+
+    def blitme(self, screen):
+        c = self.battle_object[self.current_id]
+        self.map.blit_all_tiles(screen)
+        for key, val in self.battle_object.items():
+            val.blitme(screen)
+        if c.is_party_member:
+            self.map.blit_spacing_grid(screen)
+        self.ui.blitme(screen)
+        if c.is_party_member and c.steps_amount > 0:
+            circle_radius = c.steps_amount * self.settings.tile_size + c.rect.width // 2
+            pygame.draw.circle(screen, (0,0,255), c.rect.center, circle_radius, width=2)
+        if self.action_wheel_target:
+            self.action_wheel.blitme(screen)

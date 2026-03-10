@@ -56,6 +56,7 @@ class ActionWheel:
             val['val'] = a.check_click(pos)
             if val['val']:
                 self.action = val['val']
+                return val
         return val
 
     def blitme(self, screen):

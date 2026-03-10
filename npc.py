@@ -4,6 +4,7 @@ import random
 
 class Npc(Character):
     def __init__(self, id, pos, type='goblin', is_ally=False, movement_pattern=None):
+        self.id = id
         super().__init__()
         self.starting_position = pos
         self.prev_pos = pos
@@ -12,7 +13,6 @@ class Npc(Character):
         self.type = type
         self.moving_to = None
         self.is_ally = is_ally
-        self.id = id
         self.dir_options = ['up', 'down', 'right', 'left']
         self.movement_pattern = movement_pattern
         self.movement_step_counter = 0
@@ -48,6 +48,17 @@ class Npc(Character):
             s.blit(img, (x, y))
             arr.append(s)
         return arr
+
+    def battle_ai(self):
+        if self.rect.y > self.settings.screen_height // 2:
+            self.dir = 'up'
+        elif self.rect.y < self.settings.screen_height // 2:
+            self.dir = 'down'
+        elif self.rect.x > self.settings.screen_width // 2:
+            self.dir = 'left'
+        elif self.rect.x < self.settings.screen_width // 2:
+            self.dir = 'right'
+        self.handle_dir()
 
     def check_movement(self, posible_moves):
         if self.movement_pattern == None:

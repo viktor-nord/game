@@ -1,22 +1,30 @@
 import pygame
 from settings import Settings
+from font import PlainText
 
 class Character():
     def __init__(self):
-        self.size = Settings().tile_size
+        self.settings = Settings()
+        self.size = self.settings.tile_size
         self.image = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
         self.frames = {}
         self.counter = 0
         self.frame = 0
+        self.is_party_member = False
+        self.is_player = False
         self.rect = pygame.Rect((0,0), (self.size, self.size))
         self.moving_right = False
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+        self.moving_to = None
         self.max_hp = 10
         self.hp = 10
         self.dir = ''
         self.speed = 1
+        self.max_actions_amount = 1
+        self.max_bonus_action_amount = 0
+        self.max_steps_amount = 30 // 10
         self.actions_amount = 1
         self.bonus_action_amount = 0
         self.steps_amount = 30 // 10 # change 30 to monster speed
@@ -31,6 +39,16 @@ class Character():
             'up': [0, -1],
         }
         self.is_flipped = False
+        self.animation_avtive = False
+        self.name_tag = PlainText(f"{self.id}")
+
+    def reset_battle_stats(self):
+        self.actions_amount = self.max_actions_amount
+        self.bonus_action_amount = self.max_bonus_action_amount
+        self.steps_amount = self.max_steps_amount
+        self.reset_movement()
+        self.moving_to = None
+        self.dir = ''
 
     def get_coordinates(self):
         x = int((self.rect.x + (self.size / 2)) / self.size)
@@ -97,3 +115,4 @@ class Character():
             screen.blit(img, offset)
         else:
             screen.blit(self.frames[self.action][self.frame], offset)
+        screen.blit(self.name_tag.text, self.name_tag.text.get_rect(x=self.rect.x, y = self.rect.y - self.name_tag.text.get_height()))
