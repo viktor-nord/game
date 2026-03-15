@@ -90,9 +90,10 @@ class SmallTitle(Text):
         self.image.blit(self.under_line_img, self.under_line_img_rect)
 
 class LongText(Text):
-    def __init__(self, text, parent, animated=False, size=18):
-        super().__init__(text, parent, size, has_underline=True, centered=False)
+    def __init__(self, text, parent, animated=False, size=18, has_underline=True):
+        super().__init__(text, parent, size, has_underline=has_underline, centered=False)
         self.text_string = text
+        self.has_underline = has_underline
         self.animated = animated
         self.width = parent.width
         self.text_list = self.get_text_list()
@@ -110,7 +111,6 @@ class LongText(Text):
     #             [self.text_string[self.counter]], True, self.text_color
     #         )
 
-
     def render_text(self):
         x = 0
         under_line_x = 0
@@ -119,10 +119,11 @@ class LongText(Text):
             for word in line:
                 self.image.blit(word, (x, line_index * self.size))
                 x += word.get_width()
-            while under_line_x < self.width - 32:
-                self.image.blit(self.under_line_img, (under_line_x, (line_index + 1) * self.size - 2))
-                under_line_x += self.under_line_img.get_width() - 5
-            self.image.blit(self.under_line_img, (self.width - self.under_line_img.get_width(), (line_index + 1) * self.size - 2))
+            if self.has_underline:
+                while under_line_x < self.width - 32:
+                    self.image.blit(self.under_line_img, (under_line_x, (line_index + 1) * self.size - 2))
+                    under_line_x += self.under_line_img.get_width() - 5
+                self.image.blit(self.under_line_img, (self.width - self.under_line_img.get_width(), (line_index + 1) * self.size - 2))
             x = 0
             under_line_x = 0
 

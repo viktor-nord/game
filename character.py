@@ -1,26 +1,69 @@
 import pygame
+from settings import Settings
+from font import PlainText
 
 class Character():
-    def __init__(self, game):
-        self.game = game
-        self.size = game.settings.tile_size
-        img = pygame.image.load('assets/rogue.png')
-        self.image = pygame.transform.scale(img, (self.size, self.size))
-        self.rect = self.image.get_rect()
+    def __init__(self):
+        self.settings = Settings()
+        self.size = self.settings.tile_size
+        self.image = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
+        self.frames = {}
+        self.counter = 0
+        self.frame = 0
+        self.is_party_member = False
+        self.is_player = False
+        self.rect = pygame.Rect((0,0), (self.size, self.size))
         self.moving_right = False
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+        self.moving_to = None
+        self.max_hp = 10
+        self.hp = 10
         self.dir = ''
-        self.speed = 1
+        self.speed = 2
+        self.max_actions_amount = 1
+        self.max_bonus_action_amount = 0
+        self.max_steps_amount = 30 // 10
+        self.actions_amount = 1
+        self.bonus_action_amount = 0
+        self.steps_amount = 30 // 10 # change 30 to monster speed
         self.inventory = []
         self.collision = True
         self.coordinates = self.get_coordinates()
+        self.action = 'idle'
+        self.movement = {
+            'right': [1, 0],
+            'down': [0, 1],
+            'left': [-1, 0],
+            'up': [0, -1],
+        }
+        self.is_flipped = False
+        self.animation_avtive = False
+        self.name_tag = PlainText(f"{self.id}")
+
+    def reset_battle_stats(self):
+        self.actions_amount = self.max_actions_amount
+        self.bonus_action_amount = self.max_bonus_action_amount
+        self.steps_amount = self.max_steps_amount
+        self.reset_movement()
+        self.moving_to = None
+        self.dir = ''
 
     def get_coordinates(self):
         x = int((self.rect.x + (self.size / 2)) / self.size)
         y = int((self.rect.y + (self.size / 2)) / self.size)
-        return (x, y)
+        return [x, y]
+
+    def get_img(self, src, scale=2):
+        img = pygame.image.load(src).convert_alpha()
+        img_scaled = pygame.transform.scale(img, (img.get_width() * scale, img.get_height() * scale))
+        return img_scaled
+
+    def take_damage(self, damage=1, type='bludgeoning'):
+        self.hp -= damage
+        if self.hp < 0:
+            self.hp = 0
 
     def reset_movement(self):
         self.moving_right = False
@@ -28,42 +71,50 @@ class Character():
         self.moving_up = False
         self.moving_down = False
 
-    def update(self):
-        if self.moving_right and self.not_colliding('right'):
+    def change_action(self, action):
+        if self.action != action:
+            self.counter = 0
+            self.frame = 0
+            self.action = action
+
+    def get_hitbox(self, padding=8):
+        r = pygame.Rect(
+            (self.rect.x + padding // 2, self.rect.y + padding // 2),
+            (self.rect.width - padding, self.rect.height - padding)
+        )
+        return r
+
+    # def update(self, posible_moves={'right': True, 'left': True, 'down': True, 'up': True}):
+    all_moves = {'right': True, 'left': True, 'down': True, 'up': True}
+    def update(self, posible_moves=all_moves):
+        if self.moving_right and posible_moves['right']:
             self.rect.x += self.speed
-        if self.moving_left and self.not_colliding('left'):
+            self.is_flipped = False
+        if self.moving_left and posible_moves['left']:
             self.rect.x -= self.speed
-        if self.moving_down and self.not_colliding('down'):
+            self.is_flipped = True
+        if self.moving_down and posible_moves['down']:
             self.rect.y += self.speed
-        if self.moving_up and self.not_colliding('up'):
+        if self.moving_up and posible_moves['up']:
             self.rect.y -= self.speed
         self.coordinates = self.get_coordinates()
 
-    def not_colliding(self, dir):
-        size = self.size
-        not_colliding = True
-        x = self.rect.x + (size // 2)
-        y = self.rect.y + (size // 2)
-        extra = 10
-        pos_x_1 = (x - extra) // size
-        pos_x_2 = (x + extra) // size
-        pos_y_1 = (y - extra) // size
-        pos_y_2 = (y + extra) // size
-        if dir == 'right':
-            pos_x_1 = (x + extra + self.speed) // size
-            pos_x_2 = (x + extra + self.speed) // size
-        if dir == 'left':
-            pos_x_1 = (x - extra - self.speed) // size
-            pos_x_2 = (x - extra - self.speed) // size
-        if dir == 'down':
-            pos_y_1 = (y + extra + self.speed) // size
-            pos_y_2 = (y + extra + self.speed) // size
-        if dir == 'up':
-            pos_y_1 = (y - extra - self.speed) // size
-            pos_y_2 = (y - extra - self.speed) // size
-        col_1 = self.game.map.is_colliding((pos_x_1, pos_y_1), self.id)
-        col_2 = self.game.map.is_colliding((pos_x_2, pos_y_2), self.id)
-        if col_1 or col_2:
-            not_colliding = False
-        return not_colliding
+    def handle_animation_counter(self):
+        delay = 3
+        self.frame = self.counter // delay
+        if (self.counter + 1) // delay > len(self.frames[self.action]) - 1:
+            self.counter = 0
+            self.frame = 0
+            self.action = 'idle'
+        else:
+            self.counter += 1
 
+    def blitme(self, screen):
+        offset = self.rect.move(-64, -32)
+        self.handle_animation_counter()
+        if self.is_flipped:
+            img = pygame.transform.flip(self.frames[self.action][self.frame], True, False)
+            screen.blit(img, offset)
+        else:
+            screen.blit(self.frames[self.action][self.frame], offset)
+        screen.blit(self.name_tag.text, self.name_tag.text.get_rect(x=self.rect.x, y = self.rect.y - self.name_tag.text.get_height()))

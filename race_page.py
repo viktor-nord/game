@@ -1,6 +1,4 @@
 import pygame
-from pathlib import Path
-import json
 
 from page import Page
 from font import Title, Text, get_text_height
@@ -119,4 +117,4 @@ class RacePage(Page):
         try:
             screen.blit(self.abi_text_2.image, self.abi_container_2)
         except AttributeError:
-            do_nothing = True
+            pass

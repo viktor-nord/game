@@ -25,8 +25,8 @@ class StartScreen:
         )
         self.fade.fill((0, 0, 0))
         self.fade.set_alpha(160)
-        self.game.animations.add(self.animation)
-        
+        self.animations = pygame.sprite.Group()
+        self.animations.add(self.animation)
 
     def generate_buttons(self):
         texts = ['New Game', 'Load Game', 'Options']
@@ -39,9 +39,14 @@ class StartScreen:
             box.y += 70
         return buttons
 
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.handle_click()
+
     def update(self):
         for btn in self.buttons:
             btn.update()
+        self.animations.update()
     
     def handle_click(self):
         for btn in self.buttons:

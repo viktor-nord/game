@@ -9,6 +9,7 @@ class Animation(Sprite):
     def __init__(self, game, path, pos):
         super().__init__()
         self.path = path
+        self.test = pygame.image.load('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Folding & Cutout/2 Headers/2.png').convert_alpha()
         self.arr = self.get_img_arr(path)
         self.rect = self.arr[0].get_rect()
         self.lenght = len(self.arr)
@@ -36,7 +37,9 @@ class Animation(Sprite):
                 arr.append(img)
                 index += 1
         arr.reverse()
+        arr.append(self.test)
         return arr
 
     def blitme(self, screen):
-        screen.blit(self.arr[self.counter // 2], self.rect)
+        screen.blit(self.arr[self.counter // 2], self.arr[self.counter // 2].get_rect(center = self.rect.center))
+        # screen.blit(self.arr[self.counter // 2], self.rect)

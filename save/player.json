@@ -1,11 +1,11 @@
 {
     "general": {
-        "name": "wfwef",
-        "age": "333",
-        "gender": "male",
-        "race": "elf",
+        "name": "",
+        "age": 0,
+        "gender": "",
+        "race": "dwarf",
         "size": "medium",
-        "speed": 30,
+        "speed": 50,
         "traits": [
             "darkvision",
             "fay-ancestry",
@@ -34,5 +34,8 @@
         "charisma_modifier": -5
     },
     "proficiencies": [],
-    "miracles": []
+    "miracles": {
+        "cantrips": [0, 2, 8, 9],
+        "lv1": [0]
+    }
 }

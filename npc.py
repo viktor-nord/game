@@ -1,29 +1,73 @@
-from tkinter import NO
+import pygame
 from character import Character
 import random
 
 class Npc(Character):
-    def __init__(self, game, id, map, pos, movement_pattern=None):
-        super().__init__(game)
+    def __init__(self, id, pos, type='goblin', is_ally=False, movement_pattern=None):
+        self.id = id
+        super().__init__()
         self.starting_position = pos
         self.prev_pos = pos
         self.rect.x = self.size * pos[0]
         self.rect.y = self.size * pos[1]
+        self.type = type
         self.moving_to = None
-        self.id = id
-        self.map = map
+        self.is_ally = is_ally
         self.dir_options = ['up', 'down', 'right', 'left']
         self.movement_pattern = movement_pattern
         self.movement_step_counter = 0
+        self.frames = {
+            'idle': self.load_animation('idle'),
+            'attack': self.load_animation('attack')
+        }
 
-    def check_movement(self):
+    def load_animation(self, type):
+        arr = []
+        if self.type == 'goblin':
+            types = {
+                'idle': 'assets/tileset/Characters/Goblin/PNG/spr_idle_strip9.png',
+                'attack': 'assets/tileset/Characters/Goblin/PNG/spr_attack_strip10.png'
+            }
+        elif self.type == 'human':
+            types = {
+                'idle': 'assets/tileset/Characters/Human/IDLE/base_idle_strip9.png',
+                'attack': 'assets/tileset/Characters/Human/ATTACK/base_attack_strip10.png'
+            }
+        else:
+            types = {
+                'idle': 'assets/tileset/Characters/Skeleton/PNG/skeleton_idle_strip6.png',
+                'attack': 'assets/tileset/Characters/Skeleton/PNG/skeleton_attack_strip7.png'
+            }
+        distance_between_frames = 192
+        frame_amount = self.get_img(types[type]).get_width() / distance_between_frames
+        for i in range(0, int(frame_amount)):
+            s = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
+            x = (i * distance_between_frames + 16) * -1
+            y = -16
+            img = self.get_img(types[type])
+            s.blit(img, (x, y))
+            arr.append(s)
+        return arr
+
+    def battle_ai(self):
+        if self.rect.y > self.settings.screen_height // 2:
+            self.dir = 'up'
+        elif self.rect.y < self.settings.screen_height // 2:
+            self.dir = 'down'
+        elif self.rect.x > self.settings.screen_width // 2:
+            self.dir = 'left'
+        elif self.rect.x < self.settings.screen_width // 2:
+            self.dir = 'right'
+        self.handle_dir()
+
+    def check_movement(self, posible_moves):
         if self.movement_pattern == None:
             return
         if self.movement_pattern == 'random':
             if self.moving_to:
                 self.handle_moving_to()
             else:
-                self.handle_new_movement()
+                self.handle_new_movement(posible_moves)
         else:
             self.handle_fixed_movement()
     
@@ -80,18 +124,24 @@ class Npc(Character):
             x -= 1
         self.moving_to = [x, y]
 
-    def handle_new_movement(self):
+    def handle_new_movement(self, posible_moves):
         is_moving_num = random.randrange(0, 30)
-        if is_moving_num > 0:
-            return
         self.dir = self.generate_dir()
+        if is_moving_num > 0 or self.dir == None:
+            return
         self.handle_dir()
-        if self.map.is_colliding(self.moving_to, self.id):
+        # r = self.rect.copy()
+        # r.x += self.movement[self.dir][0] * self.speed
+        # r.y = self.movement[self.dir][1] * self.speed
+        if posible_moves[self.dir]:
+            self.dir_options = ['up', 'down', 'right', 'left']
+        else:
             self.reset_movement()
             self.dir_options.remove(self.dir)
             self.moving_to = None
-        else:
-            self.dir_options = ['up', 'down', 'right', 'left']
-        
+
     def generate_dir(self):
-        return random.choice(self.dir_options)
+        if len(self.dir_options):
+            return random.choice(self.dir_options)
+        else:
+            return None

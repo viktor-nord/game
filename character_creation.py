@@ -64,6 +64,37 @@ class CharacterCreation(Page):
             self.general_page.blitme(screen)
         self.nav_bar.blitme(screen)
 
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.handle_click()
+        elif event.type == pygame.KEYDOWN:
+            self.handle_key(event.key)
+
+    def handle_click(self):
+        self.nav_bar.handle_click()
+        if self.page != self.nav_bar.current:
+            self.handle_save(self.page)
+            self.reset_next_page(self.nav_bar.current)  
+        self.page = self.nav_bar.current
+        if self.page == "general":
+            self.general_page.check_click()
+        elif self.page == "religion":
+            self.religion_page.check_click()
+        elif self.page == "race":
+            self.race_page.check_click()
+        elif self.page == "ability":
+            self.ability_page.check_click()
+        elif self.page == "miracles":
+            self.miracles_page.check_click()
+        elif self.page == "submit":
+            self.submit_page.check_click()
+        else:
+            self.religion_page.check_click()
+
+    def handle_key(self, key):
+        self.general_page.handle_key(key)
+
+
     def get_completed_amount(self):
         val = 0
         if self.general_page.complete:
@@ -93,20 +124,20 @@ class CharacterCreation(Page):
             print("something wrong in handle_save()")
 
     def save_general(self):
-        player = self.get_save()
+        player = self.get_db("save/player.json")
         player["general"]["name"] = self.general_page.name
         player["general"]["age"] = self.general_page.age
         player["general"]["gender"] = self.general_page.gender
         self.save(player)
 
     def save_religion(self):
-        player = self.get_save()
+        player = self.get_db("save/player.json")
         player["religion"]["practice"] = self.religion_page.current_class["name"]
         player["religion"]["hit_die"] = self.religion_page.current_class["hit_die"]
         self.save(player)
 
     def save_race(self):
-        player = self.get_save()
+        player = self.get_db("save/player.json")
         player["general"]["race"] = self.race_page.current_race["name"]
         player["general"]["speed"] = self.race_page.current_race["speed"]
         player["general"]["size"] = self.race_page.current_race["size"]
@@ -117,7 +148,7 @@ class CharacterCreation(Page):
         self.save(player)
 
     def save_ability(self):
-        player = self.get_save()
+        player = self.get_db("save/player.json")
         str = self.get_ability_value(0)
         wis = self.get_ability_value(1)
         con = self.get_ability_value(2)
@@ -152,10 +183,6 @@ class CharacterCreation(Page):
         # player = self.load()
         # self.save(player)
 
-    def get_save(self):
-        with open("save/player.json", "r") as db:
-            return json.load(db)
-
     def save(self, player):
         with open("save/player.json", "w") as db:
             json.dump(player, db, indent=4)
@@ -179,30 +206,3 @@ class CharacterCreation(Page):
         else:
             pass
 
-    def handle_click(self):
-        self.nav_bar.handle_click()
-        if self.page != self.nav_bar.current:
-            self.handle_save(self.page)
-            self.reset_next_page(self.nav_bar.current)  
-        self.page = self.nav_bar.current
-        if self.page == "general":
-            self.general_page.check_click()
-        elif self.page == "religion":
-            self.religion_page.check_click()
-        elif self.page == "race":
-            self.race_page.check_click()
-        elif self.page == "ability":
-            self.ability_page.check_click()
-        elif self.page == "miracles":
-            self.miracles_page.check_click()
-        elif self.page == "submit":
-            self.submit_page.check_click()
-        else:
-            self.religion_page.check_click()
-        # completed = self.get_completed_amount()
-        # self.nav_bar.update_nav(completed)
-
-    def handle_key(self, key):
-        self.general_page.handle_key(key)
-        # completed = self.get_completed_amount()
-        # self.nav_bar.update_nav(completed)

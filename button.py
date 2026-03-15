@@ -63,6 +63,46 @@ class Button(Sprite):
             self.is_selected = False
             return False
 
+class TextButton:
+    def __init__(self, text, parent, value=None):
+        self.value = value if value else text
+        self.parent = parent
+        self.text = PlainText(text)
+        self.is_hover = False
+        self.animation_active = False
+        self.rect = self.text.text.get_rect(x = parent.x, y = parent.y)
+        self.animation_speed = 2
+        self.underline = pygame.Rect((self.rect.x, self.rect.bottom - 2), (0,1))
+
+    def update(self):
+        pos = pygame.mouse.get_pos()
+        self.is_hover = self.rect.collidepoint(pos)
+        self.animation(self.is_hover)
+
+    def check_click(self, pos=None):
+        pos = pos if pos else pygame.mouse.get_pos()
+        if self.rect.collidepoint(pos):
+            return self.value
+        else:
+            return False
+
+    def animation(self, is_fade_in):
+        operator = 1 if is_fade_in else -1
+        self.underline.width = self.underline.width + (self.animation_speed * operator)
+        if self.underline.width >= self.rect.width:
+            self.underline.width = self.rect.width
+            self.animation_active = False
+        elif self.underline.width <= 0:
+            self.underline.width = 0
+            self.animation_active = False
+        else:
+            self.animation_active = True
+
+    def blitme(self, screen):
+        screen.blit(self.text.text, self.rect)
+        if self.is_hover or self.animation_active:
+            pygame.draw.rect(screen, self.text.text_color, self.underline)
+
 # List =  {"id": any, "text": string, "value": any}
 class CheckBoxList():
     def __init__(self, game, parent, list, slim=False, multi=False, pre_selected=[], amount=0, disabled=[]):

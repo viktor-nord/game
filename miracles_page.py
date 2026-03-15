@@ -1,9 +1,7 @@
 import pygame
-from pathlib import Path
-import json
 
 from page import Page
-from font import PlainText, Title, SmallTitle, Text
+from font import Title, SmallTitle, Text
 from button import CheckBoxList
 from text_box import TextBox
 from scroll_bar import ScrollBar
@@ -30,13 +28,8 @@ class MiraclesPage(Page):
         self.range = SmallTitle(f"Range: {self.display_spell["range"]}", self.stats_container, centered=False)
         self.get_miracle_info(margin)
         # Right side
-        # self.text_box_container = self.right_page.copy()
-        # info_text = "How you practice your faith effect everything from spells, abilities and personality. You can change your religion later."
-        # self.text_box = TextBox(info_text, self.text_box_container)
-        # self.text_box.rect.bottom = self.right_page.bottom
         self.check_box_container = self.right_page.copy()
         self.check_box_container.y += self.right_title.rect.height
-        # self.check_box_container.height = self.right_page.height - self.right_title_container.height - self.text_box.rect.height
         self.spell_list = self.get_spell_list()
         self.check_box_list = CheckBoxList(
             game,
@@ -135,12 +128,10 @@ class MiraclesPage(Page):
         super().blitme(screen)
         screen.blit(self.left_title.image, self.left_title.rect)
         screen.blit(self.right_title.image, self.right_title.rect)
-
         screen.blit(self.right_title.image, self.right_title.rect)
         screen.blit(self.left_title.image, self.left_title.rect)
         self.check_box_list.draw_list(screen)
         screen.blit(self.scroll_bar.image, self.scroll_bar.rect)
-        # screen.blit(self.text_box.image, self.text_box.rect)
         screen.blit(self.range.image, self.range.rect)
         screen.blit(self.primary_skill.image, self.primary_skill.rect)
         screen.blit(self.secondary_skill.image, self.secondary_skill.rect)

@@ -1,6 +1,5 @@
 import pygame
 from font import Text
-from tool_tip import ToolTip
 from settings import Settings
 
 class Input:

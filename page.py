@@ -1,5 +1,4 @@
 import pygame
-from pathlib import Path
 import json
 
 from book import Book
