@@ -34,7 +34,14 @@
     },
     "proficiencies": [],
     "miracles": {
-        "cantrips": [0, 2, 8, 9],
-        "lv1": [0]
+        "cantrips": [
+            0,
+            2,
+            8,
+            9
+        ],
+        "lv1": [
+            0
+        ]
     }
 }

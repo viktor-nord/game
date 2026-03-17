@@ -44,16 +44,18 @@ class Battle():
         self.map.load_grid_data(self.battle_object, self.current_id)
 
     def update(self):
-        if self.walking_animation:
-            self.check_walking_animation()
+        if self.info.active:
+            self.info.update()
         else:
-            self.handle_turn()
-        for char in self.battle_object.values():
-            char.update()
-        # self.battle_object[self.current_id].update()
-        if self.action_wheel_target:
-            self.action_wheel.update()
-        self.info.update()
+            if self.walking_animation:
+                self.check_walking_animation()
+            else:
+                self.handle_turn()
+            for char in self.battle_object.values():
+                char.update()
+            # self.battle_object[self.current_id].update()
+            if self.action_wheel_target:
+                self.action_wheel.update()
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -125,9 +127,13 @@ class Battle():
             if self.dialog.done:
                 self.dialog = None
             return
-        self.info.check_click()
         if self.ui.end_turn_button_rect.collidepoint(pos):
             self.end_turn()
+        elif self.info.active:
+            self.info.check_click()
+            if self.info.selected_miracle:
+                print(self.info.selected_miracle)
+                self.info.selected_miracle = ''
         elif self.action_wheel_target:
             action_obj = self.action_wheel.handle_click(pos)
             if action_obj['val']:

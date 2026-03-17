@@ -4,26 +4,19 @@ from settings import Settings
 from font import PlainText
 from button import TextButton
 
-class InfoDisplay:
-    def __init__(self):
+class MiraclesInfoDisplay:
+    def __init__(self, miracles, right_side=True):
         self.settings = Settings()
-        img = pygame.image.load('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Plain/5 Mini Map/1.png').convert_alpha()
-        self.image = pygame.Surface((img.get_width(), img.get_height()), pygame.SRCALPHA).convert_alpha()
-        self.go_back_img = pygame.image.load("assets/ui_sprites/Sprites/Content/2 Icons/go_back_arrow.png").convert_alpha()
-        self.rect = self.image.get_rect(centery = self.settings.screen_height / 2, right = self.settings.screen_width)
-        self.image.blit(img, (0,0))
-        # self.container = pygame.Rect((self.rect.x + 50, self.rect.y + 51), (124, 122))
-        self.container = pygame.Rect((50, 60), (124, 122))
+        self.right_side = right_side
+        self.selected_miracle = ''
+        self.sprite = pygame.image.load('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Plain/8 Shop/1.png').convert_alpha()
+        self.image = pygame.Surface((self.sprite.get_width(), self.sprite.get_height()), pygame.SRCALPHA).convert_alpha()
+        rect_right = self.settings.screen_width if self.right_side else self.sprite.get_width()
+        self.rect = self.image.get_rect(centery = self.settings.screen_height / 2, right = rect_right)
+        self.image.blit(self.sprite, (0,0))
+        self.container = pygame.Rect((50, 64), (124, 122))
         self.active = True
-
-    def blitme(self, screen):
-        if self.active:
-            screen.blit(self.image, self.rect)
-            # pygame.draw.rect(screen, (0,0,0), self.container)
-
-class MiraclesInfoDisplay(InfoDisplay):
-    def __init__(self, miracles):
-        super().__init__()
+        self.is_big = True
         self.miracles = {
             'cantrips': {},
             'lv1': {},
@@ -35,31 +28,37 @@ class MiraclesInfoDisplay(InfoDisplay):
         self.get_miracles(miracles)
         self.states = ['level', 'select', 'data']
         self.state = 0
-        self.sub_state = ''
+        self.level = 'cantrips'
         self.name = 'Miracles'
-        self.con = self.container.move(self.rect.topleft)
+        self.con = self.container.move(self.rect.topleft).move(36, 20)
         self.title = PlainText("Miracles")
         self.title.rect.centerx = self.rect.centerx
-        self.title.rect.y = self.rect.y + 40
-        self.go_back_img_rect = self.go_back_img.get_rect(centery = self.title.rect.centery, right = self.title.rect.left - 4)
+        self.title.rect.y = self.rect.y + 64
         self.level_buttons = self.get_lv_buttons(self.con)
-        self.miracle_buttons = []
-        # self.miracle_name = PlainText('Toll the dead')
-        # self.miracle_name.rect.x = self.con.x
-        # self.miracle_name.rect.y = self.con.y
+        self.miracle_buttons = self.get_miracle_buttons(self.con)
+        self.tooltip = MiracleTooltip(self.miracles['cantrips']['holy tomfoolery'])
 
     def get_lv_buttons(self, container):
-        labels = ['cantrips', 'lv 1', 'lv 2', 'lv 3', 'lv 4', 'lv 5']
+        labels = [
+            {'text': 'lv 0', 'value': 'cantrips', 'index': 0},
+            {'text': 'lv 1', 'value': 'lv1', 'index': 1},
+            {'text': 'lv 2', 'value': 'lv2', 'index': 2},
+            {'text': 'lv 3', 'value': 'lv3', 'index': 3},
+            {'text': 'lv 4', 'value': 'lv4', 'index': 4},
+            {'text': 'lv 5', 'value': 'lv5', 'index': 5},
+        ]
         arr = []
-        for i, l in enumerate(labels):
-            arr.append(TextButton(l, container.move(0, 18 * i)))
+        for l in labels:
+            arr.append(TextButton(l['text'], container.move(42 * l['index'], 0), value=l['value'], border=True))
         return arr
     
     def get_miracle_buttons(self, container):
+        arr = []
         i = 0
-        for key, val in self.miracles[self.sub_state].items():
-            self.miracle_buttons.append(TextButton(key, container.move(0, 18 * i)))
+        for key, val in self.miracles[self.level].items():
+            arr.append(TextButton(key, container.move(0, 24 + 18 * i), value=val, tooltip=MiracleTooltip(val), border=False))
             i += 1
+        return arr
 
     def get_info_text(self):
         self.miracle_name = PlainText(self.name)
@@ -79,61 +78,103 @@ class MiraclesInfoDisplay(InfoDisplay):
     def update(self):
         if self.active == False:
             return
-        if self.state == 0:
-            for l_btn in self.level_buttons:
-                l_btn.update()
-        elif self.state == 1:
-            for m_btn in self.miracle_buttons:
-                m_btn.update()
+        for l_btn in self.level_buttons:
+            l_btn.update()
+        for m_btn in self.miracle_buttons:
+            m_btn.update()
 
     def check_click(self, pos=None):
         if self.active == False:
             return
         pos = pos if pos else pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
-            if self.state == 0:
-                for lv_btn in self.level_buttons:
-                    val = lv_btn.check_click(pos)
-                    if val:
-                        self.state = 1
-                        self.sub_state = val.replace(" ", "")
-                        self.change_title(val)
-                        self.get_miracle_buttons(self.con)
-                        break
-            elif self.state == 1:
-                if self.go_back_img_rect.collidepoint(pos):
-                    self.state = 0
-                for m_btn in self.miracle_buttons:
-                    val = m_btn.check_click(pos)
-                    if val:
-                        self.change_title('')
-                        self.name = val
-                        self.get_info_text()
-                        self.state = 2
-                        break
-            else:
-                if self.go_back_img_rect.collidepoint(pos):
-                    self.state = 0
+            for lv_btn in self.level_buttons:
+                val = lv_btn.check_click(pos)
+                if val:
+                    self.level = val
+                    self.change_title(val)
+                    self.miracle_buttons = self.get_miracle_buttons(self.con)
+                    break
+            for m_btn in self.miracle_buttons:
+                val = m_btn.check_click(pos)
+                if val:
+                    self.selected_miracle = val['name']
         else:
             self.active = False
 
     def change_title(self, text):
         self.title = PlainText(text)
         self.title.rect.centerx = self.rect.centerx
-        self.title.rect.y = self.rect.y + 40
-        self.go_back_img_rect = self.go_back_img.get_rect(centery = self.title.rect.centery, right = self.title.rect.left - 4)
+        self.title.rect.y = self.rect.y + 64
 
     def blitme(self, screen):
         if self.active:
             screen.blit(self.image, self.rect)
             screen.blit(self.title.text, self.title.rect)
-            if self.state == 0:
-                for l_btn in self.level_buttons:
-                    l_btn.blitme(screen)
-            elif self.state == 1:
-                screen.blit(self.go_back_img, self.go_back_img_rect)
-                for m_btn in self.miracle_buttons:
-                    m_btn.blitme(screen)
-            else:
-                screen.blit(self.go_back_img, self.go_back_img_rect)
-                screen.blit(self.miracle_name.text, self.miracle_name.rect)
+            for l_btn in self.level_buttons:
+                l_btn.blitme(screen)
+            for m_btn in self.miracle_buttons:
+                m_btn.blitme(screen)
+            self.miracle_buttons[0].is_hover = True
+            for b2 in self.miracle_buttons:
+                if b2.is_hover and b2.tooltip:
+                    p = pygame.mouse.get_pos() 
+                    b2.tooltip.blitme(screen, (p[0] - 20, p[1] - 20))
+            
+class MiracleTooltip:
+    def __init__(self, value):
+        self.active = False
+        self.pos = (0,0)
+        self.set_value(value)
+        img = pygame.image.load('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Plain/5 Mini Map/1.png').convert_alpha()
+        self.surf = pygame.Surface((img.get_width(), img.get_height()), pygame.SRCALPHA).convert_alpha()
+        self.surf.blit(img, (0,0))
+        self.blueprint = [
+            {'text': f"{self.damage_level['1']}d{self.damage_die}", 'img': pygame.image.load('assets/ui_sprites/node_2D/icon_dice.png').convert_alpha()},
+            {'text': self.range, 'img': pygame.image.load('assets/ui_sprites/node_2D/icon_target_2.png').convert_alpha()},
+            {'text': self.effect, 'img': pygame.image.load('assets/ui_sprites/node_2D/icon_particle.png').convert_alpha()},
+            {'text': self.duration, 'img': pygame.image.load('assets/ui_sprites/node_2D/icon_time.png').convert_alpha()},
+        ]
+        self.render_img()
+        self.container = pygame.Rect((50, 52), (124, 122))
+
+    def set_value(self, value):
+        self.name = value['name']
+        self.index = value['index']
+        self.desc = value['desc']
+        self.range = value['range']
+        self.is_ritual = value['ritual']
+        self.duration = value['duration']
+        self.concentration = value['concentration']
+        self.casting_time = value['casting_time']
+        self.level = value['level']
+        self.school = value['school']
+        # change this shit
+        try:
+            self.damage_type = value['damage']['damage_type']
+            self.damage_die = value['damage']['die']
+            self.damage_level = value['damage']['level']
+            self.dc = value['dc'] # 'dc': {'dc_type': 'dex', 'dc_success': 'none'
+            self.effect = value['effect'][0]['type']
+        except KeyError:
+            self.damage_type = 'None'
+            self.damage_die = '0'
+            self.damage_level = {"1": 0, "5": 0, "11": 0, "17": 0}
+            self.dc = 'None'
+            self.effect = 'None'
+
+    def render_img(self):
+        self.surf.blit(PlainText(self.name).text, (50, 52))
+        x, y = 50, 68
+        for i, val in enumerate(self.blueprint):
+            t = PlainText(val['text'])
+            self.surf.blit(val['img'], (x, y))
+            self.surf.blit(t.text, (x + 20, y))
+            y += 20
+
+    def set_pos(self, pos):
+        self.pos = pos
+
+    def blitme(self, screen, pos=None):
+        p = pos if pos else self.pos
+        screen.blit(self.surf, p)
