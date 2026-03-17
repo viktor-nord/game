@@ -166,7 +166,7 @@ class MiracleTooltip:
     def render_img(self):
         self.surf.blit(PlainText(self.name).text, (50, 52))
         x, y = 50, 68
-        for i, val in enumerate(self.blueprint):
+        for val in self.blueprint:
             t = PlainText(val['text'])
             self.surf.blit(val['img'], (x, y))
             self.surf.blit(t.text, (x + 20, y))
