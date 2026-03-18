@@ -1,5 +1,6 @@
 import pygame
 import json
+
 from settings import Settings
 from font import PlainText
 from button import TextButton
@@ -122,16 +123,13 @@ class MiraclesInfoDisplay:
             
 class MiracleTooltip:
     def __init__(self, value):
+        self.settings = Settings()
         self.active = False
         self.pos = (0,0)
         self.set_value(value)
-        img = pygame.image.load('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Plain/5 Mini Map/1.png').convert_alpha()
-        self.surf = pygame.Surface((img.get_width(), img.get_height()), pygame.SRCALPHA).convert_alpha()
-        self.shadow = pygame.Surface((img.get_width(), img.get_height()), pygame.SRCALPHA).convert_alpha()
-        self.shadow.fill((0,0,0))
-        self.shadow.set_alpha(10)
-        self.surf.blit(self.shadow, (0,0))
-        self.surf.blit(img, (0,0))
+        self.img = pygame.image.load('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Plain/5 Mini Map/1.png').convert_alpha()
+        self.surf = pygame.Surface((self.img.get_width(), self.img.get_height()), pygame.SRCALPHA).convert_alpha()
+        self.surf.blit(self.img, (0,0))
         self.blueprint = [
             {'text': f"{self.damage_level['1']}d{self.damage_die}", 'img': pygame.image.load('assets/ui_sprites/node_2D/icon_dice.png').convert_alpha()},
             {'text': self.range, 'img': pygame.image.load('assets/ui_sprites/node_2D/icon_target_2.png').convert_alpha()},
@@ -139,7 +137,7 @@ class MiracleTooltip:
             {'text': self.duration, 'img': pygame.image.load('assets/ui_sprites/node_2D/icon_time.png').convert_alpha()},
         ]
         self.render_img()
-        self.container = pygame.Rect((50, 52), (124, 122))
+        self.get_shadows()
 
     def set_value(self, value):
         self.name = value['name']
@@ -178,6 +176,19 @@ class MiracleTooltip:
     def set_pos(self, pos):
         self.pos = pos
 
+    def get_shadows(self):
+        w, h = self.img.get_width(), self.img.get_height()
+        scale = 1.1
+        self.shadow = pygame.Surface((w * scale, h * scale), pygame.SRCALPHA).convert_alpha()
+        while scale > 1:
+            scaled_img = pygame.transform.scale(self.img, (w * scale, h * scale))
+            s = pygame.mask.from_surface(scaled_img).to_surface(setcolor=(1,0,0,10))
+            s.set_colorkey((0,0,0))
+            s.convert_alpha()
+            self.shadow.blit(s, s.get_rect(center = (w / 2 + 2, h / 2 + 2)))
+            scale -= 0.01
+
     def blitme(self, screen, pos=None):
         p = pos if pos else self.pos
+        screen.blit(self.shadow, p)
         screen.blit(self.surf, p)

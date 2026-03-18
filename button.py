@@ -70,7 +70,9 @@ class TextButton:
         self.has_border = border
         self.is_hover = False
         self.right_icon = right_icon
-        self.right_icon_rect = pygame.Rect((self.parent.right - 16, self.parent.bottom - 16), (16,16))
+        self.question_img = pygame.image.load('assets/ui_sprites/node_2D/icon_interrogation.png')
+        self.question_rect = self.question_img.get_rect(centery = parent.centery, right = parent.right)
+        # self.right_icon_rect = pygame.Rect((self.parent.right - 16, self.parent.bottom - 16), (16,16))
         self.tooltip = tooltip
         self.animation_active = False
         self.text = PlainText(text)
@@ -99,6 +101,8 @@ class TextButton:
         pos = pos if pos else pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             return self.value
+        elif self.question_rect.collidepoint(pos):
+            print(f'question for {self.value['name']}')
         else:
             return False
 
@@ -119,7 +123,7 @@ class TextButton:
         if self.is_hover or self.animation_active:
             pygame.draw.rect(screen, self.text.text_color, self.underline)
         if self.right_icon:
-            pygame.draw.rect(screen, self.text.text_color, self.right_icon_rect)
+            screen.blit(self.question_img, self.question_rect)
 
 # List =  {"id": any, "text": string, "value": any}
 class CheckBoxList():
