@@ -5,17 +5,12 @@ from character import Character
 
 class Player(Character):
     def __init__(self, pos=[13, 8]):
+        super().__init__(pos, 'player')
         self.id = 'player'
-        super().__init__()
         self.rect.x = self.size * pos[0]
         self.rect.y = self.size * pos[1]
         self.speed = 4
         self.moving_to = [self.rect.x, self.rect.y]
-        self.frames = {
-            'idle': self.load_animation('idle'),
-            'attack': self.load_animation('attack'),
-            'walk': self.load_animation('walk')
-        }
         self.data = PlayerData()
         self.max_hp = self.data.max_hp
         self.hp = self.data.max_hp
@@ -23,44 +18,6 @@ class Player(Character):
         self.max_steps_amount = self.data.speed // 10
         self.is_party_member = True
         self.is_player = True
-
-    def load_animation(self, type):
-        arr = []
-        hair = 'bowlhair'
-        url = 'assets/tileset/Characters/Human/'
-        types = {
-            'idle': [
-                f'{url}IDLE/base_idle_strip9.png', 
-                f'{url}IDLE/{hair}_idle_strip9.png',
-                f'{url}IDLE/tools_idle_strip9.png',
-            ],
-            'attack': [
-                f'{url}ATTACK/base_attack_strip10.png', 
-                f'{url}ATTACK/{hair}_attack_strip10.png',
-                f'{url}ATTACK/tools_attack_strip10.png',
-            ],
-            'walk': [
-                f'{url}WALKING/base_walk_strip8.png', 
-                f'{url}WALKING/{hair}_walk_strip8.png',
-                f'{url}WALKING/tools_walk_strip8.png',
-            ]
-        }
-        frame_amounts = {
-            'idle': 9,
-            'attack': 10,
-            'walk': 8
-        }
-        distance_between_frames = 192
-        frame_amount = self.get_img(types[type][0]).get_width() / distance_between_frames
-        for i in range(0, int(frame_amount)):
-            s = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
-            x = (i * distance_between_frames + 16) * -1
-            y = -16
-            for t in types[type]:
-                img = self.get_img(t)
-                s.blit(img, (x, y))
-            arr.append(s)
-        return arr
 
     def handle_movement(self, key, is_down):
         if key == pygame.K_DOWN:

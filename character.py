@@ -3,16 +3,17 @@ from settings import Settings
 from font import PlainText
 
 class Character():
-    def __init__(self):
+    def __init__(self, pos=(0,0), type="human"):
+        self.type = type
         self.settings = Settings()
         self.size = self.settings.tile_size
         self.image = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
-        self.frames = {}
+        self.frames = self.get_frames(type)
         self.counter = 0
         self.frame = 0
         self.is_party_member = False
         self.is_player = False
-        self.rect = pygame.Rect((0,0), (self.size, self.size))
+        self.rect = pygame.Rect((pos[0], pos[1]), (self.size, self.size))
         self.moving_right = False
         self.moving_left = False
         self.moving_up = False
@@ -40,7 +41,6 @@ class Character():
         }
         self.is_flipped = False
         self.animation_avtive = False
-        self.name_tag = PlainText(f"{self.id}")
 
     def reset_battle_stats(self):
         self.actions_amount = self.max_actions_amount
@@ -49,6 +49,82 @@ class Character():
         self.reset_movement()
         self.moving_to = None
         self.dir = ''
+
+    def get_frames(self, type):
+        url = 'assets/tileset/Characters/'
+        hair = 'bowlhair'
+        frames = {}
+        mall = {
+            'player': {
+                'idle': [
+                    f'{url}Human/IDLE/base_idle_strip9.png',
+                    f'{url}Human/IDLE/{hair}_idle_strip9.png',
+                    f'{url}Human/IDLE/tools_idle_strip9.png'
+                ],
+                'walk': [
+                    f'{url}Human/WALKING/base_walk_strip8.png', 
+                    f'{url}Human/WALKING/{hair}_walk_strip8.png',
+                    f'{url}Human/WALKING/tools_walk_strip8.png',
+                ],
+                'attack': [
+                    f'{url}Human/ATTACK/base_attack_strip10.png', 
+                    f'{url}Human/ATTACK/{hair}_attack_strip10.png',
+                    f'{url}Human/ATTACK/tools_attack_strip10.png',
+                ]
+            },
+            'human': {
+                'idle': [
+                    f'{url}Human/IDLE/base_idle_strip9.png',
+                    #f'{url}Human/IDLE/spikeyhair_idle_strip9.png',
+                    f'{url}Human/IDLE/tools_idle_strip9.png'
+                ],
+                'walk': [
+                    f'{url}Human/WALKING/base_walk_strip8.png', 
+                    #f'{url}Human/WALKING/spikeyhair_walk_strip8.png',
+                    f'{url}Human/WALKING/tools_walk_strip8.png',
+                ],
+                'attack': [
+                    f'{url}Human/ATTACK/base_attack_strip10.png', 
+                    #f'{url}Human/ATTACK/spikeyhair_attack_strip10.png',
+                    f'{url}Human/ATTACK/tools_attack_strip10.png',
+                ]
+            },
+            'goblin': {
+                'idle': [
+                    f'{url}Goblin/PNG/spr_idle_strip8.png',
+                ],
+                'walk': [
+                    f'{url}Goblin/PNG/spr_walk_strip8.png', 
+                ],
+                'attack': [
+                    f'{url}Goblin/PNG/spr_attack_strip10.png', 
+                ]
+            },
+            'skeleton': {
+                'idle': [
+                    f'{url}Skeleton/PNG/skeleton_idle_strip6.png',
+                ],
+                'walk': [
+                    f'{url}Skeleton/PNG/skeleton_walk_strip8.png', 
+                ],
+                'attack': [
+                    f'{url}Skeleton/PNG/skeleton_attack_strip7.png', 
+                ]
+            }
+        }
+        distance_between_frames = 192
+        for key, val in mall[type].items():
+            frame_amount = int(val[0][-6:-4].replace('p',''))
+            frames[key] = []
+            for i in range(frame_amount):
+                s = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
+                x = (i * distance_between_frames + 16) * -1
+                y = -16
+                for t in val:
+                    img = self.get_img(t)
+                    s.blit(img, (x, y))
+                frames[key].append(s)
+        return frames       
 
     def get_coordinates(self):
         x = int((self.rect.x + (self.size / 2)) / self.size)
@@ -100,18 +176,20 @@ class Character():
         if self.moving_right or self.moving_left or self.moving_up or self.moving_down:
             self.change_action('walk')
         else:
-            self.change_action('idle')
+            if self.action == 'walk':
+                self.change_action('idle')
         self.coordinates = self.get_coordinates()
 
     def handle_animation_counter(self):
         delay = 3
         self.frame = self.counter // delay
+        if self.action == 'attack':
+            print('wehe')
         if (self.counter + 1) // delay > len(self.frames[self.action]) - 1:
             self.counter = 0
             self.frame = 0
             if self.action == 'attack':
                 self.action = 'idle'
-            self.action = 'idle'
         else:
             self.counter += 1
 
@@ -123,4 +201,41 @@ class Character():
             screen.blit(img, offset)
         else:
             screen.blit(self.frames[self.action][self.frame], offset)
-        screen.blit(self.name_tag.text, self.name_tag.text.get_rect(x=self.rect.x, y = self.rect.y - self.name_tag.text.get_height()))
+
+class BattleCharacter(Character):
+    def __init__(self, pos, type="human"):
+        super().__init__(pos, type)
+        self.frames = {}
+        self.counter = 0
+        self.frame = 0
+        self.is_party_member = False
+        self.is_player = False
+        self.rect = pygame.Rect((pos[0], pos[1]), (self.size, self.size))
+        self.moving_right = False
+        self.moving_left = False
+        self.moving_up = False
+        self.moving_down = False
+        self.moving_to = None
+        self.max_hp = 10
+        self.hp = 10
+        self.dir = ''
+        self.speed = 2
+        self.max_actions_amount = 1
+        self.max_bonus_action_amount = 0
+        self.max_steps_amount = 30 // 10
+        self.actions_amount = 1
+        self.bonus_action_amount = 0
+        self.steps_amount = 30 // 10 # change 30 to monster speed
+        self.inventory = []
+        self.collision = True
+        self.coordinates = self.get_coordinates()
+        self.action = 'idle'
+        self.movement = {
+            'right': [1, 0],
+            'down': [0, 1],
+            'left': [-1, 0],
+            'up': [0, -1],
+        }
+        self.is_flipped = False
+        self.animation_avtive = False
+        self.name_tag = PlainText(f"{self.id}")

@@ -4,8 +4,8 @@ import random
 
 class Npc(Character):
     def __init__(self, id, pos, type='goblin', is_ally=False, movement_pattern=None):
+        super().__init__(pos, type)
         self.id = id
-        super().__init__()
         self.starting_position = pos
         self.prev_pos = pos
         self.rect.x = self.size * pos[0]
@@ -16,42 +16,6 @@ class Npc(Character):
         self.dir_options = ['up', 'down', 'right', 'left']
         self.movement_pattern = movement_pattern
         self.movement_step_counter = 0
-        self.frames = {
-            'idle': self.load_animation('idle'),
-            'attack': self.load_animation('attack'),
-            'walk': self.load_animation('walk')
-        }
-
-    def load_animation(self, type):
-        arr = []
-        if self.type == 'goblin':
-            types = {
-                'idle': 'assets/tileset/Characters/Goblin/PNG/spr_idle_strip9.png',
-                'attack': 'assets/tileset/Characters/Goblin/PNG/spr_attack_strip10.png',
-                'walk': 'assets/tileset/Characters/Goblin/PNG/spr_walk_strip8.png'
-            }
-        elif self.type == 'human':
-            types = {
-                'idle': 'assets/tileset/Characters/Human/IDLE/base_idle_strip9.png',
-                'attack': 'assets/tileset/Characters/Human/ATTACK/base_attack_strip10.png',
-                'walk': 'assets/tileset/Characters/Human/WALKING/base_walk_strip8.png'
-            }
-        else:
-            types = {
-                'idle': 'assets/tileset/Characters/Skeleton/PNG/skeleton_idle_strip6.png',
-                'attack': 'assets/tileset/Characters/Skeleton/PNG/skeleton_attack_strip7.png',
-                'walk': 'assets/tileset/Characters/Skeleton/PNG/skeleton_walk_strip8.png'
-            }
-        distance_between_frames = 192
-        frame_amount = self.get_img(types[type]).get_width() / distance_between_frames
-        for i in range(0, int(frame_amount)):
-            s = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
-            x = (i * distance_between_frames + 16) * -1
-            y = -16
-            img = self.get_img(types[type])
-            s.blit(img, (x, y))
-            arr.append(s)
-        return arr
 
     def battle_ai(self):
         if self.rect.y > self.settings.screen_height // 2:
