@@ -5,9 +5,9 @@ def get_modifier(stat):
 
 class Cultist:
     def __init__(self):
-        self.AC = 12
-        self.max_HP = 9
-        self.HP = self.max_HP
+        self.ac = 12
+        self.max_hp = 9
+        self.HP = self.max_hp
         self.speed = 60
         self.str = 11
         self.dex = 12
@@ -49,9 +49,9 @@ class Cultist:
 
 class Commoner:
     def __init__(self):
-        self.AC = 10
-        self.max_HP = 4
-        self.HP = self.max_HP
+        self.ac = 10
+        self.max_hp = 4
+        self.HP = self.max_hp
         self.speed = 60
         self.str = 10
         self.dex = 12
@@ -88,9 +88,9 @@ class Commoner:
 
 class Goblin:
     def __init__(self):
-        self.AC = 15
-        self.max_HP = 7
-        self.HP = self.max_HP
+        self.ac = 15
+        self.max_hp = 7
+        self.HP = self.max_hp
         self.speed = 60
         self.str = 8
         self.dex = 14
@@ -145,9 +145,9 @@ class Goblin:
 
 class Skeleton:
     def __init__(self):
-        self.AC = 13
-        self.max_HP = 13
-        self.HP = self.max_HP
+        self.ac = 13
+        self.max_hp = 13
+        self.HP = self.max_hp
         self.speed = 60
         self.str = 10
         self.dex = 14
@@ -193,11 +193,11 @@ class Skeleton:
             }
         }
 
-class Skeleton:
+class Bugbear:
     def __init__(self):
-        self.AC = 16
-        self.max_HP = 27
-        self.HP = self.max_HP
+        self.ac = 16
+        self.max_hp = 27
+        self.HP = self.max_hp
         self.speed = 60
         self.str = 15
         self.dex = 14

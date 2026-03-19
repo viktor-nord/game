@@ -12,6 +12,7 @@ from battle_ui import BattleUI
 from utils import get_adjasent_cord, get_key_text
 from dialogs import Dialog
 from info_display import MiraclesInfoDisplay
+from d20 import D20
 
 class Battle():
     def __init__(self):
@@ -38,6 +39,7 @@ class Battle():
         self.dialog = None
         self.info = MiraclesInfoDisplay(self.player.data.miracles)
         self.set_circle(self.battle_object[self.current_id].steps_amount, self.battle_object[self.current_id].rect)
+        self.d20 = D20(20)
 
     def init_battle(self):
         self.roll_inisiative()
@@ -123,6 +125,8 @@ class Battle():
             self.map.load_grid_data(self.battle_object, self.current_id)
 
     def handle_click(self):
+        if self.d20.active:
+            self.d20.reset()
         pos = pygame.mouse.get_pos()
         if self.dialog:
             self.dialog.next()
@@ -164,18 +168,27 @@ class Battle():
             self.battle_object[self.current_id].handle_movement(key, True)
 
     def melee_attack(self, id):
-        self.current_id # person attacking
-        if id in self.battle_object:
-            self.battle_object[id].take_damage(1, 'bludgeoning')
-            self.dialog = Dialog([f"{self.current_id} is attacking {id}"])
-            # print(f"{self.current_id} is attacking {id}")
+        dice = self.d20.roll(False)
+        if True:
+        # if dice >= self.battle_object[id].ac or dice == 20:
+            if dice == 20:
+                self.dialog = Dialog(["Criticla hit!"])
+            else:
+                self.dialog = Dialog([f"{self.current_id} is attacking {id}"])
+            weapon = self.battle_object[self.current_id].primary_weapon
+            damage = self.d20.roll(dice=weapon['dice'])
+            self.battle_object[id].take_damage(damage, weapon['damage_type'])
+            self.action_wheel_target = None
         else:
-            print("somthing wrong in battle/melee_attack")
+            if dice == 0:
+                self.dialog = Dialog(['Critical missed'])
+            else:
+                self.dialog = Dialog(['Attack missed'])
 
     def handle_action_wheel(self, action_obj):
         if action_obj['val'] == 'primary':
             if self.battle_object[self.current_id].actions_amount < 1:
-                print('You have already used your action')
+                self.dialog = Dialog(['You have already used your action'])
                 return
             target = self.get_adjesent_target(action_obj['id'])
             if target == action_obj['id']:
@@ -183,7 +196,7 @@ class Battle():
                 self.battle_object[self.current_id].actions_amount -= 1
                 self.get_ui()
             else:
-                print("you are to far away")
+                self.dialog = Dialog(['You are to far away'])
         elif action_obj['val'] == 'spell':
             self.info.active = True
 
@@ -220,12 +233,11 @@ class Battle():
             self.map.blit_spacing_grid(screen)
         self.ui.blitme(screen)
         if c.is_party_member and c.steps_amount > 0:
-            # circle_radius = c.steps_amount * self.settings.tile_size + c.rect.width // 2
-            # bs = pygame.Surface((self.settings.screen_width, self.settings.screen_height), pygame.SRCALPHA).convert_alpha()
-            # pygame.draw.circle(bs, (0,0,255), c.rect.center, circle_radius, width=2)
             screen.blit(self.step_range_circle, (0,0))
         if self.action_wheel_target:
             self.action_wheel.blitme(screen)
         self.info.blitme(screen)
+        self.d20.blitme(screen)
         if self.dialog:
             self.dialog.blitme(screen)
+        
