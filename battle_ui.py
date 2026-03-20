@@ -3,8 +3,9 @@ import pygame
 from settings import Settings
 from font import PlainText
 
-class BattleUI():
-    def __init__(self, characters, current_id='player'):
+class BattleUI:
+    def __init__(self, battle_class, characters, current_id='player'):
+        self.battle_class = battle_class
         self.characters = characters
         self.settings = Settings()
         self.current_character_id = current_id
@@ -51,39 +52,31 @@ class BattleUI():
         middle = self.get_scaled_img(url + '5 Holders/27.png')
         end = self.get_scaled_img(url + '5 Holders/28.png')
         font = pygame.font.Font('freesansbold.ttf', 18)
-        action_url = '2 Icons/green-box.png' if action > 0 else '2 Icons/red-box.png'
-        action_img = pygame.image.load(url + action_url).convert_alpha()
-        bonus_url = '2 Icons/green-triangle.png' if bonus > 0 else '2 Icons/red-triangle.png'
-        bonus_img = pygame.image.load(url + bonus_url).convert_alpha()
-        speed_url = '2 Icons/green-circle.png' if speed > 0 else '2 Icons/red-circle.png'
-        speed_img = pygame.image.load(url + speed_url).convert_alpha()
-        action_text = font.render(str(action), True, (0,0,0))
-        bonus_action_text = font.render(str(bonus), True, (0,0,0))
-        speed_text = font.render(str(speed), True, (0,0,0))
+        dic = {'box': action, 'triangle': bonus, 'circle': speed}
+        action_dictionary = {'box': {}, 'triangle': {}, 'circle': {}}
+        for key, val in dic.items():
+            color = 'green' if val > 0 else 'red'
+            action_dictionary[key]['img'] = pygame.image.load(url + f'2 Icons/{color}-{key}.png').convert_alpha()
+            action_dictionary[key]['text'] = font.render(str(val), True, (0,0,0))
         margin = 4
-        width = action_img.get_width() * 3 + margin * 5 + action_text.get_width() + bonus_action_text.get_width() + speed_text.get_width()
+        width = 98 if speed < 11 else 108
+        # width = action_img.get_width() * 3 + margin * 5 + action_text.get_width() + bonus_action_text.get_width() + speed_text.get_width()
         self.action_pannel = pygame.Surface((start.get_width() + width + end.get_width(), start.get_height()), pygame.SRCALPHA).convert_alpha()
         self.action_pannel_rect = self.action_pannel.get_rect(centerx = self.settings.screen_width / 2, bottom = self.settings.screen_height)
         self.action_pannel.blit(start, (0,0))
         while_x = start.get_width()
         while while_x < width:
-            self.action_pannel.blit(middle, (while_x,0))
+            self.action_pannel.blit(middle, (while_x, 0))
             while_x += middle.get_width()
         self.action_pannel.blit(middle, middle.get_rect(right = self.action_pannel_rect.width - end.get_width()))
         self.action_pannel.blit(end, end.get_rect(right = self.action_pannel_rect.width))
         x = start.get_width()
         centery = self.action_pannel_rect.height / 2
-        self.action_pannel.blit(action_img, action_img.get_rect(x = x, centery = centery))
-        x += action_img.get_width() + margin
-        self.action_pannel.blit(action_text, action_text.get_rect(x = x, centery = centery))
-        x += action_text.get_width() + margin
-        self.action_pannel.blit(bonus_img, bonus_img.get_rect(x = x, centery = centery))
-        x += bonus_img.get_width() + margin
-        self.action_pannel.blit(bonus_action_text, bonus_action_text.get_rect(x = x, centery = centery))
-        x += bonus_action_text.get_width() + margin
-        self.action_pannel.blit(speed_img, speed_img.get_rect(x = x, centery = centery))
-        x += speed_img.get_width() + margin
-        self.action_pannel.blit(speed_text, speed_text.get_rect(x = x, centery = centery))
+        for key, val in action_dictionary.items():
+            self.action_pannel.blit(val['img'], val['img'].get_rect(x = x, centery = centery))
+            x += val['img'].get_width() + margin
+            self.action_pannel.blit(val['text'], val['text'].get_rect(x = x, centery = centery))
+            x += val['text'].get_width() + margin
 
     def render_characters_display(self):
         index = 0
@@ -110,8 +103,14 @@ class BattleUI():
                 img = c.portret
         self.character_display_img_rect = img.get_rect()
         self.character_display.blit(img, self.character_display_img_rect)
-        self.character_display.blit(name, name.get_rect(x = self.character_display_img_rect.right + 8, top = self.character_display_img_rect.top + 14))
-        self.character_display.blit(data_text, data_text.get_rect(x = self.character_display_img_rect.right + 8, top = self.character_display_img_rect.top + 36))
+        self.character_display.blit(name, name.get_rect(
+            x = self.character_display_img_rect.right + 8, 
+            top = self.character_display_img_rect.top + 14
+        ))
+        self.character_display.blit(data_text, data_text.get_rect(
+            x = self.character_display_img_rect.right + 8, 
+            top = self.character_display_img_rect.top + 36
+        ))
 
     def update(self):
         self.active_index += 1
@@ -126,8 +125,9 @@ class BattleUI():
     def handle_action(self):
         pass
 
-    def handle_click(self):
-        pass
+    def handle_click(self, pos):
+        if self.end_turn_button_rect.collidepoint(pos):
+            self.battle_class.end_turn()
 
 class CharacterCard:
     def __init__(self, id, index, hp, is_active=False):

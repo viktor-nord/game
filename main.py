@@ -99,8 +99,6 @@ class Main():
                     if self.over_world.start_battle:
                         self.start_transition('battle')
                         self.over_world.start_battle = False
-                        # self.battle_active = True
-                        # self.battle.init_battle()
 
 
 if __name__ == '__main__':

@@ -31,7 +31,7 @@ class Battle():
             "bob": Npc('bob', (24, 3), type='skeleton'), 
             "mike": Npc('mike', (5, 11)), 
         }
-        self.ui = BattleUI(self.battle_object)
+        self.ui = BattleUI(self, self.battle_object)
         self.map.load_grid_data(self.battle_object, self.current_id)
         self.action_wheel_target = None
         self.action_wheel = ActionWheel()
@@ -99,7 +99,8 @@ class Battle():
         dic = {}
         for id in self.turn_order:
             dic[f"{id}"] = self.battle_object[f"{id}"]
-        self.ui = BattleUI(dic, self.current_id)
+        self.ui.__init__(self, dic, self.current_id)
+        # self.ui = BattleUI(self, dic, self.current_id)
 
     def handle_turn(self):
         c = self.battle_object[self.current_id]
@@ -128,13 +129,13 @@ class Battle():
         if self.d20.active:
             self.d20.reset()
         pos = pygame.mouse.get_pos()
+        self.ui.handle_click(pos)
         if self.dialog:
             self.dialog.next()
             if self.dialog.done:
                 self.dialog = None
             return
-        if self.ui.end_turn_button_rect.collidepoint(pos):
-            self.end_turn()
+            # self.end_turn()
         elif self.info.active:
             self.info.check_click()
             if self.info.selected_miracle:
