@@ -7,6 +7,7 @@ from font import Title
 class StartScreen:
     def __init__(self, game):
         self.game = game
+        self.name = 'start screen'
         self.screen = game.screen
         self.image = pygame.image.load('assets/ui_sprites/Sprites/Book Desk/3.png')
         self.rect = self.image.get_rect(center = game.screen_rect.center)
@@ -40,10 +41,12 @@ class StartScreen:
         return buttons
 
     def handle_event(self, event):
+        if self.game.mode != self.name: return
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.handle_click()
 
     def update(self):
+        if self.game.mode != self.name: return
         for btn in self.buttons:
             btn.update()
         self.animations.update()
@@ -52,11 +55,12 @@ class StartScreen:
         for btn in self.buttons:
             val = btn.check_click()
             if val == 1:
-                self.game.character_creation_active = True
+                self.game.mode = self.game.character_creation.name
             elif val == 2:
-                self.game.game_pause = False
+                self.game.mode = self.game.over_world.name
 
     def blitme(self, screen):
+        if self.game.mode != self.name: return
         screen.blit(self.fade, (0, 0))
         screen.blit(self.image, self.rect)
         self.animation.blitme(screen)

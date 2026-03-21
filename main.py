@@ -12,9 +12,11 @@ class Main():
     def __init__(self):
         pygame.init()
         self.running = True
-        self.game_pause = True
-        self.character_creation_active = False
-        self.battle_active = False
+        # self.game_pause = True
+        # self.character_creation_active = False
+        # self.battle_active = False
+        self.transition_to = ''
+        self.pause_event = False
         self.settings = Settings()
         sw, sh = self.settings.screen_width, self.settings.screen_height
         self.clock = pygame.time.Clock()
@@ -23,83 +25,73 @@ class Main():
         pygame.display.set_caption('Akavir: God of none')
         self.start_screen = StartScreen(self)
         self.character_creation = CharacterCreation(self)
-        self.battle = Battle()
-        self.over_world = OverWorld()
-        self.transition_to = ''
-        self.fade = FadeAnimation()
+        self.battle = Battle(self)
+        self.over_world = OverWorld(self)
+        self.fade_animation = FadeAnimation(self)
+        self.mode = self.start_screen.name
 
     def run(self):
         while self.running:
-            if self.fade.animation_active:
-                self.check_animation()
-            else:
-                self.check_event()
-                if self.game_pause:
-                    if self.character_creation_active:
-                        self.character_creation.update()
-                    else:
-                        self.start_screen.update()
-                else:
-                    if self.battle_active:
-                        self.battle.update()
-                    else:
-                        self.over_world.update()
+            self.check_event()
+            match self.mode:
+                case self.character_creation.name:
+                    self.character_creation.update()
+                case self.start_screen.name:
+                    self.start_screen.update()
+                case self.battle.name:
+                    self.battle.update()
+                case self.over_world.name:
+                    self.over_world.update()
             self.update_screen()
             self.clock.tick(60)
 
     def update_screen(self):
         self.screen.fill((100,100,100))
-        if self.game_pause:
-            if self.character_creation_active:
+        match self.mode:
+            case self.character_creation.name:
                 self.character_creation.blitme(self.screen)
-            else:
+            case self.start_screen.name:
                 self.start_screen.blitme(self.screen)
-        else:
-            if self.battle_active:
+            case self.battle.name:
                 self.battle.blitme(self.screen)
-            else:
+            case self.over_world.name:
                 self.over_world.blitme(self.screen)
-        if self.fade.animation_active:
-            self.fade.blitme(self.screen)
+            case self.fade_animation.name:
+                self.fade_animation.blitme(self.screen)
+        # self.character_creation.blitme(self.screen)
+        # self.start_screen.blitme(self.screen)
+        # self.battle.blitme(self.screen)
+        # self.over_world.blitme(self.screen)
+        # self.fade_animation.blitme(self.screen)
         pygame.display.flip()
 
-    def check_animation(self):
-        if self.fade.animation_done:
-            if self.transition_to == 'battle':
-                self.battle_active = True
-                self.battle.init_battle()
-            self.fade.reset()
-            if self.fade.fade_in:
-                self.fade.animation_active = True
-                self.fade.fade_in = False
-
-    def start_transition(self, to):
+    def fade(self, to):
         self.transition_to = to
-        self.fade.animation_active = True
+        self.pause_event = True
+        self.mode = self.fade_animation.name
+        self.fade_animation.animation_active = True
 
     def check_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            # elif event.type == pygame.KEYDOWN and event.key == pygame.K_q:
-            #     sys.exit()
-            elif  event.type == pygame.KEYDOWN and event.key == pygame.K_p:
-                self.game_pause = True                
-
-            if self.game_pause:
-                if self.character_creation_active:
+            if self.pause_event: return
+            match self.mode:
+                case self.character_creation.name:
                     self.character_creation.handle_event(event)
-                else:
+                case self.start_screen.name:
                     self.start_screen.handle_event(event)
-            else:
-                if self.battle_active:
+                case self.battle.name:
                     self.battle.handle_event(event)
-                else:
+                case self.over_world.name:
                     self.over_world.handle_event(event)
-                    if self.over_world.start_battle:
-                        self.start_transition('battle')
-                        self.over_world.start_battle = False
+                case self.fade_animation.name:
+                    self.fade_animation.handle_event(event)
 
+            # self.character_creation.handle_event(event)
+            # self.start_screen.handle_event(event)
+            # self.battle.handle_event(event)
+            # self.over_world.handle_event(event)
 
 if __name__ == '__main__':
     game = Main()

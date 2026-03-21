@@ -259,6 +259,7 @@ class Tile:
         self.id = properties["id"]
         self.collision = properties["collision"]
         self.is_overlay = properties["is_overlay"]
+        # Types: 'chest', 'summon', 'wall', 'door', 'object', 'ground'
         self.type = properties["type"] 
         self.value = properties["value"] 
         self.width = str(self.size)

@@ -15,7 +15,9 @@ from info_display import MiraclesInfoDisplay
 from d20 import D20
 
 class Battle():
-    def __init__(self):
+    def __init__(self, game):
+        self.game = game
+        self.name = 'battle'
         self.game_pause = False
         self.walking_animation = False
         self.allow_events = True
@@ -47,6 +49,7 @@ class Battle():
         self.map.load_grid_data(self.battle_object, self.current_id)
 
     def update(self):
+        if self.game.mode != self.name: return
         if self.info.active:
             self.info.update()
         else:
@@ -61,6 +64,7 @@ class Battle():
                 self.action_wheel.update()
 
     def handle_event(self, event):
+        if self.game.mode != self.name: return
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.MOUSEWHEEL:
@@ -228,6 +232,7 @@ class Battle():
         self.step_range_circle.set_alpha(60)
 
     def blitme(self, screen):
+        if self.game.mode != self.name: return
         c = self.battle_object[self.current_id]
         self.map.blit_all_tiles(screen)
         for char in self.battle_object.values():

@@ -9,9 +9,11 @@ from dialogs import Dialog, dialog_texts
 from fade_animation import FadeAnimation
 
 class OverWorld():
-    def __init__(self):
-        self.game_pause = False
-        self.start_battle = False
+    def __init__(self, game):
+        self.game = game
+        self.name = 'over world'
+        # self.game_pause = False
+        # self.start_battle = False
         self.settings = Settings()
         self.map = Map("map_1")
         self.player = Player()
@@ -25,6 +27,7 @@ class OverWorld():
         # self.transition_to = ''
 
     def update(self):
+        if self.game.mode != self.name: return
         # self.check_animation()
         self.map.mobile_collision_grid = {}
         self.map.mobile_collision_grid[self.player.id] = self.player.get_coordinates()
@@ -46,6 +49,7 @@ class OverWorld():
     #                 self.start_battle = True
 
     def blitme(self, screen):
+        if self.game.mode != self.name: return
         self.map.blit_all_tiles(screen)
         for npc in self.npc_group:
             npc.blitme(screen)
@@ -57,6 +61,7 @@ class OverWorld():
         # self.map.blit_overlay(self.player.rect, screen)
 
     def handle_event(self, event):
+        if self.game.mode != self.name: return
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.MOUSEWHEEL:
@@ -79,7 +84,8 @@ class OverWorld():
             if is_down:
                 self.handle_action()
         elif key == pygame.K_p:
-            self.game_pause = True
+            pass
+            # self.game_pause = True
         elif key == pygame.K_a:
             if is_down:
                 self.player.change_action('attack')
@@ -105,7 +111,9 @@ class OverWorld():
         if npc == None:
             return
         if npc == 'mike':
-            self.start_battle = True
+            self.game.fade(self.game.battle.name)
+            self.game.battle.init_battle()
+            # self.start_battle = True
             # self.transition_to = 'battle'
             # self.fade.animation_active = True
         else:

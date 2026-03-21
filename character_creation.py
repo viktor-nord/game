@@ -20,6 +20,7 @@ class CharacterCreation(Page):
     def __init__(self, game):
         super().__init__(game)
         self.game = game
+        self.name = "character creation"
         self.religion_page = ReligionPage(self.game)
         self.race_page = RacePage(self.game)
         self.ability_page = AbilityPage(self.game)
@@ -32,6 +33,7 @@ class CharacterCreation(Page):
         self.nav_bar = NavBar()
 
     def update(self):
+        if self.game.mode != self.name: return
         if self.page == "general":
             self.general_page.update()
         elif self.page == "religion":
@@ -48,6 +50,7 @@ class CharacterCreation(Page):
             self.general_page.update()
 
     def blitme(self, screen):
+        if self.game.mode != self.name: return
         if self.page == "general":
             self.general_page.blitme(screen)
         elif self.page == "religion":
@@ -65,6 +68,7 @@ class CharacterCreation(Page):
         self.nav_bar.blitme(screen)
 
     def handle_event(self, event):
+        if self.game.mode != self.name: return
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.handle_click()
         elif event.type == pygame.KEYDOWN:
