@@ -7,7 +7,7 @@ from settings import Settings
 class FadeAnimation():
     def __init__(self, game, type=1):
         self.game = game
-        self.name = 'fade animation'
+        self.name = 'fade_animation'
         self.settings = Settings()
         self.type = type
         self.image = pygame.Surface((self.settings.screen_width, self.settings.screen_height), pygame.SRCALPHA).convert_alpha()

@@ -11,7 +11,7 @@ from fade_animation import FadeAnimation
 class OverWorld():
     def __init__(self, game):
         self.game = game
-        self.name = 'over world'
+        self.name = 'over_world'
         self.settings = Settings()
         self.map = Map("map_1")
         self.player = Player()
@@ -93,8 +93,8 @@ class OverWorld():
         if npc == None:
             return
         if npc == 'mike':
-            self.game.fade(self.game.battle.name)
-            self.game.battle.init_battle()
+            self.game.fade('battle')
+            self.game.components['battle'].init_battle()
             # self.start_battle = True
             # self.transition_to = 'battle'
             # self.fade.animation_active = True

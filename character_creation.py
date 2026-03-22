@@ -20,7 +20,7 @@ class CharacterCreation(Page):
     def __init__(self, game):
         super().__init__(game)
         self.game = game
-        self.name = "character creation"
+        self.name = "character_creation"
         self.religion_page = ReligionPage(self.game)
         self.race_page = RacePage(self.game)
         self.ability_page = AbilityPage(self.game)

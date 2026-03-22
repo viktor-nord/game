@@ -20,67 +20,45 @@ class Main():
         self.screen = pygame.display.set_mode((sw, sh))
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption('Akavir: God of none')
-        self.mode = 'start screen'
-        self.start_screen = StartScreen(self)
-        self.character_creation = CharacterCreation(self)
-        self.battle = Battle(self)
-        self.over_world = OverWorld(self)
-        self.fade_animation = FadeAnimation(self)
-        # self.mode = self.start_screen.name
+        self.mode = 'start_screen'
+        self.components = {
+            'start_screen': StartScreen(self),
+            'character_creation': CharacterCreation(self),
+            'battle': Battle(self),
+            'over_world': OverWorld(self),
+            'fade_animation': FadeAnimation(self),
+        }
 
     def run(self):
         while self.running:
             self.check_event()
-            match self.mode:
-                case self.character_creation.name:
-                    self.character_creation.update()
-                case self.start_screen.name:
-                    self.start_screen.update()
-                case self.battle.name:
-                    self.battle.update()
-                case self.over_world.name:
-                    self.over_world.update()
+            self.components[self.mode].update()
             self.update_screen()
             self.clock.tick(60)
 
     def update_screen(self):
-        self.screen.fill((100,100,100))
-        match self.mode:
-            case self.character_creation.name:
-                self.character_creation.blitme(self.screen)
-            case self.start_screen.name:
-                self.start_screen.blitme(self.screen)
-            case self.battle.name:
-                self.battle.blitme(self.screen)
-            case self.over_world.name:
-                self.over_world.blitme(self.screen)
-            case self.fade_animation.name:
-                self.fade_animation.blitme(self.screen)
+        self.screen.fill((0,2,21))
+        self.components[self.mode].blitme(self.screen)
         pygame.display.flip()
 
     def fade(self, to):
         self.transition_to = to
         self.pause_event = True
         # self.mode = self.fade_animation.name
-        self.fade_animation.animation_active = True
+        self.components['fade_animation'].animation_active = True
 
     def check_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
-            if self.pause_event: return
-            match self.mode:
-                case self.character_creation.name:
-                    self.character_creation.handle_event(event)
-                case self.start_screen.name:
-                    self.start_screen.handle_event(event)
-                case self.battle.name:
-                    self.battle.handle_event(event)
-                case self.over_world.name:
-                    self.over_world.handle_event(event)
+                self.running = False
+            elif self.pause_event: 
+                return
+            else: 
+                self.components[self.mode].handle_event(event)
 
 if __name__ == '__main__':
     game = Main()
     game.run()
+    sys.exit()
     pygame.quit()
     quit()

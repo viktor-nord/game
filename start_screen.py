@@ -9,7 +9,7 @@ class StartScreen:
     def __init__(self, game):
         self.game = game
         self.setting = Settings()
-        self.name = 'start screen'
+        self.name = 'start_screen'
         self.image = pygame.image.load('assets/ui_sprites/Sprites/Book Desk/3.png')
         self.rect = self.image.get_rect(center = (self.setting.screen_width / 2, self.setting.screen_height / 2))
         self.buttons = self.generate_buttons()
@@ -49,9 +49,9 @@ class StartScreen:
         for btn in self.buttons:
             val = btn.check_click()
             if val == 1:
-                self.game.mode =  'character creation'
+                self.game.mode =  'character_creation'
             elif val == 2:
-                self.game.mode = 'over world'
+                self.game.mode = 'over_world'
 
     def blitme(self, screen):
         screen.blit(self.image, self.rect)
