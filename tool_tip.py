@@ -2,8 +2,7 @@ import pygame
 from font import Text
 
 class ToolTip:
-    def __init__(self, game, text, parent):
-        self.game = game
+    def __init__(self, text, parent):
         self.text = text
         self.parent = parent
         self.img = pygame.image.load("assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Plain/4 Notification/2 - single papper.png")

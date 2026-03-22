@@ -20,13 +20,11 @@ class FadeAnimation():
         self.x = 0
         self.y = 0
         self.animation_active = False
-        # self.animation_done = False
         self.fade_in = True
 
     def reset(self):
         self.animation_active = False
         self.fade_in = True
-        # self.animation_done = False
 
     def type_1(self):
         self.image.blit(self.box_black, (self.x, self.y))
@@ -37,6 +35,7 @@ class FadeAnimation():
             self.y += self.space
         if self.y == self.settings.screen_height:
             self.game.mode = self.game.transition_to
+            self.game.transition_to = ""
             self.fade_in = False
             self.x = 0
             self.y = 0
@@ -61,14 +60,3 @@ class FadeAnimation():
             else:
                 self.fade_out()
             screen.blit(self.image, (0, 0))
-
-        # if self.animation_active:
-            # if self.animation_done == False:
-                # if self.fade_in:
-                #     if self.type == 1:
-                #         self.type_1()
-                #     elif self.type == 2:
-                #         self.type_2()
-                # else:
-                #     self.fade_out()
-            # screen.blit(self.image, (0, 0))

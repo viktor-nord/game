@@ -12,8 +12,6 @@ class OverWorld():
     def __init__(self, game):
         self.game = game
         self.name = 'over world'
-        # self.game_pause = False
-        # self.start_battle = False
         self.settings = Settings()
         self.map = Map("map_1")
         self.player = Player()
@@ -23,12 +21,8 @@ class OverWorld():
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
         # self.npc_group = []
         self.dialog = None
-        # self.fade = FadeAnimation()
-        # self.transition_to = ''
 
     def update(self):
-        if self.game.mode != self.name: return
-        # self.check_animation()
         self.map.mobile_collision_grid = {}
         self.map.mobile_collision_grid[self.player.id] = self.player.get_coordinates()
         for npc in self.npc_group:
@@ -41,27 +35,15 @@ class OverWorld():
             npc.check_movement(posible_npc_moves)
             npc.update(posible_npc_moves)
 
-    # def check_animation(self):
-    #     if self.fade.animation_active:
-    #         if self.fade.animation_done:
-    #             if self.transition_to == 'battle':
-    #                 self.fade.reset()
-    #                 self.start_battle = True
-
     def blitme(self, screen):
-        if self.game.mode != self.name: return
         self.map.blit_all_tiles(screen)
         for npc in self.npc_group:
             npc.blitme(screen)
         self.player.blitme(screen)
         if self.dialog:
             self.dialog.blitme(screen)
-        # if self.fade.animation_active:
-        #     self.fade.blitme(screen)
-        # self.map.blit_overlay(self.player.rect, screen)
 
     def handle_event(self, event):
-        if self.game.mode != self.name: return
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.MOUSEWHEEL:

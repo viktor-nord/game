@@ -4,10 +4,8 @@ from font import Text, PlainText
 from tool_tip import ToolTip
 
 class Button(Sprite):
-    def __init__(self, game, id, text, parent, value, tool_tip=""):
+    def __init__(self, id, text, parent, value, tool_tip=""):
         super().__init__()
-        self.game = game
-        self.screen = game.screen
         self.id = id
         self.value = value
         self.is_hover = False
@@ -31,7 +29,7 @@ class Button(Sprite):
         self.surf_active.blit(self.text.image, self.text.rect)
         self.has_tool_tip = len(tool_tip) > 0
         if self.has_tool_tip:
-            self.tool_tip = ToolTip(game, tool_tip, self.rect)
+            self.tool_tip = ToolTip(tool_tip, self.rect)
 
     def blitme(self, screen):
         if self.is_hover:
@@ -201,7 +199,7 @@ class CheckBoxList():
         
 class CheckBox(Button):
     def __init__(self, game, id, text, parent, value=None, tool_tip="", is_disabled=False):
-        super().__init__(game, id, text, parent, value, tool_tip)
+        super().__init__(id, text, parent, value, tool_tip)
         # self.width = 280
         self.height = game.settings.tile_size
         self.surf = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA)
