@@ -217,11 +217,20 @@ class Map:
         return tiles
     
     def get_sceleton_grid(self):
+        # replace list with []
         tiles = list(range(0, self.settings.y_tiles))
         for y in tiles[:]:
             tiles[y] = list(range(0, self.settings.x_tiles))
             for x in tiles[y]:
                 tiles[y][x] = {"x": x * self.size, "y": y * self.size, "layers": []}
+        return tiles
+
+    def get_sceleton_grid(self):
+        tiles = []
+        for y in range(0, self.settings.y_tiles):
+            tiles.append([])
+            for x in range(0, self.settings.x_tiles):
+                tiles[y].append({"x": x * self.size, "y": y * self.size, "layers": []})
         return tiles
 
     def set_collision_grid(self, tile, properties):

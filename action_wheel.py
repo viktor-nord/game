@@ -22,6 +22,8 @@ class ActionWheel:
         self.image.blit(self.base_image, (0,0))
         self.rect = self.image.get_rect(center = self.target_rect.center)
         self.active_option = ''
+        self.active_option_text = PlainText('')
+        self.active_option_rect = self.active_option_text.text.get_rect()
         self.action = ''
 
     def load_images(self):
@@ -42,11 +44,14 @@ class ActionWheel:
                 val = a.check_hover(pos)
                 if val:
                     self.active_option = val
+                    self.active_option_text = PlainText(val)
+                    self.active_option_rect = self.active_option_text.text.get_rect(center = self.target_rect.center)
 
     def change_target(self, character):
         self.target_rect = character.rect
         self.current_id = character.id
         self.rect = self.image.get_rect(center = self.target_rect.center)
+        self.active_option_rect = self.active_option_text.text.get_rect(center = self.target_rect.center)
         self.load_images()
 
     def handle_click(self, pos=None):
@@ -64,8 +69,7 @@ class ActionWheel:
         for a in self.actions:
             a.blitme(screen)
         if self.active_option:
-            t = PlainText(self.active_option)
-            screen.blit(t.image, t.image.get_rect(center=self.target_rect.center))
+            screen.blit(self.active_option_text.text, self.active_option_rect)
 
 class WheelAction:
     def __init__(self, value, index, icon, pos, target_rect):

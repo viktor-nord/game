@@ -26,8 +26,8 @@ class Main():
             'character_creation': CharacterCreation(self),
             'battle': Battle(self),
             'over_world': OverWorld(self),
-            'fade_animation': FadeAnimation(self),
         }
+        self.fade_animation = FadeAnimation(self)
 
     def run(self):
         while self.running:
@@ -37,22 +37,23 @@ class Main():
             self.clock.tick(60)
 
     def update_screen(self):
-        self.screen.fill((0,2,21))
+        self.screen.fill((0, 2, 22))
         self.components[self.mode].blitme(self.screen)
+        if self.fade_animation.animation_active: 
+            self.fade_animation.blitme(self.screen)
         pygame.display.flip()
 
     def fade(self, to):
         self.transition_to = to
         self.pause_event = True
-        # self.mode = self.fade_animation.name
-        self.components['fade_animation'].animation_active = True
+        self.fade_animation.animation_active = True
 
     def check_event(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
             elif self.pause_event: 
-                return
+                pass
             else: 
                 self.components[self.mode].handle_event(event)
 

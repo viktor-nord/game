@@ -42,27 +42,15 @@ class AbilityPage(Page):
             "primary": ""
         }
         player = self.get_db("save/player.json")
-        # with open("save/player.json", "r") as db:
-        #     player = json.load(db)
         if player["general"]["race"] == "" or player["religion"]["practice"] == "":
             return dic
         races = self.get_db("data/rases.json")
         dic["abi"] = races[player["general"]["race"]]["abi"]
-        # with open("data/rases.json", "r") as races_db:
-        #     races = json.load(races_db)
-        #     dic["abi"] = races[player["general"]["race"]]["abi"]
         practice = self.get_db("data/classes.json")
         p = practice[player["religion"]["practice"]]
         dic["pa"] = p["proficiency_choices"]["choose"]
         dic["po"] = p["proficiency_choices"]["options"]
         dic["primary"] = p["primary_skill"]
-
-        # with open("data/classes.json", "r") as practice_db:
-        #     practice = json.load(practice_db)
-        #     p = practice[player["religion"]["practice"]]
-        #     dic["pa"] = p["proficiency_choices"]["choose"]
-        #     dic["po"] = p["proficiency_choices"]["options"]
-        #     dic["primary"] = p["primary_skill"]
         return dic
 
     def get_disabled_proficiencies(self, acceptable_proficiencies):
@@ -154,8 +142,9 @@ class AbilityPage(Page):
 
     def blitme(self, screen):
         super().blitme(screen)
-        for ability in self.abilities:
-            screen.blit(ability.image, ability.parent)
+        screen.blits([(ability.image, ability.parent) for ability in self.abilities])
+        # for ability in self.abilities:
+        #     screen.blit(ability.image, ability.parent)
         screen.blit(self.left_title.image, self.left_title.rect)
         screen.blit(self.right_title.image, self.right_title.rect)
         self.proficiencies.draw_list(screen)
@@ -216,7 +205,7 @@ class AbilityBox:
         return None
 
     def change_value(self, operator, options):
-        l = list(range(0, len(self.values)))
+        l = list(range(0, len(self.values))) # replace list with []
         if operator == "+":
             for i in l:
                 if i > self.value_index and i not in options:
