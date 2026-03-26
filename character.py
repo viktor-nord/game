@@ -81,10 +81,8 @@ class Character():
 
     def take_damage(self, damage, type='bludgeoning', delay=0):
         self.hp -= damage
-        if delay > 0:
-            self.character_sprite.queue.append(f"delay {delay}")
-        self.character_sprite.queue.append("hurt")
-        # self.change_action('hurt')
+        self.character_sprite.queue.append(delay)
+        self.character_sprite.queue.append('hurt')
         if self.hp <= 0:
             self.hp = 0
             self.character_sprite.queue.append('death')

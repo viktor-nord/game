@@ -9,7 +9,7 @@ class CharacterSprite:
         self.image = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
         self.frames = self.get_frames(type)
         self.counter = 0
-        self.frame = 0
+        self.frame_counter = 0
         self.rect = pygame.Rect((pos[0], pos[1]), (self.size, self.size))
         self.action = 'idle'
         self.queue = []
@@ -128,29 +128,36 @@ class CharacterSprite:
 
     def handle_animation_counter(self):
         delay = 3
-        self.frame = self.counter // delay
-        if (self.counter + 1) // delay > len(self.frames[self.action]) - 1:
-            if len(self.queue):
-                if self.queue[0][:5] == "delay":
-                    if int(self.queue[0][6:]) == 0:
+        self.frame_counter = self.counter // delay
+        done = (self.counter + 1) // delay == len(self.frames[self.action])
+        if len(self.queue):
+            if self.queue[0] in self.frames.keys():
+                if self.action == self.queue[0]:
+                    if done:
                         del self.queue[0]
                     else:
-                        val = int(self.queue[0][6:]) - 1
-                        self.queue[0] = f"delay {val}"
-                        print(self.queue[0])
-                
-            elif self.action != 'death':
-                self.counter = 0
-                self.frame = 0
-                if self.action in self.single_animation:
-                    self.action = 'idle'
-            else: 
-                print(self.counter)
+                        self.counter += 1
+                else:
+                    self.counter = 0
+                    self.frame_counter = 0
+                    self.action = self.queue[0]
+            else:
+                if self.queue[0] == 0:
+                    del self.queue[0]
+                else:
+                    self.queue[0] = self.queue[0] - 1
         else:
-            self.counter += 1
+            if done:
+                if self.action != 'death':
+                    self.counter = 0
+                    self.frame_counter = 0
+                    if self.action in self.single_animation:
+                        self.action = 'idle'
+            else:
+                self.counter += 1
 
     def blitme(self, screen, rect):
         offset = rect.move(-64, -32)
         self.handle_animation_counter()
-        img = pygame.transform.flip(self.frames[self.action][self.frame], self.is_flipped, False)
+        img = pygame.transform.flip(self.frames[self.action][self.frame_counter], self.is_flipped, False)
         screen.blit(img, offset)
