@@ -5,7 +5,7 @@ class Settings():
         self.tile_size = 32
         self.x_tiles = 32
         self.y_tiles = 16
-        self.fps = 30
+        self.fps = 60
         self.screen_width = self.x_tiles * self.tile_size # 1024
         self.screen_height = self.y_tiles * self.tile_size # 512
         self.center = (self.screen_width / 2, self.screen_height / 2)

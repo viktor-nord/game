@@ -15,6 +15,7 @@ class CharacterSprite:
         self.queue = []
         self.single_animation = ['attack', 'hurt']
         self.is_flipped = False
+        self.is_dead = False
 
     def get_frames(self, type):
         url = 'assets/tileset/Characters/'
@@ -90,7 +91,7 @@ class CharacterSprite:
                     f'{url}Goblin/PNG/spr_hurt_strip8.png', 
                 ],
                 'death': [
-                    f'{url}Goblin/PNG/spr_death_strip13.png',
+                    f'{url}Goblin/PNG/spr_death_strip9.png',
                 ]
             },
             'skeleton': {
@@ -113,6 +114,7 @@ class CharacterSprite:
         }
         distance_between_frames = 192
         for key, val in mall[type].items():
+            # frame_amount = int(pygame.image.load(val[0]).convert().get_width() / distance_between_frames)
             frame_amount = int(val[0][-6:-4].replace('p',''))
             frames[key] = []
             for i in range(frame_amount):
@@ -130,6 +132,8 @@ class CharacterSprite:
         delay = 3
         self.frame_counter = self.counter // delay
         done = (self.counter + 1) // delay == len(self.frames[self.action])
+        if self.is_dead:
+            return
         if len(self.queue):
             if self.queue[0] in self.frames.keys():
                 if self.action == self.queue[0]:
@@ -148,7 +152,9 @@ class CharacterSprite:
                     self.queue[0] = self.queue[0] - 1
         else:
             if done:
-                if self.action != 'death':
+                if self.action == 'death':
+                    self.is_dead = True
+                else:
                     self.counter = 0
                     self.frame_counter = 0
                     if self.action in self.single_animation:
