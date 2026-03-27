@@ -33,6 +33,7 @@ class Battle():
             "bob": Npc('bob', (24, 3), type='skeleton'), 
             "mike": Npc('mike', (5, 11)), 
         }
+        self.dead_list = []
         self.ui = BattleUI(self, self.obj)
         self.map.load_grid_data(self.obj, self.id)
         self.action_wheel_target = None
@@ -52,6 +53,8 @@ class Battle():
         if self.info.active:
             self.info.update()
         else:
+            if self.d20.active and self.d20.animation_active == False and not self.dialog:
+                self.dialog = Dialog([f"{self.id} is attacking {self.action_wheel.current_id}"])
             if self.walking_animation:
                 self.check_walking_animation()
             else:
@@ -65,8 +68,6 @@ class Battle():
     def handle_event(self, event):
         if event.type == pygame.QUIT:
             sys.exit()
-        elif event.type == pygame.MOUSEWHEEL:
-            pass # scroll_down = True if event.y < 0 else False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             self.handle_click()
         elif event.type == pygame.KEYDOWN:
@@ -128,7 +129,8 @@ class Battle():
             self.map.load_grid_data(self.obj, self.id)
 
     def handle_click(self):
-        if self.d20.active:
+        if self.d20.active and self.d20.animation_active == False:
+            self.melee_attack(self.action_wheel.current_id)
             self.d20.reset()
         pos = pygame.mouse.get_pos()
         self.ui.handle_click(pos)
@@ -147,8 +149,7 @@ class Battle():
             action_obj = self.action_wheel.handle_click(pos)
             if action_obj['val']:
                 self.handle_action_wheel(action_obj)
-            else:
-                self.action_wheel_target = None
+            self.action_wheel_target = None
         else:
             for key, val in self.obj.items():
                 if val.rect.collidepoint(pos) and key != self.id:
@@ -156,6 +157,9 @@ class Battle():
                     self.action_wheel_target = key
 
     def handle_movement(self, key, is_down):
+        if self.d20.active and self.d20.animation_active == False:
+            self.melee_attack(self.action_wheel.current_id)
+            self.d20.reset()
         c = self.obj[self.id]
         if is_down or c.steps_amount < 1:
             return
@@ -170,8 +174,11 @@ class Battle():
             self.obj[self.id].moving_to = target_pos
             self.obj[self.id].handle_movement(key, True)
 
+    def start_roll(self):
+        self.d20.roll()
+
     def melee_attack(self, id):
-        dice = self.d20.roll(False)
+        dice = self.d20.roll(show_animation=False)
         if True:
         # if dice >= self.obj[id].ac or dice == 20:
             if dice == 20:
@@ -183,8 +190,11 @@ class Battle():
             # damage = self.d20.roll(dice=weapon['dice'])
             self.obj[self.id].change_action('attack')
             status = self.obj[id].take_damage(damage, weapon['damage_type'], 18)
-            if status:
-                print(status)
+            if status == 'death':
+                self.dead_list.append(self.obj[id])
+                i = self.turn_order.index(id)
+                del self.turn_order[i]
+                del self.obj[id]
             self.action_wheel_target = None
         else:
             if dice == 0:
@@ -199,7 +209,8 @@ class Battle():
                 return
             target = self.get_adjesent_target(action_obj['id'])
             if target == action_obj['id']:
-                self.melee_attack(action_obj['id'])
+                self.start_roll()
+                # self.melee_attack(action_obj['id'])
                 self.obj[self.id].actions_amount -= 1
                 self.get_ui()
             else:
@@ -234,6 +245,8 @@ class Battle():
     def blitme(self, screen):
         c = self.obj[self.id]
         self.map.blit_all_tiles(screen)
+        for dead_char in self.dead_list:
+            dead_char.blitme(screen)
         for char in self.obj.values():
             char.blitme(screen)
         if c.is_party_member:

@@ -38,6 +38,7 @@ class Character():
         self.character_sprite = CharacterSprite(pos, type)
         self.is_party_member = False
         self.is_player = False
+        self.is_dead = False
         self.rect = pygame.Rect((pos[0], pos[1]), (self.size, self.size))
         self.moving_right = False
         self.moving_left = False
@@ -86,6 +87,7 @@ class Character():
         if self.hp <= 0:
             self.hp = 0
             self.character_sprite.queue.append('death')
+            self.is_dead = True
             return 'death'
         return None
 

@@ -32,9 +32,12 @@ class D20:
         #     self.render_img()
         self.value = randrange(1, self.dice_max_value + 1)
         if show_animation:
-            self.active = True
-            self.animation_active = True
+            self.start_animation()
         return self.value
+
+    def start_animation(self):
+        self.active = True
+        self.animation_active = True
 
     def reset(self):
         self.value = 'X'

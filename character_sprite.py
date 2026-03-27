@@ -16,6 +16,7 @@ class CharacterSprite:
         self.single_animation = ['attack', 'hurt']
         self.is_flipped = False
         self.is_dead = False
+        self.skull_image = self.frames['death'][-1]
 
     def get_frames(self, type):
         url = 'assets/tileset/Characters/'
@@ -132,12 +133,13 @@ class CharacterSprite:
         delay = 3
         self.frame_counter = self.counter // delay
         done = (self.counter + 1) // delay == len(self.frames[self.action])
-        if self.is_dead:
-            return
+        # if self.is_dead:
+        #     return
         if len(self.queue):
             if self.queue[0] in self.frames.keys():
                 if self.action == self.queue[0]:
                     if done:
+                        self.is_dead = self.action == 'death'
                         del self.queue[0]
                     else:
                         self.counter += 1
@@ -146,24 +148,26 @@ class CharacterSprite:
                     self.frame_counter = 0
                     self.action = self.queue[0]
             else:
+                self.queue[0] -= 1
                 if self.queue[0] == 0:
                     del self.queue[0]
-                else:
-                    self.queue[0] = self.queue[0] - 1
         else:
             if done:
-                if self.action == 'death':
-                    self.is_dead = True
-                else:
-                    self.counter = 0
-                    self.frame_counter = 0
-                    if self.action in self.single_animation:
-                        self.action = 'idle'
+                # if self.action == 'death':
+                #     self.is_dead = True
+                # else:
+                self.counter = 0
+                self.frame_counter = 0
+                if self.action in self.single_animation:
+                    self.action = 'idle'
             else:
                 self.counter += 1
 
     def blitme(self, screen, rect):
         offset = rect.move(-64, -32)
-        self.handle_animation_counter()
-        img = pygame.transform.flip(self.frames[self.action][self.frame_counter], self.is_flipped, False)
-        screen.blit(img, offset)
+        if self.is_dead:
+            screen.blit(self.skull_image, offset)
+        else:
+            self.handle_animation_counter()
+            img = pygame.transform.flip(self.frames[self.action][self.frame_counter], self.is_flipped, False)
+            screen.blit(img, offset)
