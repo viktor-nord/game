@@ -50,7 +50,7 @@ sneak attack
 ## Spells/Miracles
 
 ### db template 
-  "xxx" : {
+  {
     "name": "",
     "desc": "",
     "range": 0,
