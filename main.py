@@ -21,7 +21,7 @@ class Main():
         self.screen = pygame.display.set_mode((sw, sh))
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption('Akavir: God of none')
-        self.mode = 'battle'
+        self.mode = 'start_screen'
         self.settings_menu = SettingsMenu(self)
         self.components = {
             'start_screen': StartScreen(self),

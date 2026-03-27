@@ -91,7 +91,8 @@ class Battle():
 
     def roll_inisiative(self):
         for id in self.obj.keys():
-            self.turn_order.append(id)
+            if id not in self.turn_order:
+                self.turn_order.append(id)
         # dic = {}
         # for id in self.obj.keys():
         #     dic[id] = randrange(1,21)
@@ -100,6 +101,7 @@ class Battle():
 
     def get_ui(self):
         dic = {}
+        print(self.turn_order)
         for id in self.turn_order:
             dic[f"{id}"] = self.obj[f"{id}"]
         self.ui.__init__(self, dic, self.id)
@@ -188,12 +190,12 @@ class Battle():
             weapon = self.obj[self.id].primary_weapon
             damage = 20
             # damage = self.d20.roll(dice=weapon['dice'])
-            self.obj[self.id].change_action('attack')
+            self.obj[self.id].character_sprite.queue.append('attack')
             status = self.obj[id].take_damage(damage, weapon['damage_type'], 18)
             if status == 'death':
                 self.dead_list.append(self.obj[id])
-                i = self.turn_order.index(id)
-                del self.turn_order[i]
+                # print(f"id is {id}")
+                self.turn_order.remove(id)
                 del self.obj[id]
             self.action_wheel_target = None
         else:

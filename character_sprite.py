@@ -133,8 +133,6 @@ class CharacterSprite:
         delay = 3
         self.frame_counter = self.counter // delay
         done = (self.counter + 1) // delay == len(self.frames[self.action])
-        # if self.is_dead:
-        #     return
         if len(self.queue):
             if self.queue[0] in self.frames.keys():
                 if self.action == self.queue[0]:
@@ -153,9 +151,6 @@ class CharacterSprite:
                     del self.queue[0]
         else:
             if done:
-                # if self.action == 'death':
-                #     self.is_dead = True
-                # else:
                 self.counter = 0
                 self.frame_counter = 0
                 if self.action in self.single_animation:
