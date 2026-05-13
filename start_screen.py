@@ -29,7 +29,7 @@ class StartScreen:
         texts = ['New Game', 'Load Game', 'Options']
         buttons = []
         dummy = Button(1337, "dummy", pygame.Rect(10,10,10,10), 0)
-        box = dummy.image.get_rect(center = self.rect.center)
+        box = dummy.surf.get_rect(center = self.rect.center)
         box.y -= 70
         for i, button in enumerate(texts):
             buttons.append(Button(i + 1, button, box, i + 1, f"{button}-{i}"))

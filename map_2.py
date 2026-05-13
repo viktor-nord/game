@@ -1,4 +1,7 @@
+from matplotlib import scale
+from matplotlib.cbook import pts_to_midstep
 import pygame
+from pytmx import pytmx
 from pytmx.util_pygame import load_pygame
 from settings import Settings
 
@@ -18,10 +21,9 @@ class NoTile():
         self.collision = 0
         self.exist = False
 
-class Map:
+class Map2:
     def __init__(self, id='map_1'):
-        base_url = 'assets/maps/'
-        src = f"{base_url}{id}.tmx"
+        src = "assets/maps/test_col_n_obj.tmx"
         self.settings = Settings()
         self.size = self.settings.tile_size
         self.removed_tiles = []
@@ -40,8 +42,9 @@ class Map:
             'frame_images': []
         }
         self.mobile_collision_grid = {}
-        self.tmxdata = load_pygame(src)
+        self.tmxdata = load_pygame(src, pixelalpha=True)
         self.tiles = self.get_tile_grid()
+        self.objects = self.get_object_grid()
 
     def get_tile(self, x, y, l):
         val = NoTile()
@@ -154,13 +157,15 @@ class Map:
         return arr
 
     def blit_all_tiles(self, screen):
-        # return
         for y in self.tiles:
             for x in y:
                 for tile in x["layers"]:
                     if tile.exist:
                         self.blit_tile(tile, x["x"], x["y"], screen)
                         tile.update_frame_counter()
+        for obj in self.objects:
+            img = pygame.transform.scale(obj.image, (self.size, self.size))
+            screen.blit(img, (obj.x * 2, obj.y * 2))
     
     def blit_overlay(self, player_rect, screen):
         x = int((player_rect.x + self.size / 2) // self.size)
@@ -205,17 +210,59 @@ class Map:
 
     def get_tile_grid(self):
         tiles = self.get_sceleton_grid()
-        for layer_index, layer in enumerate(self.tmxdata.visible_layers):
+        for layer_index, layer in enumerate(self.tmxdata.layers):
             self.layers_amount = layer_index + 1
-            for tile in layer.tiles():
-                properties = self.try_get_prop(tile, layer_index)
-                if properties['collision'] > 0:
-                    self.set_collision_grid(tile, properties)
-                properties["frame_images"] = self.get_animation_frames(properties["frames"])
-                tile_obj = Tile(tile, layer_index, properties)                
-                tiles[tile[1]][tile[0]]["layers"].append(tile_obj)
+            # if isinstance(layer, pytmx.TiledObjectGroup):
+            #     # print('dd')
+            #     for obj in layer:
+            #         if obj.value == 'gg':
+            #             print(obj.__dict__)
+            #         # # if hasattr(obj, 'points') and obj.points:
+            #         #     # print('rrrrrrrrrrrrrrrrrr')
+            #         #     points = [(obj.x + p[0], obj.y + p[1]) for p in obj.as_points]
+            #         #     print(points)
+            if isinstance(layer, pytmx.TiledTileLayer):
+                for tile in layer.tiles():
+                    properties = self.try_get_prop(tile, layer_index)
+                    # if properties['collision'] == 7:
+                    #     print(tile.__dir__)
+                    #     # for xxx in properties['colliders']:
+                    #     #     print(xxx)
+
+                    #     print(dir(properties))
+                    #     print(properties.values)
+                    #     # print(properties['colliders'].__dict__)
+                    #     # print(type(properties['colliders']))
+                    #     # for xxx in properties['colliders'].properties.items():
+                    #     #     print(xxx)
+                    #     # print(dir(properties['colliders'].properties))
+                    #     return
+                    if properties['collision'] > 0:
+                        self.set_collision_grid(tile, properties)
+                    properties["frame_images"] = self.get_animation_frames(properties["frames"])
+                    tile_obj = Tile(tile, layer_index, properties)                
+                    tiles[tile[1]][tile[0]]["layers"].append(tile_obj)
         return tiles
     
+    def get_object_grid(self):
+        objects = []
+        self.layers_amount += 1
+        
+        for obj in self.tmxdata.objects:
+            x = obj.x
+            y = obj.y
+            img = obj.image
+            if obj.value == 'gg':
+                ttt = self.tmxdata.get_object_by_id(obj.id)
+                # print(ttt.properties["colliders"].__dict__)
+            # if obj.value == 'gg':
+            #     print(obj.colliders)
+            #     print(obj.properties.colliders.__dict__)
+            # print(obj.properties["is_overlay"])
+            object = Tile((x,y,img), self.layers_amount, obj.properties, is_tile=False)                
+            objects.append(object)
+        return objects
+
     def get_sceleton_grid(self):
         tiles = []
         for y in range(0, self.tmxdata.height):
@@ -247,8 +294,9 @@ class Map:
             properties = self.base_tile_prop
         return properties
 
-class Tile:
-    def __init__(self, tmx_tile, layer_index, properties):
+class Tile(pygame.sprite.Sprite):
+    def __init__(self, tmx_tile, layer_index, properties, is_tile=True):
+        super().__init__()
         self.tmx_tile = tmx_tile
         self.size = Settings().tile_size
         self.x = tmx_tile[0]
@@ -264,8 +312,9 @@ class Tile:
         self.value = properties["value"] 
         self.width = str(self.size)
         self.height = str(self.size) 
-        self.frames = properties["frames"]
-        self.frame_images = properties["frame_images"]
+        if is_tile:
+            self.frames = properties["frames"]
+            self.frame_images = properties["frame_images"]
         self.frame_counter = 0
         self.frame_index = 0
         self.exist = True

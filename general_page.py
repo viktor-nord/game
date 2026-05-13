@@ -34,6 +34,7 @@ class GeneralPage(Page):
         self.gender = ""
         self.gender_label_container = pygame.Rect((self.right_page.left, self.age_input_container.bottom + spacing), (self.right_page.width, 10))
         self.gender_label = Text("Gender", self.gender_label_container, has_underline = True)
+        # self.gender_label = Text("Gender", self.gender_label_container, has_underline = True)
         self.gender_label_container.height = self.gender_label.image.get_height()
         self.gender_checkbox_container = self.gender_label_container.copy()
         self.gender_checkbox_container.top = self.gender_label_container.bottom
@@ -43,7 +44,7 @@ class GeneralPage(Page):
             {"id": "both", "text": "both", "value": "both"},
             {"id": "neither", "text": "neither", "value": "neither"},
         ]
-        self.gender_checkbox = CheckBoxList(game, self.gender_checkbox_container,gender_list)
+        self.gender_checkbox = CheckBoxList(game, self.gender_checkbox_container, gender_list)
         self.complete = False
 
     def check_click(self):

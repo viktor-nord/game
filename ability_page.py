@@ -61,7 +61,7 @@ class AbilityPage(Page):
         return l
 
     def get_p_list(self):
-        return [{"id": proficiencies, "text": proficiencies, "value": proficiencies} for proficiencies in self.proficiencies_list]
+        return [{"id": p, "text": p, "value": p} for p in self.proficiencies_list]
 
     def reset(self):
         self.player = self.get_player()

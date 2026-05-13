@@ -34,16 +34,15 @@ class BattleMap(Map):
         s = (1, self.size) if is_vertical else (self.size, 1)
         surf = pygame.Surface(s).convert_alpha()
         surf.fill(color)
-        surf.set_alpha(100)
         return surf
 
     def get_spacing_grid(self, available_tiles=[], unavailable_tiles=[]):
         w, h = self.settings.screen_width, self.settings.screen_height
         grid = pygame.Surface((w, h), pygame.SRCALPHA).convert_alpha()
-        vertical_unavaliable = self.get_grid_surf((255,0,0), True)
-        horizontal_unavaliable = self.get_grid_surf((255,0,0), False)
-        vertical_avaliable = self.get_grid_surf((0,0,255), True)
-        horizontal_avaliable = self.get_grid_surf((0,0,255), False)
+        vertical_unavaliable = self.get_grid_surf(pygame.Color(255,0,0,100), True)
+        horizontal_unavaliable = self.get_grid_surf(pygame.Color(255,0,0,100), False)
+        vertical_avaliable = self.get_grid_surf(pygame.Color(0,0,255,100), True)
+        horizontal_avaliable = self.get_grid_surf(pygame.Color(0,0,255,100), False)
         x = 0
         y = 0
         while y < self.settings.screen_height:

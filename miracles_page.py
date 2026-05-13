@@ -25,7 +25,7 @@ class MiraclesPage(Page):
             (self.left_page.left + margin, self.left_title_container.bottom + margin), 
             ((self.left_page.width/2) - (margin*2), 100)
         )
-        self.range = SmallTitle(f"Range: {self.display_spell["range"]}", self.stats_container, centered=False)
+        self.range = SmallTitle(f"Range: {self.display_spell["range"]}", self.stats_container)
         self.get_miracle_info(margin)
         # Right side
         self.check_box_container = self.right_page.copy()
@@ -75,7 +75,6 @@ class MiraclesPage(Page):
         self.primary_skill = Text(
             f"Casting Time: {self.display_spell["casting_time"]}", 
             self.primary_skill_container, 
-            centered=False, 
             has_underline=True
         )
         self.secondary_skill_container = self.primary_skill_container.copy()
@@ -83,7 +82,6 @@ class MiraclesPage(Page):
         self.secondary_skill = Text(
             f"Duration: {self.display_spell["duration"]}", 
             self.secondary_skill_container, 
-            centered=False, 
             has_underline=True
         )
         self.desc_text_box_container = pygame.Rect(
@@ -95,17 +93,15 @@ class MiraclesPage(Page):
 
     def render_text(self):
         self.left_title = Title(self.display_spell["name"], self.left_title_container)
-        self.range = SmallTitle(f"Range: {self.display_spell["range"]}", self.stats_container, centered=False)
+        self.range = SmallTitle(f"Range: {self.display_spell["range"]}", self.stats_container)
         self.primary_skill = Text(
             f"Casting Time: {self.display_spell["casting_time"]}", 
             self.primary_skill_container, 
-            centered=False, 
             has_underline=True
         )
         self.secondary_skill = Text(
             f"Duration: {self.display_spell["duration"]}", 
             self.secondary_skill_container, 
-            centered=False, 
             has_underline=True
         )
         self.desc_text_box = TextBox(self.display_spell["desc"], self.desc_text_box_container)

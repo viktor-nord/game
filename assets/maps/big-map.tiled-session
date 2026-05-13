@@ -1,0 +1,51 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/houses.tsx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/houses.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "map_2.tmx": {
+            "scale": 2,
+            "selectedLayer": -1,
+            "viewCenter": {
+                "x": 142,
+                "y": 146.75
+            }
+        },
+        "test_col_n_obj.tmx": {
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 208,
+                "y": 106.75
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/houses.tsx"
+    ],
+    "project": "big-map.tiled-project",
+    "property.type": "object",
+    "recentFiles": [
+        "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/houses.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}

@@ -8218,8 +8218,13 @@
    <property name="collision" type="int" value="1"/>
    <property name="is_overlay" type="int" value="1"/>
    <property name="type" value="object"/>
-   <property name="value" value=""/>
+   <property name="value" value="gg"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="5" x="4.96875" y="5.1875">
+    <polygon points="0,0 2.5,2.9375 4.3125,-0.59375"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1008">
   <properties>
@@ -10332,6 +10337,11 @@
    <property name="type" value="object"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="3">
+   <object id="3" x="2.9735" y="5.4127" width="10.0588" height="7.6196">
+    <ellipse/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1266">
   <properties>
@@ -10828,6 +10838,11 @@
    <property name="type" value="object"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="1.02214" y="6.0167">
+    <polygon points="0,0 14.9372,0.046461 14.9779,9.9833 -0.0232305,9.94265"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1325">
   <properties>
@@ -10836,6 +10851,11 @@
    <property name="type" value="object"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="16">
+    <polygon points="0,0 14.9837,-0.0406534 15.0069,-10.0065 0.0232305,-9.96007"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1326">
   <properties>
@@ -11364,6 +11384,11 @@
    <property name="type" value="object"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0.975681" y="0.0232305">
+    <polygon points="0,0 15.0243,-0.0232305 15.0301,9.94265 0.0232305,9.96588"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1389">
   <properties>
@@ -11372,6 +11397,11 @@
    <property name="type" value="object"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="14.9604" y="9.96588">
+    <polygon points="0,0 0.0232305,-9.94265 -14.9604,-9.96588 -14.9604,0.0232305"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1390">
   <properties>
@@ -14610,6 +14640,11 @@
    <property name="type" value=""/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="2" x="0" y="16">
+    <polygon points="0,0 16,-16 0,-16"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1794">
   <properties>
@@ -14618,6 +14653,9 @@
    <property name="type" value=""/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0.0232305" y="0.0232305" width="15.9593" height="0.92922"/>
+  </objectgroup>
  </tile>
  <tile id="1795">
   <properties>
@@ -14626,6 +14664,11 @@
    <property name="type" value=""/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="4" x="0" y="0">
+    <polygon points="0,0 16,16 16,14.0938 16,13 3.125,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1796">
   <properties>
@@ -15122,6 +15165,9 @@
    <property name="type" value=""/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0.0232305" y="0.0232305" width="0.95245" height="15.9361"/>
+  </objectgroup>
  </tile>
  <tile id="1858">
   <properties>
@@ -15138,6 +15184,9 @@
    <property name="type" value=""/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="3">
+   <object id="3" x="15.0069" y="0.0232305" width="0.95245" height="15.9593"/>
+  </objectgroup>
  </tile>
  <tile id="1860">
   <properties>
@@ -15634,6 +15683,11 @@
    <property name="type" value="wall"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 16,16 0,16"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1922">
   <properties>
@@ -15642,6 +15696,9 @@
    <property name="type" value=""/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="2" x="0" y="14.9837" width="15.9593" height="0.998911"/>
+  </objectgroup>
  </tile>
  <tile id="1923">
   <properties>
@@ -15650,6 +15707,11 @@
    <property name="type" value="wall"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="16">
+    <polygon points="0,0 16,-16 16,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1924">
   <properties>
@@ -16146,6 +16208,11 @@
    <property name="type" value="wall"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="3">
+   <object id="2" x="0" y="0">
+    <polygon points="0,0 16,0 16,16 0,16"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1986">
   <properties>
@@ -16154,6 +16221,11 @@
    <property name="type" value="wall"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 16,0 16,16 0,16"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1987">
   <properties>
@@ -16162,6 +16234,11 @@
    <property name="type" value="wall"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 16,0 16,16 0,16"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1988">
   <properties>
@@ -16658,6 +16735,11 @@
    <property name="type" value="wall"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 16,0 16,16"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="2050">
   <properties>
@@ -16666,6 +16748,11 @@
    <property name="type" value="wall"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 16,0 16,16 0,16"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="2051">
   <properties>
@@ -16674,6 +16761,11 @@
    <property name="type" value="wall"/>
    <property name="value" value=""/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="16" y="0">
+    <polygon points="0,0 -16,16 -16,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="2052">
   <properties>

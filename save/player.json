@@ -3,31 +3,30 @@
         "name": "",
         "age": 0,
         "gender": "",
-        "race": "dwarf",
+        "race": "dovakin",
         "size": "medium",
-        "speed": 50,
+        "speed": 60,
         "traits": [
-            "darkvision",
-            "resilience",
-            "Stonecunning"
+            "bad breath",
+            "resistance"
         ],
         "level": 1
     },
     "religion": {
-        "practice": "imam",
+        "practice": "guru",
         "faith": "",
-        "hit_die": 6
+        "hit_die": 8
     },
     "stats": {
-        "strength": 0,
+        "strength": 2,
         "wisdom": 0,
-        "constitution": 2,
+        "constitution": 0,
         "dexterity": 0,
         "intelligence": 0,
-        "charisma": 0,
-        "strength_modifier": -5,
+        "charisma": 1,
+        "strength_modifier": -4,
         "wisdom_modifier": -5,
-        "constitution_modifier": -4,
+        "constitution_modifier": -5,
         "dexterity_modifier": -5,
         "intelligence_modifier": -5,
         "charisma_modifier": -5

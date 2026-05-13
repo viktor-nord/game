@@ -154,17 +154,10 @@ class CharacterCard:
         font = pygame.font.Font('freesansbold.ttf', 12)
         hp_text = font.render(f"{self.hp}/{self.max_hp}", True, (255,255,255))
         self.text_shadow = pygame.Surface((hp_text.get_width() + 2, hp_text.get_height() + 2)).convert()
-        self.text_shadow.fill((0,0,0))
-        self.text_shadow.set_alpha(100)
+        self.text_shadow.fill(pygame.Color(0,0,0,100))
         text_rect = self.text_shadow.get_rect(center = (self.rect.width / 2, self.rect.height - 8))
         self.image.blit(self.text_shadow, text_rect)
         self.image.blit(hp_text, hp_text.get_rect(center = text_rect.center))
-        name = font.render(f"{id}", True, (255,255,255))
-        shit = pygame.Surface((name.get_width() + 4, name.get_height() + 4)).convert()
-        shit.fill((0,0,0))
-        shit.set_alpha(100)
-        self.image.blit(shit, shit.get_rect(center = self.rect.center))
-        self.image.blit(name, name.get_rect(center = self.rect.center))
 
     def change_state(self):
         if self.is_active:

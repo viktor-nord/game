@@ -1,6 +1,5 @@
 import pygame
 from settings import Settings
-from font import PlainText
 from character_sprite import CharacterSprite
 
 weapons = {

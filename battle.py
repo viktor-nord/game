@@ -101,7 +101,6 @@ class Battle():
 
     def get_ui(self):
         dic = {}
-        print(self.turn_order)
         for id in self.turn_order:
             dic[f"{id}"] = self.obj[f"{id}"]
         self.ui.__init__(self, dic, self.id)
@@ -220,7 +219,6 @@ class Battle():
         elif action_obj['val'] == 'spell':
             self.info.active = True
 
-
     def get_adjesent_target(self, target_id):
         pos = self.obj[self.id].get_coordinates()
         for dir in get_adjasent_cord(pos).values():
@@ -241,8 +239,7 @@ class Battle():
     def set_circle(self, steps, rect):
         radius = steps * self.settings.tile_size + rect.width // 2
         self.step_range_circle = pygame.Surface((self.settings.screen_width, self.settings.screen_height), pygame.SRCALPHA).convert_alpha()
-        pygame.draw.circle(self.step_range_circle, (0,0,255), rect.center, radius, width=2)
-        self.step_range_circle.set_alpha(60)
+        pygame.draw.circle(self.step_range_circle, pygame.Color(0,0,255,60), rect.center, radius, width=2)
 
     def blitme(self, screen):
         c = self.obj[self.id]

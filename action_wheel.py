@@ -1,5 +1,5 @@
 import pygame
-from font import PlainText
+from font import Text
 
 class ActionWheel:
     def __init__(self):
@@ -22,7 +22,7 @@ class ActionWheel:
         self.image.blit(self.base_image, (0,0))
         self.rect = self.image.get_rect(center = self.target_rect.center)
         self.active_option = ''
-        self.active_option_text = PlainText('')
+        self.active_option_text = Text('')
         self.active_option_rect = self.active_option_text.text.get_rect()
         self.action = ''
 
@@ -39,19 +39,18 @@ class ActionWheel:
     def update(self):
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
-            self.active_option = ''
             for a in self.actions:
                 val = a.check_hover(pos)
-                if val:
+                if val != None and val != self.active_option:
                     self.active_option = val
-                    self.active_option_text = PlainText(val)
-                    self.active_option_rect = self.active_option_text.text.get_rect(center = self.target_rect.center)
+                    self.active_option_text = Text(val, parent=self.rect, is_bold=True)
+        else:
+            self.active_option = ''
 
     def change_target(self, character):
         self.target_rect = character.rect
         self.current_id = character.id
         self.rect = self.image.get_rect(center = self.target_rect.center)
-        self.active_option_rect = self.active_option_text.text.get_rect(center = self.target_rect.center)
         self.load_images()
 
     def handle_click(self, pos=None):
@@ -69,7 +68,8 @@ class ActionWheel:
         for a in self.actions:
             a.blitme(screen)
         if self.active_option:
-            screen.blit(self.active_option_text.text, self.active_option_rect)
+            screen.blit(self.active_option_text.text, self.active_option_text.rect)
+            # screen.blit(self.active_option_text.text, self.active_option_rect)
 
 class WheelAction:
     def __init__(self, value, index, icon, pos, target_rect):
@@ -77,13 +77,15 @@ class WheelAction:
         holder_image = get_image(f"{url}5 Holders/24.png")
         icon = get_image(f"{url}1 Items/{icon}.png")
         self.value = value
-        self.surf = pygame.Surface((holder_image.get_width(), holder_image.get_height()), pygame.SRCALPHA).convert_alpha()
-        self.rect = self.surf.get_rect(center = (target_rect.centerx + pos[0], target_rect.centery + pos[1]))
+        wh = (holder_image.get_width(), holder_image.get_height())
+        self.surf = pygame.Surface(wh, pygame.SRCALPHA).convert_alpha()
+        c = target_rect.center
+        self.rect = self.surf.get_rect(center = (c[0] + pos[0], c[1] + pos[1]))
         self.surf.blit(holder_image, (0,0))
         self.surf.blit(icon, (8,8))
         self.hover_img = get_image(f"assets/ui_sprites/ActionWheel/aw_{index}.png", 2)
         self.is_hover = False
-        self.hover_rect = self.hover_img.get_rect(center = target_rect.center)
+        self.hover_rect = self.hover_img.get_rect(center = c)
 
     def blitme(self, screen):
         screen.blit(self.surf, self.rect)
@@ -96,6 +98,7 @@ class WheelAction:
             return self.value
         else:
             self.is_hover = False
+            return None
 
     def check_click(self, pos):
         if self.rect.collidepoint(pos):

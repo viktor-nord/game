@@ -9,6 +9,9 @@ from over_world import OverWorld
 from fade_animation import FadeAnimation
 from settings_menu import SettingsMenu
 
+# print all methods and properties of class
+# print(dir(class))
+
 class Main():
     def __init__(self):
         pygame.init()

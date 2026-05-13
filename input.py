@@ -4,6 +4,7 @@ from settings import Settings
 
 class Input:
     def __init__(self, id, label, parent, max_letters=18, only_numbers=False):
+        pygame.font.init()
         self.id = id
         self.is_active = False
         self.parent = parent
@@ -17,7 +18,7 @@ class Input:
         self.font = pygame.font.Font('assets/font/ThaleahFat.ttf', self.font_size)
         self.text = self.font.render(self.value, False, self.settings.text_color).convert_alpha()
         self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA).convert_alpha()
-        self.label = Text(label, self.image.get_rect(width = self.image.get_width() / 2))
+        self.label = Text(label, self.image.get_rect(width = self.image.get_width() / 2), is_bold=True, size=20)
         self.rect = self.image.get_rect()
         url = "assets/ui_sprites/Sprites/Content/"
         self.start = pygame.image.load(url + '5 Holders/9.png').convert_alpha()

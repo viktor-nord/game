@@ -1,7 +1,7 @@
 import pygame
 
 from page import Page
-from font import Title, Text, get_text_height
+from font import Title, Text
 from button import CheckBoxList
 from text_box import TextBox
 
@@ -13,10 +13,10 @@ class RacePage(Page):
         margin = 8
         self.complete = False
         # Left side
-        self.size_container = self.left_page.copy()
-        self.size_container.top = self.left_title_container.bottom + margin
-        self.size_container.left += margin
-        self.size_container.height = get_text_height()
+        self.size_container = pygame.Rect(
+            (self.left_page.left + margin, self.left_title_container.bottom + margin),
+            (self.left_page.width, 20)
+        )
         self.speed_container = self.size_container.copy()
         self.speed_container.top = self.size_container.bottom
         self.get_abi()
@@ -46,12 +46,12 @@ class RacePage(Page):
         if self.current_race["name"] == "human":
             name = "all"
         text = f"Ability Increase: {name} + {self.current_race["abi"][0]["val"]}"
-        self.abi_text = Text(text, self.abi_container, has_underline=False, centered=False)
+        self.abi_text = Text(text, self.abi_container, has_underline=False)
         self.abi_container_2 = self.abi_container.copy()
         self.abi_container_2.top = self.abi_container.bottom
         if len(self.current_race["abi"]) > 1 and self.current_race["name"] != "human":
             text_2 = f"Ability Increase: {self.current_race["abi"][1]["name"]} + {self.current_race["abi"][1]["val"]}"
-            self.abi_text_2 = Text(text_2, self.abi_container, has_underline=False, centered=False)
+            self.abi_text_2 = Text(text_2, self.abi_container, has_underline=False)
         else:
             self.abi_text_2 = None
 
@@ -69,21 +69,22 @@ class RacePage(Page):
             left=self.left_page.left + 8
         )
         traits_list = self.current_race["traits"]
+        q = self.traits_rect.width / 4
         for i, trait in enumerate(traits_list):
-            p = self.traits_surf.get_rect()
+            t = Text(trait["name"], has_underline=True)
+            r = t.image.get_rect(centerx = q)
             if i == 1:
-                p = self.traits_surf.get_rect(left = self.traits_rect.width // 2)
+                r = t.image.get_rect(y = 0, centerx = q*3)
             if i == 2:
-                p = self.traits_surf.get_rect(top = 30)
+                r = t.image.get_rect(y = t.image.get_height() + 8, centerx = q)
             if i == 3:
-                p = self.traits_surf.get_rect(left = self.traits_rect.width // 2, top = 30)
-            t = Text(trait["name"], p, has_underline=True, centered=False)
-            self.traits_surf.blit(t.image, t.rect)
+                r = t.image.get_rect(y = t.image.get_height() + 8, centerx = q*3)
+            self.traits_surf.blit(t.image, r)
 
     def render_text(self):
         self.left_title = Title(self.current_race["name"], self.left_title_container)
-        self.size_text = Text(f"Size: {self.current_race["size"]}", self.size_container, has_underline=False, centered=False)
-        self.speed_text = Text(f"Speed: {self.current_race["speed"]}", self.speed_container, has_underline=False, centered=False)
+        self.size_text = Text(f"Size: {self.current_race["size"]}", self.size_container, has_underline=False)
+        self.speed_text = Text(f"Speed: {self.current_race["speed"]}", self.speed_container, has_underline=False)
 
     def get_race_list(self):
         arr = []

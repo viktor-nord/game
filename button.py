@@ -2,8 +2,9 @@ import pygame
 from pygame.sprite import Sprite
 from font import Text, PlainText
 from tool_tip import ToolTip
+from settings import Settings
 
-class Button(Sprite):
+class BaseButton(Sprite):
     def __init__(self, id, text, parent, value, tool_tip=""):
         super().__init__()
         self.id = id
@@ -11,34 +12,14 @@ class Button(Sprite):
         self.is_hover = False
         self.is_checked = False
         self.is_selected = False
+        self.button_active = True
+        self.button_disabled = False
         self.parent = parent
-        self.img_base = pygame.image.load('assets/button.png').convert_alpha()
-        self.img_active = pygame.image.load('assets/button_hover.png').convert_alpha()
-        self.wh = (
-            self.img_base.get_rect().width * 2, 
-            self.img_base.get_rect().height * 2
-        )
-        self.surf = pygame.Surface(self.wh, pygame.SRCALPHA)
-        self.surf_active = pygame.Surface(self.wh, pygame.SRCALPHA)
-        self.image = pygame.transform.scale(self.img_base, self.wh)
-        self.surf.blit(pygame.transform.scale(self.img_base, self.wh), (0,0))
-        self.surf_active.blit(pygame.transform.scale(self.img_active, self.wh), (0,0))
+        self.surf = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA).convert_alpha()
+        self.surf_active = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA).convert_alpha()
         self.rect = self.surf.get_rect(center = parent.center)
-        self.text = Text(text, self.surf.get_rect())
-        self.surf.blit(self.text.image, self.text.rect)
-        self.surf_active.blit(self.text.image, self.text.rect)
-        self.has_tool_tip = len(tool_tip) > 0
-        if self.has_tool_tip:
-            self.tool_tip = ToolTip(tool_tip, self.rect)
+        self.text = Text(text)
 
-    def blitme(self, screen):
-        if self.is_hover:
-            screen.blit(self.surf_active, self.rect)
-        else:
-            screen.blit(self.surf, self.rect)
-        # if self.has_tool_tip and self.rect.collidepoint(pygame.mouse.get_pos()):
-        #     self.tool_tip.blitme(screen)
-        
     def update(self):
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
@@ -51,22 +32,49 @@ class Button(Sprite):
         if self.rect.collidepoint(pos):
             self.is_checked = True
             self.is_selected = True
-            return self.id
+            return self.value
         else:
             self.is_checked = False
             self.is_selected = False
             return False
 
+    def blitme(self, screen):
+        if self.is_hover:
+            screen.blit(self.surf_active, self.rect)
+        else:
+            screen.blit(self.surf, self.rect)
+        # if self.has_tool_tip and self.rect.collidepoint(pygame.mouse.get_pos()):
+        #     self.tool_tip.blitme(screen)
+
+class Button(BaseButton):
+    def __init__(self, id, text, parent, value, tool_tip=""):
+        super().__init__(id, text, parent, value, tool_tip=tool_tip)
+        self.img_base = pygame.image.load('assets/button.png').convert_alpha()
+        self.img_active = pygame.image.load('assets/button_hover.png').convert_alpha()
+        wh = (
+            self.img_base.get_rect().width * 2, 
+            self.img_base.get_rect().height * 2
+        )
+        self.surf = pygame.Surface(wh, pygame.SRCALPHA).convert_alpha()
+        self.surf_active = pygame.Surface(wh, pygame.SRCALPHA).convert_alpha()
+        self.surf.blit(pygame.transform.scale(self.img_base, wh), (0,0))
+        self.surf_active.blit(pygame.transform.scale(self.img_active, wh), (0,0))
+        self.rect = self.surf.get_rect(center = parent.center)
+        self.text = Text(text, self.rect, is_bold=False)
+        self.surf.blit(self.text.image, self.text.relative_rect)
+        self.surf_active.blit(self.text.image, self.text.relative_rect)
+        self.has_tool_tip = len(tool_tip) > 0
+        if self.has_tool_tip:
+            self.tool_tip = ToolTip(tool_tip, self.rect)
+
 class TextButton:
     def __init__(self, text, parent, value=None, tooltip=None, right_icon=None, border=True):
         self.value = value if value else text
         self.parent = parent
-        self.has_border = border
         self.is_hover = False
         self.right_icon = right_icon
         self.question_img = pygame.image.load('assets/ui_sprites/node_2D/icon_interrogation.png')
         self.question_rect = self.question_img.get_rect(centery = parent.centery, right = parent.right)
-        # self.right_icon_rect = pygame.Rect((self.parent.right - 16, self.parent.bottom - 16), (16,16))
         self.tooltip = tooltip
         self.animation_active = False
         self.text = PlainText(text)
@@ -120,7 +128,7 @@ class TextButton:
             screen.blit(self.question_img, self.question_rect)
 
 # List =  {"id": any, "text": string, "value": any}
-class CheckBoxList():
+class CheckBoxList:
     def __init__(self, game, parent, list, slim=False, multi=False, pre_selected=[], amount=0, disabled=[]):
         self.game = game
         self.parent = parent
@@ -193,14 +201,10 @@ class CheckBoxList():
         for button in self.list:
             button.blitme(screen)
         
-class CheckBox(Button):
+class CheckBox(BaseButton):
     def __init__(self, game, id, text, parent, value=None, tool_tip="", is_disabled=False):
-        super().__init__(id, text, parent, value, tool_tip)
-        # self.width = 280
+        super().__init__(id, text, parent, value, tool_tip=tool_tip)
         self.height = game.settings.tile_size
-        self.surf = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA)
-        self.surf_active = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA)
-        self.rect = self.surf.get_rect(center = parent.center)
         url = "assets/ui_sprites/Sprites/Content/"
         arrow_img = pygame.image.load(url + "4 Buttons/Sliced/5.png").convert_alpha()
         self.arrow = pygame.transform.flip(arrow_img, True, False)
@@ -211,16 +215,13 @@ class CheckBox(Button):
         self.arrow_rect = self.arrow.get_rect(left=self.rect.left, centery=self.rect.centery)
         self.check_box_rect = self.check_box_img.get_rect(right=self.container.left, centery=self.container.centery)
         self.check_img_rect = self.check_img.get_rect(x = self.rect.x + 16, centery = self.rect.centery - 1)
-        text_container = self.container.copy()
-        text_container.x += 8
-        text_container.y += 6
-        self.text = Text(text, text_container, has_underline=True, centered=False)
+        self.text_rect = self.text.image.get_rect(centery = self.container.centery, left = self.container.left + 8)
         self.fill_surf()
         self.fill_active_surf(url)
 
     def fill_surf(self):
         self.surf.blit(self.check_box_img, self.check_box_rect)
-        self.surf.blit(self.text.text, self.text.rect)
+        self.surf.blit(self.text.image, self.text_rect)
 
     def fill_active_surf(self, url):
         start = pygame.image.load(url + '5 Holders/9.png').convert_alpha()
@@ -235,7 +236,7 @@ class CheckBox(Button):
             x += middle.get_width()
         self.surf_active.blit(middle, (x - 8, start_rect.top))
         self.surf_active.blit(end, end.get_rect(right = self.container.right - 16))
-        self.surf_active.blit(self.text.text, self.text.rect)
+        self.surf_active.blit(self.text.image, self.text_rect)
 
     def blitme(self, screen):
         if self.is_hover:
@@ -247,24 +248,14 @@ class CheckBox(Button):
         if self.is_selected:
             screen.blit(self.arrow, self.arrow_rect)
 
-class CheckBoxSlim():
+class CheckBoxSlim(BaseButton):
     def __init__(self, game, id, text, parent, value=None, tool_tip="", pre_selected=[], is_disabled=False):
-        self.game_screen = game.screen
-        self.is_hover = False
+        super().__init__(id, text, parent, value, tool_tip=tool_tip)
         self.is_disabled = is_disabled
-        if id in pre_selected:
-            self.is_checked = True
-        else:
-            self.is_checked = False
+        self.is_checked = id in pre_selected
         if is_disabled:
-            text_color = (105, 138, 128)
-        else:
-            text_color = None
-        self.value = value
-        self.id = id
-        self.height = game.settings.tile_size
-        self.surf = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA).convert_alpha()
-        self.rect = self.surf.get_rect(center = parent.center)
+            self.text = Text(text, color=(105, 138, 128))
+        self.height = Settings().tile_size
         url = "assets/ui_sprites/Sprites/Content/"
         self.surf_rect = self.surf.get_rect()
         self.check_box_img = pygame.image.load(url + '5 Holders/22.png').convert_alpha()
@@ -273,7 +264,6 @@ class CheckBoxSlim():
         self.x_img = pygame.image.load(url + "2 Icons/8.png").convert_alpha()
         self.check_img_rect = self.check_img.get_rect(centery = self.rect.centery - 1, left = self.rect.left)
         self.container = self.surf.get_rect(left = self.check_box_img.get_width() + 8, width=self.rect.width - self.check_box_img.get_width() - 8)
-        self.text = PlainText(text, color=text_color)
         self.fill_surf(is_disabled)
 
     def fill_surf(self, is_disabled):
@@ -287,16 +277,9 @@ class CheckBoxSlim():
         screen.blit(self.surf, self.rect)
         if self.is_checked:
             screen.blit(self.check_img, self.check_img_rect)
-        if self.is_hover:
+        if self.is_hover and not self.is_disabled:
             r = self.text.under_line_img.get_rect(bottom = self.rect.bottom - 4, left = self.rect.left + self.text.text.get_width() // 2)
             screen.blit(self.text.under_line_img, r)
-
-    def update(self):
-        pos = pygame.mouse.get_pos()
-        if self.rect.collidepoint(pos):
-            self.is_hover = True
-        else:
-            self.is_hover = False
 
     def check_click(self, pos=None):
         if self.is_disabled:
