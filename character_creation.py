@@ -21,13 +21,13 @@ class CharacterCreation(Page):
         super().__init__()
         self.game = game
         self.name = "character_creation"
-        self.religion_page = ReligionPage(self.game)
-        self.race_page = RacePage(self.game)
-        self.ability_page = AbilityPage(self.game)
-        self.miracles_page = MiraclesPage(self.game)
+        self.religion_page = ReligionPage()
+        self.race_page = RacePage()
+        self.ability_page = AbilityPage()
+        self.miracles_page = MiraclesPage()
         self.submit_page = SubmitPage(self.game)
         # self.pages_completed = 0
-        self.general_page = GeneralPage(game)
+        self.general_page = GeneralPage()
         self.pages = ["general", "religion", "race", "ability", "miracles", "submit"]
         self.page = "general"
         self.nav_bar = NavBar()
@@ -94,7 +94,6 @@ class CharacterCreation(Page):
 
     def handle_key(self, key):
         self.general_page.handle_key(key)
-
 
     def get_completed_amount(self):
         val = 0

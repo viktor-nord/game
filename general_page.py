@@ -6,7 +6,7 @@ from input import Input
 from button import CheckBoxList
 
 class GeneralPage(Page):
-    def __init__(self, game):
+    def __init__(self):
         super().__init__()
         margin = 8
         # Left side

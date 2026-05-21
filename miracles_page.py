@@ -8,7 +8,7 @@ from scroll_bar import ScrollBar
 
 
 class MiraclesPage(Page):
-    def __init__(self, game):
+    def __init__(self):
         super().__init__()
         self.right_title = Title("Miracles", self.right_title_container)
         self.complete = False
@@ -17,19 +17,14 @@ class MiraclesPage(Page):
         self.non_magic_users = ["priest", "martyr", "monk", "virgin", "none"]
         self.db_cantrip = self.get_cantrips()
         self.db_lv1 = super().get_db("data/miracles/lv1.json")
-        margin = 8
+        self.margin = 8
         self.display_spell = self.db_cantrip[0] 
-        # Left side
         self.left_title = Title(self.display_spell["name"], self.left_title_container)
         self.stats_container = pygame.Rect(
-            (self.left_page.left + margin, self.left_title_container.bottom + margin), 
-            ((self.left_page.width/2) - (margin*2), 100)
+            (self.left_page.left + self.margin, self.left_title_container.bottom + self.margin), 
+            ((self.left_page.width/2) - (self.margin*2), 100)
         )
-        self.range = SmallTitle(f"Range: {self.display_spell["range"]}", self.stats_container)
-        self.get_miracle_info(margin)
-        # Right side
-        self.check_box_container = self.right_page.copy()
-        self.check_box_container.y += self.right_title.rect.height
+        self.check_box_container = self.right_page.move(0, self.right_title.rect.height)
         self.spell_list = self.get_spell_list()
         self.check_box_list = CheckBoxList(
             self.check_box_container,
@@ -68,44 +63,18 @@ class MiraclesPage(Page):
             arr.append({"id": value["name"], "text": t, "value": value["name"]})
         return arr
         
-    def get_miracle_info(self, margin):
-        self.primary_skill_container = self.stats_container.copy()
-        self.primary_skill_container.y += self.range.rect.height + margin
-        self.primary_skill = Text(
-            f"Casting Time: {self.display_spell["casting_time"]}", 
-            self.primary_skill_container, 
-            has_underline=True
-        )
-        self.secondary_skill_container = self.primary_skill_container.copy()
-        self.secondary_skill_container.y += self.primary_skill.rect.height + margin
-        self.secondary_skill = Text(
-            f"Duration: {self.display_spell["duration"]}", 
-            self.secondary_skill_container, 
-            has_underline=True
-        )
-        self.desc_text_box_container = pygame.Rect(
-            (self.left_page.left, self.secondary_skill.rect.bottom + margin * 4),
-            (self.left_page.width, self.left_page.bottom - self.secondary_skill.rect.bottom - margin*2)
-        )
-        self.desc_text_box = TextBox(self.display_spell["desc"], self.desc_text_box_container)
-        self.desc_text_box.rect.center = self.desc_text_box_container.center
-
     def render_text(self):
         self.left_title = Title(self.display_spell["name"], self.left_title_container)
-        self.range = SmallTitle(f"Range: {self.display_spell["range"]}", self.stats_container)
-        self.primary_skill = Text(
-            f"Casting Time: {self.display_spell["casting_time"]}", 
-            self.primary_skill_container, 
-            has_underline=True
-        )
-        self.secondary_skill = Text(
-            f"Duration: {self.display_spell["duration"]}", 
-            self.secondary_skill_container, 
-            has_underline=True
-        )
-        self.desc_text_box = TextBox(self.display_spell["desc"], self.desc_text_box_container)
-        self.desc_text_box.rect.center = self.desc_text_box_container.center
-
+        self.range = SmallTitle(f"Range: {self.display_spell["range"]}")
+        self.casting_time = Text(f"Casting Time: {self.display_spell["casting_time"]}", has_underline=True)
+        self.duration = Text(f"Duration: {self.display_spell["duration"]}", has_underline=True)
+        self.desc_text_box = TextBox(self.display_spell["desc"], self.left_page)
+        self.range.rect.left = self.casting_time.rect.left = self.duration.rect.left = self.left_page.left + self.margin
+        self.range.rect.y = self.left_title_container.bottom + self.margin
+        self.casting_time.rect.y = self.range.rect.bottom + self.margin
+        self.duration.rect.y = self.casting_time.rect.bottom + self.margin
+        self.desc_text_box.rect.y = self.duration.rect.bottom + self.margin
+        self.desc_text_box.rect.centerx = self.left_page.centerx
 
     def check_click(self):
         id = self.check_box_list.check_click()
@@ -126,6 +95,6 @@ class MiraclesPage(Page):
         self.check_box_list.draw_list(screen)
         screen.blit(self.scroll_bar.image, self.scroll_bar.rect)
         screen.blit(self.range.image, self.range.rect)
-        screen.blit(self.primary_skill.image, self.primary_skill.rect)
-        screen.blit(self.secondary_skill.image, self.secondary_skill.rect)
+        screen.blit(self.casting_time.image, self.casting_time.rect)
+        screen.blit(self.duration.image, self.duration.rect)
         screen.blit(self.desc_text_box.image, self.desc_text_box.rect)

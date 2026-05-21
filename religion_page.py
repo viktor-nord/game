@@ -7,7 +7,7 @@ from text_box import TextBox
 from scroll_bar import ScrollBar
 
 class ReligionPage(Page):
-    def __init__(self, game):
+    def __init__(self):
         super().__init__()
         self.db_classes = self.get_db("data/classes.json")
         self.margin = 8

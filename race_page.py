@@ -6,7 +6,7 @@ from button import CheckBoxList
 from text_box import TextBox
 
 class RacePage(Page):
-    def __init__(self, game):
+    def __init__(self):
         super().__init__()
         self.db_races = super().get_db("data/rases.json")
         self.current_race = self.db_races["dwarf"]
