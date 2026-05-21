@@ -139,8 +139,6 @@ class AbilityPage(Page):
     def blitme(self, screen):
         super().blitme(screen)
         screen.blits([(ability.image, ability.parent) for ability in self.abilities])
-        # for ability in self.abilities:
-        #     screen.blit(ability.image, ability.parent)
         screen.blit(self.left_title.image, self.left_title.rect)
         screen.blit(self.right_title.image, self.right_title.rect)
         self.proficiencies.draw_list(screen)
@@ -155,17 +153,17 @@ class AbilityBox:
         self.values = [0, 8, 10, 12, 13, 14, 15]
         url = "assets/ui_sprites/Sprites/Content/"
         self.image = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA).convert_alpha()
-        self.holder_image = pygame.image.load(url + "5 Holders/3.png").convert_alpha() # 80 x 80
-        self.button_holer = pygame.image.load(url + "5 Holders/7.png").convert_alpha()
-        self.minus_img = pygame.image.load(url + "2 Icons/2.png").convert_alpha()
-        self.plus_img = pygame.image.load(url + "2 Icons/3.png").convert_alpha()
-        self.bonus_image = pygame.image.load(url + "5 Holders/6.png").convert_alpha()
         self.bonus_text = PlainText(str(bonus), size=24)
         self.font = pygame.font.Font('assets/font/ThaleahFat.ttf', 22)
         self.big_font = pygame.font.Font('assets/font/ThaleahFat.ttf', 42)
         self.label = self.font.render(label, False, Settings().text_color)
+        self.holder_image = img(url + "5 Holders/3.png")
+        self.button_holer = img(url + "5 Holders/7.png")
+        self.minus_img = img(url + "2 Icons/2.png")
+        self.plus_img = img(url + "2 Icons/3.png")
+        self.bonus_image = img(url + "5 Holders/6.png")
         img_rect = self.image.get_rect()
-        left_side = self.image.get_rect(width = self.image.get_width() - self.holder_image.get_width())
+        left_side = self.image.get_rect(width = img_rect.width - self.holder_image.get_width())
         self.minus_rect = self.button_holer.get_rect(centery = left_side.centery, right = left_side.width // 2)
         self.plus_rect = self.button_holer.get_rect(centery = left_side.centery, left = left_side.width // 2)
         self.label_container = self.label.get_rect(centerx = left_side.centerx, y = 16 + 8)
@@ -219,3 +217,6 @@ class AbilityBox:
     
     def get_value(self):
         return self.values[self.value_index] + self.bonus
+    
+def img(src):
+    return pygame.image.load(src).convert_alpha()

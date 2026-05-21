@@ -14,9 +14,9 @@
         "level": 1
     },
     "religion": {
-        "practice": "guru",
+        "practice": "rabbi",
         "faith": "",
-        "hit_die": 8
+        "hit_die": 6
     },
     "stats": {
         "strength": 0,
@@ -32,10 +32,7 @@
         "intelligence_modifier": -5,
         "charisma_modifier": -5
     },
-    "proficiencies": [
-        "medicine",
-        "religion"
-    ],
+    "proficiencies": [],
     "miracles": {
         "cantrips": [
             0,

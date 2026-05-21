@@ -76,7 +76,7 @@ class SmallTitle(Text):
         self.image.blit(self.under_line_img, under_line_img_rect)
 
 class LongText(Text):
-    def __init__(self, text, parent, animated=False, size=18, has_underline=True):
+    def __init__(self, text, parent, animated=False, size=16, has_underline=True):
         super().__init__(text, parent, size=size, has_underline=has_underline, is_bold=False)
         self.text_string = text
         self.has_underline = has_underline
@@ -108,9 +108,9 @@ class LongText(Text):
                 x += word.get_width()
             if self.has_underline:
                 while under_line_x < self.width - 32:
-                    self.image.blit(self.under_line_img, (under_line_x, (line_index + 1) * self.size))
+                    self.image.blit(self.under_line_img, (under_line_x, (line_index + 1) * self.size + 1))
                     under_line_x += self.under_line_img.get_width() - 5
-                self.image.blit(self.under_line_img, (self.width - self.under_line_img.get_width(), (line_index + 1) * self.size))
+                self.image.blit(self.under_line_img, (self.width - self.under_line_img.get_width(), (line_index + 1) * self.size + 1))
             x = 0
             under_line_x = 0
 

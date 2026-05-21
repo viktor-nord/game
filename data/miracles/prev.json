@@ -106,7 +106,7 @@
       "dc_success": "none"
     },
     "school": "necromancy",
-    "classes": ["cleric", "sikh", "imam"]
+    "classes": ["cleric", "heathen", "imam"]
   },
   {
     "higher_level": "",
@@ -187,7 +187,7 @@
       "dc_success": "none"
     },
     "school": "conjuration",
-    "classes": ["guru", "rabbi", "sikh", "imam"]
+    "classes": ["guru", "rabbi", "heathen", "imam"]
   },
   {
     "higher_level": "The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
@@ -218,7 +218,7 @@
       "dc_success": "none"
     },
     "school": "conjuration",
-    "classes": ["guru", "rabbi", "sikh", "imam"]
+    "classes": ["guru", "rabbi", "heathen", "imam"]
   },
   {
     "higher_level": "",
@@ -272,7 +272,7 @@
     "school": "conjuration",
     "classes": [
       "rabbi",
-      "sikh",
+      "heathen",
       "imam",
       "guru"      
     ]
@@ -326,7 +326,7 @@
     "school": "conjuration",
     "classes": [
       "rabbi",
-      "sikh",
+      "heathen",
       "imam",
       "guru"
     ]
@@ -456,7 +456,7 @@
     "classes": [
       "cleric",
       "paladin",
-      "sikh",
+      "heathen",
       "imam"
     ]
   },
@@ -536,7 +536,7 @@
     "classes": [
       "gospel",
       "rabbi",
-      "sikh",
+      "heathen",
       "imam"
     ]
   },
@@ -568,7 +568,7 @@
     "school": "necromancy",
     "classes": [
       "rabbi",
-      "sikh",
+      "heathen",
       "imam"
     ]
   },
@@ -634,7 +634,7 @@
     "school": "conjuration",
     "classes": [
       "rabbi",
-      "sikh",
+      "heathen",
       "imam",
       "guru"
     ]
@@ -697,7 +697,7 @@
     },
     "school": "evocation",
     "classes": [
-      "sikh"
+      "heathen"
     ]
   },
   {
@@ -726,7 +726,7 @@
       "dc_success": "none"
     },
     "school": "conjuration",
-    "classes": ["sikh"]
+    "classes": ["heathen"]
   },
   {
     "higher_level": "This spell's damage increases by 1d4 when you reach 5th level (2d4), 11th level (3d4), and 17th level (4d4).",

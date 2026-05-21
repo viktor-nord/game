@@ -45,7 +45,7 @@ sneak attack
 * druid = Guru
 * rogue = virgin
 * sorcerer = rabbi
-* warlock = Sikh
+* warlock = heathen
 
 ## Spells/Miracles
 

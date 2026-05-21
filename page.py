@@ -17,7 +17,7 @@ class Page:
         self.left_page = pygame.Rect((202, 64),(291, 360))
         self.right_title_container = self.right_page.copy()
         self.right_title_container.height = 42
-        self.left_title_container = self.left_page.copy()
+        self.left_title_container = self.left_page.move(16,0)
         self.left_title_container.height = 42
 
     def blitme(self, screen):

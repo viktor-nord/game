@@ -59,7 +59,7 @@
       }
     ],
     "school": "divination",
-    "classes": ["gospel", "rabbi", "sikh", "imam"]
+    "classes": ["gospel", "rabbi", "heathen", "imam"]
   },
   {
     "name": "Thunder Prayer",
@@ -95,7 +95,7 @@
       }
     ],
     "school": "evocation",
-    "classes": ["gospel", "guru", "rabbi", "sikh", "imam"]
+    "classes": ["gospel", "guru", "rabbi", "heathen", "imam"]
   },
   {
     "name": "Demon Spit",
@@ -157,7 +157,7 @@
       }
     ],
     "school": "abjuration",
-    "classes": ["gospel", "rabbi", "sikh", "imam"]
+    "classes": ["gospel", "rabbi", "heathen", "imam"]
   },
   {
     "name": "Sacrificial Blade",
@@ -193,7 +193,7 @@
       }
     ],
     "school": "evocation",
-    "classes": ["rabbi", "sikh", "imam"]
+    "classes": ["rabbi", "heathen", "imam"]
   },
   {
     "name": "Branded Blade",
@@ -229,7 +229,7 @@
       }
     ],
     "school": "evocation",
-    "classes": ["rabbi", "sikh", "imam"]
+    "classes": ["rabbi", "heathen", "imam"]
   },
   {
     "name": "Chill Touch",
@@ -259,7 +259,7 @@
       }
     ],
     "school": "necromancy",
-    "classes": ["rabbi", "sikh", "imam"]
+    "classes": ["rabbi", "heathen", "imam"]
   },
   {
     "name": "Bonfire",
@@ -295,7 +295,7 @@
       }
     ],
     "school": "conjuration",
-    "classes": ["guru", "rabbi", "sikh", "imam"]
+    "classes": ["guru", "rabbi", "heathen", "imam"]
   },
   {
     "name": "Eldritch Blast",
@@ -325,7 +325,7 @@
       }
     ],
     "school": "evocation",
-    "classes": ["sikh"]
+    "classes": ["heathen"]
   },
   {
     "name": "Fire Bolt",
@@ -391,7 +391,7 @@
       }
     ],
     "school": "evocation",
-    "classes": ["guru", "rabbi", "sikh", "imam"]
+    "classes": ["guru", "rabbi", "heathen", "imam"]
   },
   {
     "name": "Spiritual Guidance",
@@ -518,7 +518,7 @@
       }
     ],
     "school": "conjuration",
-    "classes": ["guru", "rabbi", "sikh", "imam"]
+    "classes": ["guru", "rabbi", "heathen", "imam"]
   },
   {
     "name": "Lightning Lure",
@@ -554,7 +554,7 @@
       }
     ],
     "school": "evocation",
-    "classes": ["rabbi", "sikh", "imam"]
+    "classes": ["rabbi", "heathen", "imam"]
   },
   {
     "name": "Holy Pebbles",
@@ -590,7 +590,7 @@
       }
     ],
     "school": "transmutation",
-    "classes": ["guru", "sikh"]
+    "classes": ["guru", "heathen"]
   },
   {
     "name": "Doubt thy Faith",
@@ -626,7 +626,7 @@
       }
     ],
     "school": "enchantment",
-    "classes": ["rabbi", "sikh", "imam"]
+    "classes": ["rabbi", "heathen", "imam"]
   },
   {
     "name": "Poison Spray",
@@ -944,7 +944,7 @@
       }
     ],
     "school": "conjuration",
-    "classes": ["rabbi", "sikh", "imam"]
+    "classes": ["rabbi", "heathen", "imam"]
   },
   {
     "name": "Thorn Whip",
@@ -1010,7 +1010,7 @@
       }
     ],
     "school": "necromancy",
-    "classes": ["cleric", "sikh", "imam"]
+    "classes": ["cleric", "heathen", "imam"]
   },
   {
     "name": "Word of Radiance",

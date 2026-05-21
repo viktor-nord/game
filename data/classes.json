@@ -24,7 +24,7 @@
       }
     ],
     "spellcasting_ability": "wis",
-    "desc": "The Earth Bound worship \"Mother Earth\". They vow to help animals, plants and the earth itself. In return they get the ability to control the earth and transform themselves into a variety of animals",
+    "desc": "The guru worships that which the gods create. Man-made objects hold no value in the hands of a guru. Regardless of faith, one who practices the guru doctrine must always have a place in their hearts for Mother Earth. A true guru only takes a life when another is threatened. However, the \"Earth Bound\" kills for food.",
     "levels": [
       {
         "level": 1,
@@ -113,7 +113,7 @@
       }
     ],
     "spellcasting_ability": "",
-    "desc": "Whether sworn before a god's altar and the witness of a priest, in a sacred glade before nature spirits and fey beings, or in a moment of desperation and grief with the dead as the only witness, a paladin's oath is a powerful bond.",
+    "desc": "A priest worships their god through war. With an unparalleled mastery of weapons, strategy, and combat, they can win against armies stronger than their own. Every priest's goal is to join the crusade of the Red Cross. They are known as the strongest army in Akhavir.",
     "levels": [
       {
         "level": 1,
@@ -200,7 +200,7 @@
       }
     ],
     "spellcasting_ability": "",
-    "desc": "For some, their rage springs from a communion with fierce animal spirits. Others draw from a roiling reservoir of anger at a world full of pain. For every barbarian, rage is a power that fuels not just a battle frenzy but also uncanny reflexes, resilience, and feats of strength.",
+    "desc": "Martyrs sacrifice themselves for their god. Mind, body and soul are currency for miracles. Namely one, the only miracle unique to the martyrs by the name of \"Berserker\". A martyr that has been granted the berserker power loses their pain, limits and sense of self. Only when a martyr has sacrificed everything he has. May he travel to the realm of his god.",
     "levels": [
       {
         "level": 1,
@@ -287,7 +287,7 @@
       }
     ],
     "spellcasting_ability": "int",
-    "desc": "You belewe a varaity of prayers is the way to parise god. You know many things and speak many words. Only by learning everything can one beeing begin to understand god. the true power of knowledge is jet to be rewiled.",
+    "desc": "The word \"Imam\" is an ancient word for both scholar and teacher. They worship God by learning. Not only the god they follow, but every god. It is said an imam learns in life and teaches in death.",
     "levels": [
       {
         "level": 1,
@@ -373,7 +373,7 @@
       }
     ],
     "spellcasting_ability": "wisdom",
-    "desc": "x",
+    "desc": "A cleric worships God by saving his subjects. Clerics believe that a just cause and a good heart is the path to salvation. They specialize in prayer to heal others and miracles that punish the ones who defy death. Life is sacred even after it's gone.",
     "levels": [
       {
         "level": 1,
@@ -460,7 +460,7 @@
       }
     ],
     "spellcasting_ability": "",
-    "desc": "x",
+    "desc": "A monk believes in all gods equally. They spend most of their life praying, meditating, and practicing. Every successful city needs a temple for the monks as a safety precaution. If one god is excluded from the people's prayer, that god may seek retribution. Therefore, it's common practice to donate food and other necessities to the monks. Some monks have been rumored to possess strange powers that cannot be explained.",
     "levels": [
       {
         "level": 1,
@@ -559,7 +559,7 @@
       }
     ],
     "spellcasting_ability": "charisma",
-    "desc": "Whether scholar, skald, or scoundrel, a bard weaves magic through words and music to inspire allies, demoralize foes, manipulate minds, create illusions, and even heal wounds. The bard is a master of song, speech, and the magic they contain.",
+    "desc": "God's gospel is divine by nature. A gospel worships God by entertainment. Any form of entertainment will suffice. They function as arbitrators of propaganda. What mortals believe can not be determined by logic, but by feelings. The ability to touch a mortals heart is something even gods can struggle with.",
     "levels": [
       {
         "level": 1,
@@ -656,7 +656,7 @@
       }
     ],
     "spellcasting_ability": "charisma",
-    "desc": "Whether sworn before a god's altar and the witness of a priest, in a sacred glade before nature spirits and fey beings, or in a moment of desperation and grief with the dead as the only witness, a paladin's oath is a powerful bond.",
+    "desc": "With God as your witness, you swear an oath. A paladin worships god by following that oath. Paladins are warriors of God, so it's not uncommon for priests to transition to paladins. Some believe a paladin's oath only affects how he fights, but this is false. The oath remains after the battle and after the war.",
     "levels": [
       {
         "level": 1,
@@ -748,7 +748,7 @@
       }
     ],
     "spellcasting_ability": "",
-    "desc": "Rogues rely on skill, stealth, and their foes' vulnerabilities to get the upper hand in any situation. They have a knack for finding the solution to just about any problem, demonstrating a resourcefulness and versatility that is the cornerstone of any successful adventuring party.",
+    "desc": "Virgins worship God by rejecting pleasure. Because true pleasure can only come from God's praise. Most live alone, far away from temptation. But the strong ones challenge their own faith by living among the cities debauchery. They are difficult to notice and often specialize in infiltration.",
     "levels": [
       {
         "level": 1,
@@ -812,8 +812,8 @@
       }
     ]
   },
-  "sikh": {
-    "name": "sikh",
+  "heathen": {
+    "name": "heathen",
     "hit_die": 8,
     "proficiency_choices": {
       "choose": 2,
@@ -836,7 +836,7 @@
       }
     ],
     "spellcasting_ability": "charisma",
-    "desc": "Warlocks are seekers of the knowledge that lies hidden in the fabric of the multiverse. Through pacts made with mysterious beings of supernatural power, warlocks unlock magical effects both subtle and spectacular.",
+    "desc": "Heathens does not worship God. They are granted powers by making a deal with the devil. Demons use magic and do not require prayer. They want power and influence. When a heathen dies, his soul goes to hell.",
     "levels": [
       {
         "level": 1,
@@ -933,7 +933,7 @@
       }
     ],
     "spellcasting_ability": "charisma",
-    "desc": "Sorcerers carry a magical birthright conferred upon them by an exotic bloodline, some otherworldly influence, or exposure to unknown cosmic forces. No one chooses sorcery; the power chooses the sorcerer.",
+    "desc": "God's chosen people. A rabbi worships God by worshiping themself. No mortal chooses to be a rabbi, it is a blessing given by the gods. The rabbis don't pray. They speak in tongues. It's a language only spoken and understood by rabbis, gods and angels.",
     "levels": [
       {
         "level": 1,
