@@ -20,6 +20,11 @@ class OverWorld():
         self.npc_2 = Npc('bob', (11, 12), movement_pattern=['right', 'down', 'up', 'left'])
         self.npc_3 = Npc('mike', (15, 8))
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
+        self.npc_obj = {
+            'jon': Npc('jon', (5, 14), movement_pattern='random'),
+            'bob': Npc('bob', (11, 12), movement_pattern=['right', 'down', 'up', 'left']),
+            'mike': Npc('mike', (15, 8))
+        }
         # self.npc_group = []
         self.dialog = None
 

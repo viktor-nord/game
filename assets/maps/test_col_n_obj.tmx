@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="43">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="51">
  <tileset firstgid="1" source="../tileset/Tileset/sunnyside_16px - custom_collision.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="20">
   <data encoding="csv">
@@ -88,5 +88,13 @@
  <objectgroup id="4" name="Object Layer 2">
   <object id="41" gid="1004" x="174" y="99.3333" width="16" height="16"/>
   <object id="42" gid="1004" x="162" y="118" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="6" name="collision">
+  <object id="45" x="228.125" y="53.5" width="10.75" height="6"/>
+  <object id="46" x="265.636" y="168.636" width="10.8182" height="5.81818"/>
+  <object id="47" x="307.091" y="196" width="31.3636" height="8.54545"/>
+  <object id="48" x="311.545" y="203.636" width="21.2727" height="5"/>
+  <object id="49" x="385.273" y="214.364" width="29.8182" height="19.8182"/>
+  <object id="50" x="348" y="375"/>
  </objectgroup>
 </map>

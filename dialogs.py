@@ -21,8 +21,10 @@ class Dialog:
         self.animated = animated
         self.counter = 0
         self.letter_counter = 0
-        self.image = pygame.image.load('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Folding & Cutout/7 Dialogue Box/1_small.png').convert_alpha()
-        self.last_image = pygame.image.load('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Folding & Cutout/7 Dialogue Box/2_small.png').convert_alpha()
+        src = 'assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Folding & Cutout/7 Dialogue Box/'
+        self.image = pygame.image.load(src + '1_small.png').convert_alpha()
+        self.last_image = pygame.image.load(src + '2_small.png').convert_alpha()
+        self.book_img = pygame.image.load('assets/ui_sprites/Sprites/Content/2 Icons/23.png').convert_alpha()
         self.rect = self.image.get_rect(centerx = self.settings.screen_width / 2, bottom = self.settings.screen_height)
         self.text_box = pygame.Rect((self.rect.x + 32, self.rect.y + 50),(self.rect.width - 32*2, self.rect.height - 50*2))
         self.get_text()

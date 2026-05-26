@@ -1,5 +1,3 @@
-from matplotlib import scale
-from matplotlib.cbook import pts_to_midstep
 import pygame
 from pytmx import pytmx
 from pytmx.util_pygame import load_pygame
@@ -15,6 +13,8 @@ from settings import Settings
 # 8 = top
 # 9 = top right
 
+size = Settings().tile_size
+
 class NoTile():
     def __init__(self):
         self.id = -1
@@ -24,8 +24,6 @@ class NoTile():
 class Map2:
     def __init__(self, id='map_1'):
         src = "assets/maps/test_col_n_obj.tmx"
-        self.settings = Settings()
-        self.size = self.settings.tile_size
         self.removed_tiles = []
         self.collision_grid = []
         self.layers_amount = 0
@@ -35,16 +33,16 @@ class Map2:
             'is_overlay': 0, 
             'type': '', 
             'value': '', 
-            'width': str(self.size), 
-            'height': str(self.size), 
+            'width': str(size), 
+            'height': str(size), 
             'frames': [],
             'exist': True,
             'frame_images': []
         }
         self.mobile_collision_grid = {}
         self.tmxdata = load_pygame(src, pixelalpha=True)
-        self.tiles = self.get_tile_grid()
-        self.objects = self.get_object_grid()
+        self.tiles, self.objects, self.colliders = self.get_tile_grid()
+        # self.get_object_grid()
 
     def get_tile(self, x, y, l):
         val = NoTile()
@@ -88,8 +86,8 @@ class Map2:
         )
         r.x += character.movement[dir][0] * character.speed
         r.y += character.movement[dir][1] * character.speed
-        max_vertical = len(self.tiles[r.y // self.size]) < r.right / self.size
-        max_horisontal = len(self.tiles) < r.bottom / self.size
+        max_vertical = len(self.tiles[r.y // size]) < r.right / size
+        max_horisontal = len(self.tiles) < r.bottom / size
         # screen border
         if r.x < 0 or r.y < 0 or max_horisontal or max_vertical:
             return False
@@ -97,14 +95,14 @@ class Map2:
         for npc_id, npc in self.mobile_collision_grid.items():
             if npc_id != character.id:
                 npc_rect = pygame.Rect(
-                    (npc[0] * self.size + 2, npc[1] * self.size + 2), 
-                    (self.size - 4, self.size - 4)
+                    (npc[0] * size + 2, npc[1] * size + 2), 
+                    (size - 4, size - 4)
                 )
                 if r.colliderect(npc_rect):
                     not_colliding = False
         # tiles
         for col_obj in self.collision_grid:
-            rect_arr = self.get_collision_box_arr(col_obj['x'] * self.size, col_obj['y'] * self.size, col_obj['type'])
+            rect_arr = self.get_collision_box_arr(col_obj['x'] * size, col_obj['y'] * size, col_obj['type'])
             for rect in rect_arr:
                 if r.colliderect(rect):
                     if col_obj['type'] == 10:
@@ -164,12 +162,16 @@ class Map2:
                         self.blit_tile(tile, x["x"], x["y"], screen)
                         tile.update_frame_counter()
         for obj in self.objects:
-            img = pygame.transform.scale(obj.image, (self.size, self.size))
+            img = pygame.transform.scale(obj.image, (size, size))
             screen.blit(img, (obj.x * 2, obj.y * 2))
+        for rr in self.colliders:
+            hh = pygame.Surface((rr.rect.width, rr.rect.height))
+            hh.fill((200,0,0))
+            screen.blit(hh, (rr.rect.x, rr.rect.y))
     
     def blit_overlay(self, player_rect, screen):
-        x = int((player_rect.x + self.size / 2) // self.size)
-        y = int((player_rect.y + self.size / 2) // self.size)
+        x = int((player_rect.x + size / 2) // size)
+        y = int((player_rect.y + size / 2) // size)
         positions = [
             (x, y),
             (x, y + 1),
@@ -198,77 +200,49 @@ class Map2:
         img = tile.image
         if len(tile.frame_images) > 0:
             img = tile.frame_images[tile.frame_index]
-        transformed_image = pygame.transform.scale(img, (self.size, self.size))
+        transformed_image = pygame.transform.scale(img, (size, size))
         screen.blit(transformed_image, (x, y))
 
     def change_state(self, pos):
-        x = int((pos[0] + self.size / 2) // self.size)
-        y = int((pos[1] + self.size / 2) // self.size)
+        x = int((pos[0] + size / 2) // size)
+        y = int((pos[1] + size / 2) // size)
         for i, layer in enumerate(self.tiles[y - 1][x]["layers"]):
             if layer.type == "door":
                 self.tiles[y][x]["layers"][i].change_state()
 
     def get_tile_grid(self):
         tiles = self.get_sceleton_grid()
+        objects = []
+        colliders = []
         for layer_index, layer in enumerate(self.tmxdata.layers):
             self.layers_amount = layer_index + 1
-            # if isinstance(layer, pytmx.TiledObjectGroup):
-            #     # print('dd')
-            #     for obj in layer:
-            #         if obj.value == 'gg':
-            #             print(obj.__dict__)
-            #         # # if hasattr(obj, 'points') and obj.points:
-            #         #     # print('rrrrrrrrrrrrrrrrrr')
-            #         #     points = [(obj.x + p[0], obj.y + p[1]) for p in obj.as_points]
-            #         #     print(points)
             if isinstance(layer, pytmx.TiledTileLayer):
                 for tile in layer.tiles():
                     properties = self.try_get_prop(tile, layer_index)
-                    # if properties['collision'] == 7:
-                    #     print(tile.__dir__)
-                    #     # for xxx in properties['colliders']:
-                    #     #     print(xxx)
-
-                    #     print(dir(properties))
-                    #     print(properties.values)
-                    #     # print(properties['colliders'].__dict__)
-                    #     # print(type(properties['colliders']))
-                    #     # for xxx in properties['colliders'].properties.items():
-                    #     #     print(xxx)
-                    #     # print(dir(properties['colliders'].properties))
-                    #     return
                     if properties['collision'] > 0:
                         self.set_collision_grid(tile, properties)
                     properties["frame_images"] = self.get_animation_frames(properties["frames"])
-                    tile_obj = Tile(tile, layer_index, properties)                
+                    tile_obj = Tile(tile, properties)                
                     tiles[tile[1]][tile[0]]["layers"].append(tile_obj)
-        return tiles
+            elif isinstance(layer, pytmx.TiledObjectGroup):
+                if layer.name == 'collision':
+                    for col in layer:
+                        colliders.append(Collider(col))
+                else:
+                    for obj in layer:
+                        img = self.tmxdata.get_tile_image_by_gid(obj.gid)
+                        o = Tile((obj.x, obj.y, img), obj.properties, is_tile=False)
+                        objects.append(o)
+            else:
+                print("Unrecognized layer type in get_tile_grid()")
+        return tiles, objects, colliders
     
-    def get_object_grid(self):
-        objects = []
-        self.layers_amount += 1
-        
-        for obj in self.tmxdata.objects:
-            x = obj.x
-            y = obj.y
-            img = obj.image
-            if obj.value == 'gg':
-                ttt = self.tmxdata.get_object_by_id(obj.id)
-                # print(ttt.properties["colliders"].__dict__)
-            # if obj.value == 'gg':
-            #     print(obj.colliders)
-            #     print(obj.properties.colliders.__dict__)
-            # print(obj.properties["is_overlay"])
-            object = Tile((x,y,img), self.layers_amount, obj.properties, is_tile=False)                
-            objects.append(object)
-        return objects
-
     def get_sceleton_grid(self):
         tiles = []
         for y in range(0, self.tmxdata.height):
             tiles.append([])
             for x in range(0, self.tmxdata.width):
-                tiles[y].append({"x": x * self.size, "y": y * self.size, "layers": []})
+                tiles[y].append({"x": x * size, "y": y * size, "layers": []})
         return tiles
 
     def set_collision_grid(self, tile, properties):
@@ -294,15 +268,30 @@ class Map2:
             properties = self.base_tile_prop
         return properties
 
+class Collider:
+    def __init__(self, obj):
+        self.rect = pygame.Rect(
+            (obj.x * 2, obj.y * 2),
+            (obj.width * 2, obj.height * 2)
+        )
+    
+    def is_colliding(self, rect):
+        return self.rect.colliderect(rect)
+
+class MapObject(pygame.sprite.Sprite):
+    def __init__(self, img, obj):
+        super().__init__()
+        self.image = img
+        self.rect = pygame.Rect((obj.x, obj.y), (size, size))
+        self.props = obj.properties
+
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, tmx_tile, layer_index, properties, is_tile=True):
+    def __init__(self, tmx_tile, properties, is_tile=True):
         super().__init__()
         self.tmx_tile = tmx_tile
-        self.size = Settings().tile_size
         self.x = tmx_tile[0]
         self.y = tmx_tile[1]
-        self.image = pygame.transform.scale(tmx_tile[2], (self.size, self.size))
-        self.layer = layer_index
+        self.image = pygame.transform.scale(tmx_tile[2], (size, size))
         properties = properties
         self.id = properties["id"]
         self.collision = properties["collision"]
@@ -310,8 +299,8 @@ class Tile(pygame.sprite.Sprite):
         # Types: 'chest', 'summon', 'wall', 'door', 'object', 'ground'
         self.type = properties["type"] 
         self.value = properties["value"] 
-        self.width = str(self.size)
-        self.height = str(self.size) 
+        self.width = str(size)
+        self.height = str(size) 
         if is_tile:
             self.frames = properties["frames"]
             self.frame_images = properties["frame_images"]
