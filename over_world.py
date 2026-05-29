@@ -7,14 +7,15 @@ from map import Map
 from npc import Npc
 from dialogs import Dialog, dialog_texts
 from fade_animation import FadeAnimation
-from map_2 import Map2
+# from map_2 import Map2
+from map_3 import Map3
 
 class OverWorld():
     def __init__(self, game):
         self.game = game
         self.name = 'over_world'
         self.settings = Settings()
-        self.map = Map2("map_2")
+        self.map = Map3("map_2")
         self.player = Player()
         self.npc_1 = Npc('jon', (5, 14), movement_pattern='random')
         self.npc_2 = Npc('bob', (11, 12), movement_pattern=['right', 'down', 'up', 'left'])
