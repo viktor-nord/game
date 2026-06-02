@@ -26,16 +26,16 @@
             "scale": 1.5,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 212,
+                "x": 216.33333333333331,
                 "y": 235.66666666666669
             }
         },
         "test_col_n_obj.tmx": {
-            "scale": 2,
-            "selectedLayer": 2,
+            "scale": 1.5,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 208,
-                "y": 106.75
+                "x": 260.3333333333333,
+                "y": 74.33333333333331
             }
         }
     },

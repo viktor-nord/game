@@ -1,4 +1,3 @@
-from matplotlib.cbook import pts_to_midstep
 import pygame
 from pytmx import pytmx
 from pytmx.util_pygame import load_pygame
@@ -34,8 +33,6 @@ class Map3:
         self.tmxdata = load_pygame(src, pixelalpha=True)
         self.tiles, self.objects, self.colliders = self.get_tile_grid()
         self.add_world_border()
-        for c in self.colliders:
-            print(c.polygon_type)
 
     def add_world_border(self):
         w, h = (self.tmxdata.width * size) / 2, (self.tmxdata.height * size) / 2
@@ -98,10 +95,10 @@ class Map3:
         for obj in self.objects:
             img = pygame.transform.scale(obj.image, (size, size))
             screen.blit(img, (obj.x, obj.y))
-        for col in self.colliders:
-            hh = pygame.Surface((col.rect.width, col.rect.height))
-            hh.fill((200,0,0))
-            screen.blit(hh, (col.rect.x, col.rect.y))
+        # for col in self.colliders:
+        #     hh = pygame.Surface((col.rect.width, col.rect.height))
+        #     hh.fill((200,0,0))
+        #     screen.blit(hh, (col.rect.x, col.rect.y))
     
     def blit_overlay(self, player_rect, screen):
         x = int((player_rect.x + size / 2) // size)
@@ -186,17 +183,6 @@ class Map3:
             properties = self.base_tile_prop
         return properties
 
-# collision
-# 0 = custom width & height
-# 1 = full 32x32
-# 2 = right
-# 3 = bottom right
-# 4 = bottom
-# 5 = bottom left
-# 6 = left
-# 7 = top left
-# 8 = top
-# 9 = top right
 class Collider:
     def __init__(self, obj, id=-1):
         self.id = id
@@ -209,40 +195,39 @@ class Collider:
         if hasattr(obj, "points"):
             self.polygon = Polygon([p for p in obj.points])
             self.polygon_type = self.polygon.type
-            self.rect = pygame.Rect(
-                (self.polygon.x, self.polygon.y),
-                (size, size)
-            )
+            self.rect = pygame.Rect((self.polygon.x, self.polygon.y), (size, size))
 
     def move(self, x, y, id):
         if self.id == id:
             self.rect = self.rect.move(x, y)
 
     def is_colliding(self, rect):
-        if self.polygon_type:
-            return self.check_polygon_collision(rect)
-        else:
-            return self.rect.colliderect(rect)
+        if self.rect.colliderect(rect):
+            if self.polygon_type:
+                return self.check_polygon_collision(rect)
+            else:
+                return True
 
     def check_polygon_collision(self, rect):
-        if self.rect.colliderect(rect) == False:
-            return False
-        if self.polygon.type == 'br':
+        if self.polygon_type == 'br':
             y = rect.top % 32
-            x = rect.left % 32 < 32 - y
+            x = rect.left % 32
             return x < 32 - y
-        elif self.polygon.type == 'tr':
+        elif self.polygon_type == 'tr':
             y = rect.bottom % 32
-            x = rect.left % 32 > 32 - y
-            return x < 32 - y
-        elif self.polygon.type == 'bl':
+            x = rect.left % 32
+            return x < y
+        elif self.polygon_type == 'bl':
             y = rect.top % 32
-            x = rect.right % 32 < y
-            return x < 32 - y
-        elif self.polygon.type == 'tl':
+            x = rect.right % 32
+            return x > y
+        elif self.polygon_type == 'tl':
             y = rect.bottom % 32
-            x = rect.right % 32 > y
-            return x < 32 - y
+            x = rect.right % 32
+            # print(rect)
+            print(f"x: {x}, y: {y}")
+            print(x > 32 - y)
+            return x > 32 - y
 
 class Polygon:
     def __init__(self, points):
@@ -254,13 +239,15 @@ class Polygon:
     def get_type(self, points):
         corners = {
             "tl": (self.x, self.y),
-            "tr": (self.x + size / 2, self.y),
-            "bl": (self.x, self.y + size / 2),
-            "br": (self.x + size / 2, self.y + size / 2)
+            "tr": (self.x + size, self.y),
+            "bl": (self.x, self.y + size),
+            "br": (self.x + size, self.y + size)
         }
+        type = ''
         for key, val in corners.items():
-            if val not in [(p[0], p[1]) for p in points]:
-                self.polygon_type = key
+            if val not in [(p[0] * 2, p[1] * 2) for p in points]:
+                type = key
+        return type
 
 class MapObject(pygame.sprite.Sprite):
     def __init__(self, img, obj):
