@@ -12,6 +12,7 @@ class Map3:
         self.collision_grid = []
         self.layers_amount = 0
         self.mobile_collision_grid = {}
+        self.offset = [0,0]
         self.tmxdata = load_pygame(src, pixelalpha=True)
         self.tiles, self.objects, self.colliders = self.get_tile_grid()
         self.add_world_border()
@@ -188,7 +189,7 @@ class Collider:
     def get_dots(self, points):
         points = [(p[0] * 2, p[1] * 2) for p in points]
         vartical_down = (self.x, self.y) in points and (self.x + size, self.y + size) in points
-        for val in range(0,32):
+        for val in range(0, size):
             mod = val if vartical_down else size - val
             self.dots.append(pygame.Rect((self.x + mod, self.y + val), (1, 1)))
 
