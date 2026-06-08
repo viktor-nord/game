@@ -34,19 +34,6 @@ class Map3:
             val.append(tile)                
         return val
 
-    def get_tile_collision(self, pos):
-        val = None
-        x, y = pos[0], pos[1]
-        if all(tile.id < 0 for tile in self.get_tile_layers(x, y)):
-            return 1
-        for key, pos in self.mobile_collision_grid.items():
-            if pos[0] == x and pos[1] == y:
-                return key
-        for tile in self.collision_grid:
-            if tile['x'] == x and tile['y'] == y:
-                return tile['type']
-        return val
-
     def check_collision(self, character):
         posible_moves = {
             'right': self.not_colliding('right', character),

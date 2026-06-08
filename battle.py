@@ -164,18 +164,13 @@ class Battle():
             self.d20.reset()
         if is_down or c.steps_amount < 1:
             return
-        # pos = [c.rect.x // self.settings.tile_size, c.rect.y // self.settings.tile_size]
-        # is_moving = False
         dir = get_key_text(key)
-        move_to = c.rect.move(
-            c.movement[dir][0] * 32,
-            c.movement[dir][1] * 32
-        )
-        is_moving = move_to in self.map.available_tiles
-        # target_pos = get_adjasent_cord(pos, dir)
-        # if target_pos in self.map.available_tiles:
-        #     is_moving = True
-        if self.walking_animation == False and is_moving:
+        pos = c.get_coordinates()
+        move_to = [
+            pos[0] + c.movement[dir][0],
+            pos[1] + c.movement[dir][1]
+        ]
+        if self.walking_animation == False and move_to in self.map.available_tiles:
             self.walking_animation = True
             self.obj[self.id].moving_to = move_to
             self.obj[self.id].handle_movement(key, True)
@@ -197,7 +192,6 @@ class Battle():
             status = self.obj[id].take_damage(damage, weapon['damage_type'], 18)
             if status == 'death':
                 self.dead_list.append(self.obj[id])
-                # print(f"id is {id}")
                 self.turn_order.remove(id)
                 del self.obj[id]
             self.action_wheel_target = None
@@ -212,8 +206,8 @@ class Battle():
             if self.obj[self.id].actions_amount < 1:
                 self.dialog = Dialog(['You have already used your action'])
                 return
-            target = self.get_adjesent_target(action_obj['id'])
-            if target == action_obj['id']:
+            m, t = self.map.mobile_collision_grid, action_obj['id']
+            if m[t] in get_adjasent_cord(m['player']).values():
                 self.start_roll()
                 # self.melee_attack(action_obj['id'])
                 self.obj[self.id].actions_amount -= 1
@@ -222,14 +216,6 @@ class Battle():
                 self.dialog = Dialog(['You are to far away'])
         elif action_obj['val'] == 'spell':
             self.info.active = True
-
-    def get_adjesent_target(self, target_id):
-        pos = self.obj[self.id].get_coordinates()
-        for dir in get_adjasent_cord(pos).values():
-            id = self.map.get_tile_collision(dir)
-            if id == target_id:
-                return id
-        return False
 
     def end_turn(self):
         print(f"{self.id} ending turn")
@@ -242,7 +228,8 @@ class Battle():
     
     def set_circle(self, steps, rect):
         radius = steps * self.settings.tile_size + rect.width // 2
-        self.step_range_circle = pygame.Surface((self.settings.screen_width, self.settings.screen_height), pygame.SRCALPHA).convert_alpha()
+        wh = (self.settings.screen_width, self.settings.screen_height)
+        self.step_range_circle = pygame.Surface(wh, pygame.SRCALPHA).convert_alpha()
         pygame.draw.circle(self.step_range_circle, pygame.Color(0,0,255,60), rect.center, radius, width=2)
 
     def blitme(self, screen):
@@ -252,7 +239,7 @@ class Battle():
             dead_char.blitme(screen)
         for char in self.obj.values():
             char.blitme(screen)
-        if c.is_party_member:
+        if c.is_party_member and c.steps_amount > 0:
             self.map.blit_spacing_grid(screen)
         self.ui.blitme(screen)
         if c.is_party_member and c.steps_amount > 0:
