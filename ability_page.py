@@ -1,7 +1,5 @@
 import pygame
 import pygame.font
-import json
-
 from page import Page
 from font import PlainText, Title
 from settings import Settings
@@ -51,10 +49,9 @@ class AbilityPage(Page):
         return dic
 
     def get_disabled_proficiencies(self, acceptable_proficiencies):
-        l = []
-        for pro in self.proficiencies_list:
-            if pro not in acceptable_proficiencies:
-                l.append(pro)
+        l = self.proficiencies_list[:]
+        for p in acceptable_proficiencies:
+            l.remove(p)
         return l
 
     def get_p_list(self):
@@ -90,31 +87,23 @@ class AbilityPage(Page):
         self.proficiencies_info.rect.bottom = self.left_page.bottom
         
     def populate_abilities(self):
-        self.player["abi"]
         abilities = []
-        ac = self.right_page.copy() # ability container
-        ac.height -= self.right_title_container.height + 8
-        ac.top = self.right_title_container.bottom + 8
-        w = ac.width // 2
-        h = ac.height // 3
+        a, b = self.right_page, self.right_title_container.height
+        ac = pygame.Rect((a.x, a.y + b + 8), (a.width, a.height - b + 8))
+        w, h = ac.width // 2, ac.height // 3
         for i, ability in enumerate(self.ability_list):
             bonus = 0
             for abi in self.player["abi"]:
                 if abi["name"] == ability[:3]:
                     bonus = abi["val"]
             l = ac.left if i % 2 == 0 else ac.left + w
-            t = ac.top 
-            if i == 2 or i == 3:
-                t += h
-            if i > 3:
-                t += h * 2
+            t = ac.top + i // 2 * h
             container = pygame.Rect((l, t), (w,h))
             abilities.append(AbilityBox(ability[:3], container, bonus))
         return abilities
 
     def check_click(self):
-        proficiencies_list = self.proficiencies.check_click()
-        self.selected_proficiencies = proficiencies_list
+        self.selected_proficiencies = self.proficiencies.check_click()
         self.get_info_text(len(self.selected_proficiencies))
         taken = set(a.value_index for a in self.abilities)
         for ability in self.abilities:
@@ -124,13 +113,9 @@ class AbilityPage(Page):
         self.check_if_complete()
 
     def check_if_complete(self):
-        is_complete = True
-        for a in self.abilities:
-            if a.value_index == 0:
-                is_complete = False
-        if len(self.proficiencies.selected) < self.proficiencies_max_amount:
-            is_complete = False
-        self.complete = is_complete
+        abilities_check = all(x.value_index > 0 for x in self.abilities)
+        prof_check = len(self.proficiencies.selected) < self.proficiencies_max_amount
+        self.complete = abilities_check and not prof_check
 
     def update(self):
         self.proficiencies.update()
@@ -189,29 +174,25 @@ class AbilityBox:
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
-        min = pygame.Rect((self.parent.x + self.minus_rect.x, self.parent.y + self.minus_rect.y), (self.minus_rect.width, self.minus_rect.height))
-        plus = pygame.Rect((self.parent.x + self.plus_rect.x, self.parent.y + self.plus_rect.y), (self.plus_rect.width, self.plus_rect.height))
+        pa, p, m = self.parent, self.plus_rect, self.minus_rect
+        min = pygame.Rect((pa.x + m.x, pa.y + m.y), (m.width, m.height))
+        plus = pygame.Rect((pa.x + p.x, pa.y + p.y), (p.width, p.height))
         if min.collidepoint(pos):
             return "-"
         if plus.collidepoint(pos):
             return "+"
         return None
 
-    def change_value(self, operator, options):
-        l = list(range(0, len(self.values))) # replace list with []
+    def change_value(self, operator, taken):
+        l = [x for x in range(0, len(self.values))]
         if operator == "+":
-            for i in l:
-                if i > self.value_index and i not in options:
-                    self.value_index = i
-                    break
+            self.value_index = next(val for val in l if val > self.value_index and val not in taken)
         else:
             l.reverse()
-            if 0 in options:
-                options.remove(0)
-            for i in l:
-                if i < self.value_index and i not in options:
-                    self.value_index = i
-                    break
+            try:
+                self.value_index = next(val for val in l if val < self.value_index and val not in taken)
+            except StopIteration:
+                self.value_index = 0
         self.blit_image()
     
     def get_value(self):

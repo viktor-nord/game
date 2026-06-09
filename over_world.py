@@ -3,29 +3,27 @@ import pygame
 
 from player import Player
 from settings import Settings
-from map import Map
 from npc import Npc
 from dialogs import Dialog, dialog_texts
 from fade_animation import FadeAnimation
-# from map_2 import Map2
-from map_3 import Map3
+from map import Map
 
 class OverWorld():
     def __init__(self, game):
         self.game = game
         self.name = 'over_world'
         self.settings = Settings()
-        self.map = Map3("map_2")
+        self.map = Map("map_1")
         self.player = Player()
-        self.npc_1 = Npc('jon', (5, 5), movement_pattern='random')
+        self.npc_1 = Npc('jon', (6, 6), movement_pattern='random')
         self.npc_2 = Npc('bob', (11, 12), movement_pattern=['right', 'down', 'up', 'left'])
         self.npc_3 = Npc('mike', (15, 8))
         self.npc_group = [self.npc_1, self.npc_2, self.npc_3]
-        self.npc_obj = {
-            'jon': Npc('jon', (5, 14), movement_pattern='random'),
-            'bob': Npc('bob', (11, 12), movement_pattern=['right', 'down', 'up', 'left']),
-            'mike': Npc('mike', (15, 8))
-        }
+        # self.npc_obj = {
+        #     'jon': Npc('jon', (5, 14), movement_pattern='random'),
+        #     'bob': Npc('bob', (11, 12), movement_pattern=['right', 'down', 'up', 'left']),
+        #     'mike': Npc('mike', (15, 8))
+        # }
         # self.npc_group = []
         self.dialog = None
 

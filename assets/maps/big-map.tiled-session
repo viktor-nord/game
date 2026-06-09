@@ -22,6 +22,14 @@
         "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/spr_tileset_sunnysideworld_16px.tsx": {
             "scaleInEditor": 1
         },
+        "map_1.tmx": {
+            "scale": 1.26728515625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 256.05918162903595,
+                "y": 128.22686291130464
+            }
+        },
         "map_2.tmx": {
             "scale": 1.5,
             "selectedLayer": 5,
@@ -49,6 +57,7 @@
     "project": "big-map.tiled-project",
     "property.type": "object",
     "recentFiles": [
+        "map_2.tmx",
         "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/spr_tileset_sunnysideworld_16px.tsx",
         "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/big_rock.tsx",
         "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/houses.tsx"
