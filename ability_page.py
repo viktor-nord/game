@@ -188,14 +188,10 @@ class AbilityBox:
     def change_value(self, operator, taken):
         l = [x for x in range(0, len(self.values))]
         if operator == "+":
-            self.value_index = next(val for val in l if val > self.value_index and val not in taken)
+            self.value_index = next((val for val in l if val > self.value_index and val not in taken), self.value_index)
         else:
             l.reverse()
-            # self.value_index = next((val for val in l if val < self.value_index and val not in taken), 0)
-            try:
-                self.value_index = next(val for val in l if val < self.value_index and val not in taken)
-            except StopIteration:
-                self.value_index = 0
+            self.value_index = next((val for val in l if val < self.value_index and val not in taken), 0)
         self.blit_image()
     
     def get_value(self):

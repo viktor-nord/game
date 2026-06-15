@@ -1,4 +1,5 @@
 import pygame
+from image import Image
 from settings import Settings
 
 class CharacterSprite:
@@ -18,114 +19,44 @@ class CharacterSprite:
         self.is_dead = False
         self.skull_image = self.frames['death'][-1]
 
-    def get_frames(self, type):
-        url = 'assets/tileset/Characters/'
-        hair = 'bowlhair'
-        npc_hair = 'longhair'
-        frames = {}
-        mall = {
-            'player': {
-                'idle': [
-                    f'{url}Human/IDLE/base_idle_strip9.png',
-                    f'{url}Human/IDLE/{hair}_idle_strip9.png',
-                    f'{url}Human/IDLE/tools_idle_strip9.png'
-                ],
-                'walk': [
-                    f'{url}Human/WALKING/base_walk_strip8.png', 
-                    f'{url}Human/WALKING/{hair}_walk_strip8.png',
-                    f'{url}Human/WALKING/tools_walk_strip8.png',
-                ],
-                'attack': [
-                    f'{url}Human/ATTACK/base_attack_strip10.png', 
-                    f'{url}Human/ATTACK/{hair}_attack_strip10.png',
-                    f'{url}Human/ATTACK/tools_attack_strip10.png',
-                ],
-                'hurt': [
-                    f'{url}Human/HURT/base_hurt_strip8.png', 
-                    f'{url}Human/HURT/{hair}_hurt_strip8.png',
-                    f'{url}Human/HURT/tools_hurt_strip8.png',
-                ],
-                'death': [
-                    f'{url}Human/DEATH/base_death_strip13.png', 
-                    f'{url}Human/DEATH/{hair}_death_strip13.png',
-                    f'{url}Human/DEATH/tools_death_strip13.png',
-                ]
-            },
+    def get_url(self, type, hair):
+        base = 'assets/tileset/Characters'
+        self.mall = {
             'human': {
-                'idle': [
-                    f'{url}Human/IDLE/base_idle_strip9.png',
-                    f'{url}Human/IDLE/{npc_hair}_idle_strip9.png',
-                    f'{url}Human/IDLE/tools_idle_strip9.png'
-                ],
-                'walk': [
-                    f'{url}Human/WALKING/base_walk_strip8.png', 
-                    f'{url}Human/WALKING/{npc_hair}_walk_strip8.png',
-                    f'{url}Human/WALKING/tools_walk_strip8.png',
-                ],
-                'attack': [
-                    f'{url}Human/ATTACK/base_attack_strip10.png', 
-                    f'{url}Human/ATTACK/{npc_hair}_attack_strip10.png',
-                    f'{url}Human/ATTACK/tools_attack_strip10.png',
-                ],
-                'hurt': [
-                    f'{url}Human/HURT/base_hurt_strip8.png', 
-                    f'{url}Human/HURT/{npc_hair}_hurt_strip8.png',
-                    f'{url}Human/HURT/tools_hurt_strip8.png',
-                ],
-                'death': [
-                    f'{url}Human/DEATH/base_death_strip13.png', 
-                    f'{url}Human/DEATH/{npc_hair}_death_strip13.png',
-                    f'{url}Human/DEATH/tools_death_strip13.png',
-                ]
+                'layers': ['base', hair, 'tools'],
+                'actions': {'idle': 9, 'walk': 8, 'attack': 10, 'hurt': 8, 'death': 13}
             },
             'goblin': {
-                'idle': [
-                    f'{url}Goblin/PNG/spr_idle_strip8.png',
-                ],
-                'walk': [
-                    f'{url}Goblin/PNG/spr_walk_strip8.png', 
-                ],
-                'attack': [
-                    f'{url}Goblin/PNG/spr_attack_strip10.png', 
-                ],
-                'hurt': [
-                    f'{url}Goblin/PNG/spr_hurt_strip8.png', 
-                ],
-                'death': [
-                    f'{url}Goblin/PNG/spr_death_strip9.png',
-                ]
+                'layers': ['spr'],
+                'actions': {'idle': 8, 'walk': 8, 'attack': 10, 'hurt': 8, 'death': 9}
             },
             'skeleton': {
-                'idle': [
-                    f'{url}Skeleton/PNG/skeleton_idle_strip6.png',
-                ],
-                'walk': [
-                    f'{url}Skeleton/PNG/skeleton_walk_strip8.png', 
-                ],
-                'attack': [
-                    f'{url}Skeleton/PNG/skeleton_attack_strip7.png', 
-                ],
-                'hurt': [
-                    f'{url}Skeleton/PNG/skeleton_hurt_strip7.png', 
-                ],
-                'death': [
-                    f'{url}Skeleton/PNG/skeleton_death_strip10.png',
-                ]
+                'layers': ['skeleton'],
+                'actions': {'idle': 6, 'walk': 8, 'attack': 7, 'hurt': 7, 'death': 10}
             }
         }
+        return_value = {}
+        for key, val in self.mall[type]['actions'].items():
+            x = key.upper() if type == 'human' else 'PNG'
+            return_value[key] = [f"{base}/{type.capitalize()}/{x}/{l}_{key}_strip{val}.png" for l in self.mall[type]['layers']]
+        return return_value
+
+    def get_frames(self, type):
+        player_hair = 'bowlhair'
+        npc_hair = 'longhair'
+        new_type = 'human' if type == 'player' else type
+        new_hair = player_hair if type == 'player' else npc_hair
+        mall = self.get_url(new_type, new_hair)
+        frames = {}
         distance_between_frames = 192
-        for key, val in mall[type].items():
-            # frame_amount = int(pygame.image.load(val[0]).convert().get_width() / distance_between_frames)
-            frame_amount = int(val[0][-6:-4].replace('p',''))
+        for key, val in mall.items():
+            frame_amount = self.mall[new_type]['actions'][key]
             frames[key] = []
             for i in range(frame_amount):
                 s = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
-                x = (i * distance_between_frames + 16) * -1
-                y = -16
+                x = i * distance_between_frames + 16
                 for t in val:
-                    img = pygame.image.load(t).convert_alpha()
-                    img_scaled = pygame.transform.scale(img, (img.get_width() * 2, img.get_height() * 2))
-                    s.blit(img_scaled, (x, y))
+                    s.blit(Image(t, scale=2).image, (-x, -16))
                 frames[key].append(s)
         return frames
 
@@ -164,5 +95,9 @@ class CharacterSprite:
             screen.blit(self.skull_image, offset)
         else:
             self.handle_animation_counter()
-            img = pygame.transform.flip(self.frames[self.action][self.frame_counter], self.is_flipped, False)
+            img = pygame.transform.flip(
+                self.frames[self.action][self.frame_counter], 
+                self.is_flipped, 
+                False
+            )
             screen.blit(img, offset)

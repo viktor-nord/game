@@ -32,10 +32,8 @@ class ActionWheel:
     def update(self):
         pos = pygame.mouse.get_pos()
         if self.base.rect.collidepoint(pos):
-            for a in self.actions:
-                if a.check_hover(pos):
-                    self.active_option = a.value
-                    self.active_option_text = Text(a.value, parent=self.base.rect, is_bold=True)
+            self.active_option = next((a.value for a in self.actions if a.check_hover(pos)), '')
+            self.active_option_text = Text(self.active_option, parent=self.base.rect, is_bold=True)
         else:
             self.active_option = ''
 
@@ -47,12 +45,11 @@ class ActionWheel:
 
     def handle_click(self, pos=None):
         pos = pos if pos else pygame.mouse.get_pos()
-        val = {"id": self.current_id, "val": None}
-        for a in self.actions:
-            val['val'] = a.check_click(pos)
-            if val['val']:
-                self.action = val['val']
-                return val
+        self.action = next((a.value for a in self.actions if a.check_click(pos)), '')
+        val = {
+            "id": self.current_id, 
+            "val": self.action
+        }
         return val
 
     def blitme(self, screen):
