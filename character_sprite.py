@@ -60,6 +60,19 @@ class CharacterSprite:
                 frames[key].append(s)
         return frames
 
+    def change_action(self, action):
+        if self.action == action:
+            return
+        self.counter = 0
+        self.frame = 0
+        self.action = action
+
+# walk - dir, infi
+# idle - dir, infi
+# attack - dir
+# hurt - que
+# death - que, speci
+
     def handle_animation_counter(self):
         delay = 3
         self.frame_counter = self.counter // delay

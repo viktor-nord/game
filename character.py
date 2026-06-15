@@ -124,10 +124,10 @@ class Character():
         if self.moving_up and posible_moves['up']:
             self.rect.y -= self.speed
         if self.moving_right or self.moving_left or self.moving_up or self.moving_down:
-            self.change_action('walk')
+            self.character_sprite.change_action('walk')
         else:
             if self.character_sprite.action == 'walk':
-                self.change_action('idle')
+                self.character_sprite.change_action('idle')
         self.coordinates = self.get_coordinates()
 
     def blitme(self, screen):

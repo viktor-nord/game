@@ -180,6 +180,7 @@ class Battle():
 
     def melee_attack(self, id):
         dice = self.d20.roll(show_animation=False)
+        dice = 19
         if dice >= self.obj[id].ac or dice == 20:
             if dice == 20:
                 self.dialog = Dialog(["Criticla hit!"])
