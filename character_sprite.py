@@ -18,6 +18,7 @@ class CharacterSprite:
         self.is_flipped = False
         self.is_dead = False
         self.skull_image = self.frames['death'][-1]
+        self.queue_delay = 0
 
     def get_url(self, type, hair):
         base = 'assets/tileset/Characters'
@@ -61,44 +62,30 @@ class CharacterSprite:
         return frames
 
     def change_action(self, action):
-        if self.action == action:
+        if self.action == action and action != 'idle':
             return
         self.counter = 0
         self.frame = 0
+        self.frame_counter = 0
         self.action = action
-
-# walk - dir, infi
-# idle - dir, infi
-# attack - dir
-# hurt - que
-# death - que, speci
 
     def handle_animation_counter(self):
         delay = 3
         self.frame_counter = self.counter // delay
         done = (self.counter + 1) // delay == len(self.frames[self.action])
-        if len(self.queue):
-            if self.queue[0] in self.frames.keys():
-                if self.action == self.queue[0]:
-                    if done:
-                        self.is_dead = self.action == 'death'
-                        del self.queue[0]
-                    else:
-                        self.counter += 1
-                else:
-                    self.counter = 0
-                    self.frame_counter = 0
-                    self.action = self.queue[0]
-            else:
-                self.queue[0] -= 1
-                if self.queue[0] == 0:
+        if len(self.queue) and self.queue_delay == 0:
+            if self.action == self.queue[0]:
+                if done:
+                    self.is_dead = self.action == 'death'
                     del self.queue[0]
+                else:
+                    self.counter += 1
+            else:
+                self.change_action(self.queue[0])
         else:
+            self.queue_delay = self.queue_delay - 1 if self.queue_delay > 0 else 0
             if done:
-                self.counter = 0
-                self.frame_counter = 0
-                if self.action in self.single_animation:
-                    self.action = 'idle'
+                self.change_action('idle')
             else:
                 self.counter += 1
 

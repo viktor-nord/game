@@ -33,7 +33,6 @@ class Battle():
             "bob": Npc('bob', (24, 3), type='skeleton'), 
             "mike": Npc('mike', (5, 11)), 
         }
-        self.dead_list = []
         self.ui = BattleUI(self, self.obj)
         self.map.load_grid_data(self.obj, self.id)
         self.action_wheel_target = None
@@ -111,7 +110,7 @@ class Battle():
         if c.is_party_member:
             self.allow_events = True
         else:
-            if c.steps_amount < 1:
+            if c.steps_amount < 1 or c.is_dead:
                 self.end_turn()
             else:
                 self.obj[self.id].battle_ai()
@@ -187,14 +186,11 @@ class Battle():
             else:
                 self.dialog = Dialog([f"{self.id} is attacking {id}"])
             weapon = self.obj[self.id].primary_weapon
-            damage = 20
             # damage = self.d20.roll(dice=weapon['dice'])
-            self.obj[self.id].character_sprite.queue.append('attack')
-            status = self.obj[id].take_damage(damage, weapon['damage_type'], 18)
-            if status == 'death':
-                self.dead_list.append(self.obj[id])
-                self.turn_order.remove(id)
-                del self.obj[id]
+            damage = 20
+            # self.obj[self.id].character_sprite.queue.append('attack')
+            self.obj[self.id].character_sprite.change_action('attack')
+            self.obj[id].take_damage(damage, weapon['damage_type'], 18)
             self.action_wheel_target = None
         else:
             if dice == 0:
@@ -236,14 +232,11 @@ class Battle():
     def blitme(self, screen):
         c = self.obj[self.id]
         self.map.blit_all_tiles(screen)
-        for dead_char in self.dead_list:
-            dead_char.blitme(screen)
         for char in self.obj.values():
-            char.blitme(screen)
-        if c.is_party_member and c.steps_amount > 0:
-            self.map.blit_spacing_grid(screen)
+            char.blitme(screen)            
         self.ui.blitme(screen)
         if c.is_party_member and c.steps_amount > 0:
+            self.map.blit_spacing_grid(screen)
             screen.blit(self.step_range_circle, (0,0))
         if self.action_wheel_target:
             self.action_wheel.blitme(screen)

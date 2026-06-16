@@ -5,14 +5,14 @@ import pygame.font
 from settings import Settings
 
 class PlainText:
-    def __init__(self, text, size=18, color=None):
+    def __init__(self, text, size=18, color=None, font_family='assets/font/ThaleahFat.ttf', parent=None):
         pygame.font.init()
         self.size = size
         self.text_color = color if color else Settings().text_color
-        self.font = pygame.font.Font('assets/font/ThaleahFat.ttf', size)
-        self.text = self.font.render(text, False, self.text_color).convert_alpha()
+        self.font = pygame.font.Font(font_family, size)
+        self.text = self.font.render(text, font_family == 'assets/font/ThaleahFat.ttf', self.text_color).convert_alpha()
         self.image = self.text
-        self.rect = self.text.get_rect()
+        self.rect = self.text.get_rect(center = parent.center) if parent else self.text.get_rect()
 
     def blitme(self, screen):
         screen.blit(self.image, self.rect)

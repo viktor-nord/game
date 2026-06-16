@@ -81,7 +81,7 @@ class Character():
 
     def take_damage(self, damage, type='bludgeoning', delay=0):
         self.hp -= damage
-        self.character_sprite.queue.append(delay)
+        self.character_sprite.queue_delay = delay
         self.character_sprite.queue.append('hurt')
         if self.hp <= 0:
             self.hp = 0
@@ -129,6 +129,10 @@ class Character():
             if self.character_sprite.action == 'walk':
                 self.character_sprite.change_action('idle')
         self.coordinates = self.get_coordinates()
+        self.update_sprite()
+
+    def update_sprite(self):
+        pass
 
     def blitme(self, screen):
         self.character_sprite.blitme(screen, self.rect)

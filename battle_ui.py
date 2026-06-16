@@ -1,5 +1,6 @@
 import pygame
 
+from image import Image
 from settings import Settings
 from font import PlainText
 
@@ -9,41 +10,28 @@ class BattleUI:
         self.characters = characters
         self.settings = Settings()
         self.current_character_id = current_id
-        self.get_current_index(current_id)
+        self.active_index = list(self.characters.keys()).index(current_id)
         self.cards = []
         self.render_characters_display()
         self.render_current_character()
         self.render_action_pannel(self.characters[self.current_character_id])
         self.render_end_turn_button()
 
-    def get_current_index(self, id):
-        index = 0
-        self.active_index = 0
-        for key, val in self.characters.items():
-            if key == id:
-                self.active_index = index
-                return
-            else:
-                index += 1
-
     def get_scaled_img(self, path, scale=2):
         img = pygame.image.load(path).convert_alpha()
         return pygame.transform.scale(img, (img.get_width() * scale, img.get_height() * scale))
 
     def render_end_turn_button(self):
-        img = self.get_scaled_img('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Folding & Cutout/4 Notification/2.png', 0.5)
-        holder = self.get_scaled_img('assets/ui_sprites/Sprites/Content/5 Holders/7.png', 1)
-        self.end_turn_button = pygame.Surface((img.get_width(), img.get_height()), pygame.SRCALPHA).convert_alpha()
-        self.end_turn_button_rect = self.end_turn_button.get_rect(centerx = self.settings.screen_width / 2, bottom = self.action_pannel_rect.top)
-        self.end_turn_button.blit(img, (0,0))
+        self.end_btn = Image('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Folding & Cutout/4 Notification/2.png', scale=0.5)
+        holder = Image('assets/ui_sprites/Sprites/Content/5 Holders/7.png')
+        self.end_btn.rect = self.end_btn.image.get_rect(centerx = self.settings.screen_width / 2, bottom = self.action_pannel_rect.top)
         t = PlainText('End Turn ')
-        font = pygame.font.Font('freesansbold.ttf', 14)
-        q = font.render('Q', True, (0,0,0))
-        text_rect = t.text.get_rect(center = (self.end_turn_button_rect.width / 2, self.end_turn_button_rect.height / 1.6))
-        self.end_turn_button.blit(t.text, text_rect)
-        holder_rect = holder.get_rect(centery = text_rect.centery, left = text_rect.right)
-        self.end_turn_button.blit(holder, holder_rect)
-        self.end_turn_button.blit(q, q.get_rect(center = holder_rect.center))
+        holder.rect = holder.image.get_rect(centery = t.rect.centery, left = t.rect.right)
+        q = PlainText("Q", size=14, color=(0,0,0), font_family='freesansbold.ttf', parent=holder.rect)
+        text_rect = t.text.get_rect(center = (self.end_btn.rect.width / 2, self.end_btn.rect.height / 1.6))
+        self.end_btn.surf.blit(t.text, text_rect)
+        self.end_btn.surf.blit(holder.image, holder.rect)
+        self.end_btn.surf.blit(q.text, q.rect)
 
     def render_action_pannel(self, char):
         action, bonus, speed = char.actions_amount, char.bonus_action_amount, char.steps_amount
@@ -120,13 +108,13 @@ class BattleUI:
         screen.blit(self.characters_display, self.characters_display_rect)
         screen.blit(self.character_display, self.character_display_rect)
         screen.blit(self.action_pannel, self.action_pannel_rect)
-        screen.blit(self.end_turn_button, self.end_turn_button_rect)
+        screen.blit(self.end_btn.surf, self.end_btn.rect)
 
     def handle_action(self):
         pass
 
     def handle_click(self, pos):
-        if self.end_turn_button_rect.collidepoint(pos):
+        if self.end_btn.rect.collidepoint(pos):
             self.battle_class.end_turn()
 
 class CharacterCard:
