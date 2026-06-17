@@ -2,7 +2,7 @@ import pygame
 
 from image import Image
 from settings import Settings
-from font import PlainText
+from font import PlainText, Text
 
 class BattleUI:
     def __init__(self, battle_class, characters, current_id='player'):
@@ -22,49 +22,47 @@ class BattleUI:
         return pygame.transform.scale(img, (img.get_width() * scale, img.get_height() * scale))
 
     def render_end_turn_button(self):
-        self.end_btn = Image('assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Folding & Cutout/4 Notification/2.png', scale=0.5)
-        holder = Image('assets/ui_sprites/Sprites/Content/5 Holders/7.png')
-        self.end_btn.rect = self.end_btn.image.get_rect(centerx = self.settings.screen_width / 2, bottom = self.action_pannel_rect.top)
-        t = PlainText('End Turn ')
-        holder.rect = holder.image.get_rect(centery = t.rect.centery, left = t.rect.right)
-        q = PlainText("Q", size=14, color=(0,0,0), font_family='freesansbold.ttf', parent=holder.rect)
-        text_rect = t.text.get_rect(center = (self.end_btn.rect.width / 2, self.end_btn.rect.height / 1.6))
-        self.end_btn.surf.blit(t.text, text_rect)
+        url = 'assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Folding & Cutout/4 Notification/2.png'
+        container = pygame.Rect((self.settings.screen_width / 2, 0),(1,1))
+        self.end_btn = Image(url, scale=0.5, parent=container)
+        self.end_btn.rect.bottom = self.action_pannel_rect.top
+        t = PlainText('End Turn ', parent=self.end_btn.rect)
+        t.rect_relative = t.rect_relative.move(0,5)
+        holder = Image('assets/ui_sprites/Sprites/Content/5 Holders/7.png', parent=t.rect_relative.move(48,0))
+        q = Text("Q", size=14, color=(0,0,0), font_family='freesansbold.ttf', parent=holder.rect, is_bold=False)
+        self.end_btn.surf.blit(t.text, t.rect_relative)
         self.end_btn.surf.blit(holder.image, holder.rect)
         self.end_btn.surf.blit(q.text, q.rect)
 
     def render_action_pannel(self, char):
-        action, bonus, speed = char.actions_amount, char.bonus_action_amount, char.steps_amount
+        # Render BG
         url = 'assets/ui_sprites/Sprites/Content/'
-        start = self.get_scaled_img(url + '5 Holders/26.png')
-        middle = self.get_scaled_img(url + '5 Holders/27.png')
-        end = self.get_scaled_img(url + '5 Holders/28.png')
-        font = pygame.font.Font('freesansbold.ttf', 18)
-        dic = {'box': action, 'triangle': bonus, 'circle': speed}
-        action_dictionary = {'box': {}, 'triangle': {}, 'circle': {}}
+        start = Image(url + '5 Holders/26.png')
+        middle = Image(url + '5 Holders/27.png')
+        end = Image(url + '5 Holders/28.png')
+        margin = 4
+        width = 98 if char.steps_amount < 11 else 108
+        self.action_pannel = pygame.Surface((start.width + width + end.width, start.height), pygame.SRCALPHA).convert_alpha()
+        self.action_pannel_rect = self.action_pannel.get_rect(centerx = self.settings.screen_width / 2, bottom = self.settings.screen_height)
+        self.action_pannel.blit(start.image, (0,0))
+        x = start.width
+        self.action_pannel.blit(middle.image, (x, 0))
+        while x < width:
+            x += middle.width
+            self.action_pannel.blit(middle.image, (x, 0))
+        self.action_pannel.blit(end.image, end.image.get_rect(right = self.action_pannel_rect.width))
+        # Render Content
+        dic = {'box': char.actions_amount, 'triangle': char.bonus_action_amount, 'circle': char.steps_amount}
+        x = start.width
+        centery = self.action_pannel_rect.height / 2
         for key, val in dic.items():
             color = 'green' if val > 0 else 'red'
-            action_dictionary[key]['img'] = pygame.image.load(url + f'2 Icons/{color}-{key}.png').convert_alpha()
-            action_dictionary[key]['text'] = font.render(str(val), True, (0,0,0))
-        margin = 4
-        width = 98 if speed < 11 else 108
-        # width = action_img.get_width() * 3 + margin * 5 + action_text.get_width() + bonus_action_text.get_width() + speed_text.get_width()
-        self.action_pannel = pygame.Surface((start.get_width() + width + end.get_width(), start.get_height()), pygame.SRCALPHA).convert_alpha()
-        self.action_pannel_rect = self.action_pannel.get_rect(centerx = self.settings.screen_width / 2, bottom = self.settings.screen_height)
-        self.action_pannel.blit(start, (0,0))
-        while_x = start.get_width()
-        while while_x < width:
-            self.action_pannel.blit(middle, (while_x, 0))
-            while_x += middle.get_width()
-        self.action_pannel.blit(middle, middle.get_rect(right = self.action_pannel_rect.width - end.get_width()))
-        self.action_pannel.blit(end, end.get_rect(right = self.action_pannel_rect.width))
-        x = start.get_width()
-        centery = self.action_pannel_rect.height / 2
-        for key, val in action_dictionary.items():
-            self.action_pannel.blit(val['img'], val['img'].get_rect(x = x, centery = centery))
-            x += val['img'].get_width() + margin
-            self.action_pannel.blit(val['text'], val['text'].get_rect(x = x, centery = centery))
-            x += val['text'].get_width() + margin
+            img = pygame.image.load(url + f'2 Icons/{color}-{key}.png').convert_alpha()
+            text = Text(str(val), color=(0,0,0))
+            self.action_pannel.blit(img, img.get_rect(x = x, centery = centery))
+            x += img.get_width() + margin
+            self.action_pannel.blit(text, text.get_rect(x = x, centery = centery))
+            x += text.get_width() + margin
 
     def render_characters_display(self):
         index = 0

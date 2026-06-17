@@ -1,5 +1,3 @@
-from turtle import left
-
 import pygame
 import pygame.font
 from settings import Settings
@@ -13,15 +11,19 @@ class PlainText:
         self.text = self.font.render(text, font_family == 'assets/font/ThaleahFat.ttf', self.text_color).convert_alpha()
         self.image = self.text
         self.rect = self.text.get_rect(center = parent.center) if parent else self.text.get_rect()
+        self.rect_relative = self.text.get_rect(center = (parent.width / 2, parent.height / 2)) if parent else self.text.get_rect()
 
     def blitme(self, screen):
         screen.blit(self.image, self.rect)
 
 class Text:
-    def __init__(self, text, parent=None, size=18, has_underline=False, is_bold=True, color=None, pos=None):
+    def __init__(self, text, parent=None, size=18, has_underline=False, is_bold=True, color=None, pos=None, font_family=None):
         pygame.font.init()
         self.text_color = color if color else Settings().text_color
         src = 'assets/font/ThaleahFat.ttf' if is_bold else 'assets/font/Barlow-Black.ttf'
+        if font_family != None:
+            print(text)
+            src = font_family
         self.font = pygame.font.Font(src, size)
         smooth_render = not is_bold
         self.text = self.font.render(text, smooth_render, self.text_color).convert_alpha()
