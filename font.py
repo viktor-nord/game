@@ -21,11 +21,11 @@ class Text:
         pygame.font.init()
         self.text_color = color if color else Settings().text_color
         src = 'assets/font/ThaleahFat.ttf' if is_bold else 'assets/font/Barlow-Black.ttf'
-        if font_family != None:
-            print(text)
-            src = font_family
         self.font = pygame.font.Font(src, size)
         smooth_render = not is_bold
+        if font_family != None:
+            src = font_family
+            smooth_render = True
         self.text = self.font.render(text, smooth_render, self.text_color).convert_alpha()
         wh = (self.text.get_width(), self.text.get_height())
         self.image = pygame.Surface(wh, pygame.SRCALPHA).convert_alpha()
@@ -38,7 +38,7 @@ class Text:
             self.relative_rect = self.image.get_rect(center = (parent.width / 2, parent.height / 2))
         elif pos:
             self.rect = self.image.get_rect(left = pos[0], top = pos[1])
-            self.relative_rect = self.image.get_rect(left = pos[0], top = pos[1])            
+            self.relative_rect = self.image.get_rect(left = pos[0], top = pos[1])
         else:
             self.rect = self.image.get_rect()
             self.relative_rect = self.image.get_rect()
