@@ -1,4 +1,6 @@
+from matplotlib.pyplot import draw
 import pygame
+from container import Container
 from image import Image
 from settings import Settings
 from font import PlainText, Text
@@ -27,8 +29,18 @@ class BattleUI:
         self.end_btn.rect.bottom = self.action_pannel_rect.top
         t = PlainText('End Turn ', parent=self.end_btn.rect)
         t.rect_relative = t.rect_relative.move(0,5)
-        holder = Image('assets/ui_sprites/Sprites/Content/5 Holders/7.png', parent=t.rect_relative.move(48,0))
-        q = Text("Q", size=14, color=(0,0,0), font_family='freesansbold.ttf', parent=holder.rect, is_bold=False)
+        holder = Image(
+            'assets/ui_sprites/Sprites/Content/5 Holders/7.png', 
+            parent=t.rect_relative.move(48,0)
+        )
+        q = Text(
+            "Q", 
+            size=14, 
+            color=(0,0,0), 
+            font_family='freesansbold.ttf', 
+            parent=holder.rect, 
+            is_bold=False
+        )
         self.end_btn.surf.blit(t.text, t.rect_relative)
         self.end_btn.surf.blit(holder.image, holder.rect)
         self.end_btn.surf.blit(q.text, q.rect)
@@ -43,15 +55,21 @@ class BattleUI:
         middle = Image(url + '5 Holders/27.png')
         end = Image(url + '5 Holders/28.png')
         width = 98 if steps < 11 else 108
-        self.action_pannel = pygame.Surface((start.width + width + end.width, start.height), pygame.SRCALPHA).convert_alpha()
-        self.action_pannel_rect = self.action_pannel.get_rect(centerx = self.settings.screen_width / 2, bottom = self.settings.screen_height)
+        wh = (start.width + width + end.width, start.height)
+        self.action_pannel = pygame.Surface(wh, pygame.SRCALPHA).convert_alpha()
+        self.action_pannel_rect = self.action_pannel.get_rect(
+            centerx = self.settings.screen_width / 2, 
+            bottom = self.settings.screen_height
+        )
         self.action_pannel.blit(start.image, (0,0))
         x = start.width
         self.action_pannel.blit(middle.image, (x, 0))
         while x < width:
             x += middle.width
             self.action_pannel.blit(middle.image, (x, 0))
-        self.action_pannel.blit(end.image, end.image.get_rect(right = self.action_pannel_rect.width))
+        self.action_pannel.blit(
+            end.image, end.image.get_rect(right = self.action_pannel_rect.width)
+        )
 
     def render_action_pannel_content(self, url, char):
         dic = {'box': char.actions_amount, 'triangle': char.bonus_action_amount, 'circle': char.steps_amount}
@@ -76,16 +94,16 @@ class BattleUI:
             self.characters_display.blit(card.image, (card_width * i, 0))
 
     def render_current_character(self):
-        self.character_display = pygame.Surface((300,64), pygame.SRCALPHA).convert_alpha()
+        self.character_display = pygame.Surface((300, 64), pygame.SRCALPHA).convert_alpha()
         self.character_display_rect = self.character_display.get_rect(left = 10, bottom = self.settings.screen_height - 10)
         img = next(c.portret for c in self.cards if c.id == self.current_character_id)
-        r = img.get_rect()
+        r = img.rect
         name_pos = (r.right + 8, r.top + 14)
         data_pos = (r.right + 8, r.top + 36)
         name_text = self.characters[self.current_character_id].id.capitalize()
         name = Text(name_text, font_family='freesansbold.ttf', color=(71,128,178), is_bold=False, pos=name_pos)
         data = Text('Lv 7 Betuttad Monk', font_family='freesansbold.ttf', color=(71,128,178), is_bold=False, pos=data_pos, size=22)
-        self.character_display.blit(img, r)
+        self.character_display.blit(img.image, r)
         self.character_display.blit(name.text, name.rect)
         self.character_display.blit(data.text, data.rect)
 
@@ -110,38 +128,31 @@ class CharacterCard:
     def __init__(self, id, index, hp, is_active=False):
         images = ["Frame 19.png", "Frame 20.png", "Frame 21.png", "Frame 22.png", "Frame 23.png", "Frame 24.png", "Frame 25.png", "Frame 26.png"]
         self.id = id
-        self.max_hp = hp[1]
-        self.hp = hp[0]
-        self.index = index
         self.is_active = is_active
-        bg_img = pygame.image.load('assets/ui_sprites/Sprites/Content/5 Holders/20250420manaSoul9SlicesB-Sheet.png').convert_alpha()
-        self.bg = pygame.transform.scale(bg_img, (76,76))
-        active_bg_img = pygame.image.load('assets/ui_sprites/Sprites/Content/5 Holders/20250420manaSoul9SlicesC-Sheet.png').convert_alpha()
-        self.active_bg = pygame.transform.scale(active_bg_img, (76,76))
         self.image = pygame.Surface((76,76), pygame.SRCALPHA).convert_alpha()
         self.rect = self.image.get_rect()
+        url = 'assets/ui_sprites/Sprites/Content/5 Holders/'
+        self.bg = Image(f"{url}20250420manaSoul9SlicesB-Sheet.png", size=76)
+        self.active_bg = Image(f"{url}20250420manaSoul9SlicesC-Sheet.png", size=76)
         if is_active:
-            self.image.blit(self.active_bg, (0,0))
+            self.image.blit(self.active_bg.image, (0,0))
         else:
-            self.image.blit(self.bg, (0,0))
-        portret = pygame.image.load('assets/ui_sprites/character/' + images[index]).convert_alpha()
-        self.portret = pygame.transform.scale(portret, (64,64))
-        self.portret_rect = self.portret.get_rect(center = self.rect.center)
-        self.image.blit(self.portret, self.portret_rect)
-        font = pygame.font.Font('freesansbold.ttf', 12)
-        hp_text = font.render(f"{self.hp}/{self.max_hp}", True, (255,255,255))
-        self.text_shadow = pygame.Surface((hp_text.get_width() + 2, hp_text.get_height() + 2)).convert()
-        self.text_shadow.fill(pygame.Color(0,0,0,100))
-        text_rect = self.text_shadow.get_rect(center = (self.rect.width / 2, self.rect.height - 8))
+            self.image.blit(self.bg.image, (0,0))
+        self.portret = Image('assets/ui_sprites/character/' + images[index], size=64, parent=self.bg.rect)
+        self.image.blit(self.portret.image, self.portret.rect)
+        hp = Text(f"{hp[0]}/{hp[1]}", size=12, color=(255,255,255), font_family='freesansbold.ttf')
+        self.text_shadow = pygame.Surface((hp.rect.width + 2, hp.rect.height + 2)).convert()
+        self.text_shadow.fill(pygame.Color(0,0,0,50))
+        text_rect = self.text_shadow.get_rect(centerx = self.rect.width / 2, bottom = self.rect.height)
         self.image.blit(self.text_shadow, text_rect)
-        self.image.blit(hp_text, hp_text.get_rect(center = text_rect.center))
+        self.image.blit(hp.text, hp.text.get_rect(center = text_rect.center))
 
     def change_state(self):
         if self.is_active:
-            self.image.blit(self.bg, (0,0))
-            self.image.blit(self.portret, self.portret_rect)
+            self.image.blit(self.bg.image, (0,0))
+            self.image.blit(self.portret.image, self.portret.rect)
             self.is_active = False
         else:
-            self.image.blit(self.active_bg, (0,0))
-            self.image.blit(self.portret, self.portret_rect)
+            self.image.blit(self.active_bg.image, (0,0))
+            self.image.blit(self.portret.image, self.portret.rect)
             self.is_active = True

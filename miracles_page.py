@@ -50,10 +50,6 @@ class MiraclesPage(Page):
                     val.append(spell)
         return val 
 
-    def reset(self):
-        self.db_cantrip = self.get_cantrips()
-        self.render_text()
-
     def get_spell_list(self):
         arr = []
         for value in self.db_cantrip:

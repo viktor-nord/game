@@ -1,7 +1,6 @@
 import pygame
-import pygame.font
 from page import Page
-from font import PlainText, Title
+from font import PlainText, Text, Title
 from settings import Settings
 from button import CheckBoxList
 from image import Image
@@ -58,33 +57,9 @@ class AbilityPage(Page):
     def get_p_list(self):
         return [{"id": p, "text": p, "value": p} for p in self.proficiencies_list]
 
-    def reset(self):
-        self.player = self.get_player()
-        # self.selected_proficiencies = []
-        self.proficiencies_max_amount = self.player["pa"]
-        s = self.proficiencies.selected
-        self.proficiencies = CheckBoxList(
-            self.proficiencies_list_container, 
-            self.get_p_list(),
-            slim = True,
-            multi = True,
-            amount = self.proficiencies_max_amount,
-            disabled = self.get_disabled_proficiencies(self.player["po"])
-        )
-        self.proficiencies.selected = s
-        vals = []
-        for x in self.abilities:
-            vals.append([x.label_text, x.value_index])
-        self.abilities = self.populate_abilities()
-        for val in vals:
-            for i, a in enumerate(self.abilities):
-                if val[0] == a.label_text:
-                    self.abilities[i].value_index = val[1]
-
     def get_info_text(self, selected):
         text = f"{selected} out of {self.proficiencies_max_amount} proficiencies"
-        self.proficiencies_info = PlainText(text)
-        self.proficiencies_info.rect.center = self.left_page.center
+        self.proficiencies_info = Text(text, parent=self.left_page)
         self.proficiencies_info.rect.bottom = self.left_page.bottom
         
     def populate_abilities(self):
@@ -93,10 +68,7 @@ class AbilityPage(Page):
         ac = pygame.Rect((a.x, a.y + b + 8), (a.width, a.height - b + 8))
         w, h = ac.width // 2, ac.height // 3
         for i, ability in enumerate(self.ability_list):
-            bonus = 0
-            for abi in self.player["abi"]:
-                if abi["name"] == ability[:3]:
-                    bonus = abi["val"]
+            bonus = next((abi["val"] for abi in self.player["abi"] if abi["name"] == ability[:3]), 0)
             l = ac.left if i % 2 == 0 else ac.left + w
             t = ac.top + i // 2 * h
             container = pygame.Rect((l, t), (w,h))
@@ -123,7 +95,7 @@ class AbilityPage(Page):
 
     def blitme(self, screen):
         super().blitme(screen)
-        screen.blits([(ability.image, ability.parent) for ability in self.abilities])
+        screen.blits([(ability.surf, ability.parent) for ability in self.abilities])
         screen.blit(self.left_title.image, self.left_title.rect)
         screen.blit(self.right_title.image, self.right_title.rect)
         self.proficiencies.draw_list(screen)
@@ -136,44 +108,58 @@ class AbilityBox:
         self.parent = parent
         self.bonus = bonus
         self.values = [0, 8, 10, 12, 13, 14, 15]
+        self.surf = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA).convert_alpha()
+        self.get_content()
+        self.get_rects()
+        self.get_text(label)
+        self.render_text()
+        self.blit_image()
+
+    def get_content(self):
         url = "assets/ui_sprites/Sprites/Content/"
-        self.image = pygame.Surface((parent.width, parent.height), pygame.SRCALPHA).convert_alpha()
-        self.bonus_text = PlainText(str(bonus), size=24)
-        self.font = pygame.font.Font('assets/font/ThaleahFat.ttf', 22)
-        self.big_font = pygame.font.Font('assets/font/ThaleahFat.ttf', 42)
-        self.label = self.font.render(label, False, Settings().text_color)
         self.holder_image = Image(url + "5 Holders/3.png").image
         self.button_holer = Image(url + "5 Holders/7.png").image
         self.minus_img = Image(url + "2 Icons/2.png").image
         self.plus_img = Image(url + "2 Icons/3.png").image
         self.bonus_image = Image(url + "5 Holders/6.png").image
-        img_rect = self.image.get_rect()
-        left_side = self.image.get_rect(width = img_rect.width - self.holder_image.get_width())
-        self.minus_rect = self.button_holer.get_rect(centery = left_side.centery, right = left_side.width // 2)
-        self.plus_rect = self.button_holer.get_rect(centery = left_side.centery, left = left_side.width // 2)
-        self.label_container = self.label.get_rect(centerx = left_side.centerx, y = 16 + 8)
+
+    def get_rects(self):
+        img_rect = self.surf.get_rect()
+        self.left_side = self.surf.get_rect(width = img_rect.width - self.holder_image.get_width())
+        self.minus_rect = self.button_holer.get_rect(centery = self.left_side.centery, right = self.left_side.width // 2)
+        self.plus_rect = self.minus_rect.move(self.minus_rect.width + 1, 0)
         self.image_holder_container = self.holder_image.get_rect(
             centery = img_rect.centery, right = img_rect.right-8
         )
         self.bonus_image_rect = self.bonus_image.get_rect(
             top = self.image_holder_container.top - 8, left = self.image_holder_container.left
         )
-        self.blit_image()
+
+    def get_text(self, label):
+        self.bonus_text = Text(str(self.bonus), size=24, parent=self.bonus_image_rect)
+        self.label = Text(
+            label, 
+            size=22, 
+            font_family='assets/font/ThaleahFat.ttf', 
+            parent=self.left_side
+        )
+        self.label.rect.y = 24
+
+    def render_text(self):
+        val = self.values[self.value_index]
+        text = str(val + self.bonus) if val != 0 else '-'
+        self.ability_text = Text(text, size=42, font_family='assets/font/ThaleahFat.ttf', parent=self.image_holder_container)
 
     def blit_image(self):
-        val = str(self.bonus) if self.bonus else "-"
-        if self.values[self.value_index] != 0:
-            val = str(self.values[self.value_index] + self.bonus)
-        self.ability_text = self.big_font.render(val, False, Settings().text_color)
-        self.image.blit(self.button_holer, self.minus_rect)
-        self.image.blit(self.button_holer, self.plus_rect)
-        self.image.blit(self.minus_img, self.minus_rect)
-        self.image.blit(self.plus_img, self.plus_rect)
-        self.image.blit(self.label, self.label_container)
-        self.image.blit(self.holder_image, self.image_holder_container)
-        self.image.blit(self.bonus_image, self.bonus_image_rect)
-        self.image.blit(self.ability_text, self.ability_text.get_rect(center = self.image_holder_container.center))
-        self.image.blit(self.bonus_text.text, self.bonus_text.text.get_rect(center = self.bonus_image_rect.center))
+        self.surf.blit(self.button_holer, self.minus_rect)
+        self.surf.blit(self.button_holer, self.plus_rect)
+        self.surf.blit(self.minus_img, self.minus_rect)
+        self.surf.blit(self.plus_img, self.plus_rect)
+        self.surf.blit(self.label.text, self.label.rect)
+        self.surf.blit(self.holder_image, self.image_holder_container)
+        self.surf.blit(self.bonus_image, self.bonus_image_rect)
+        self.surf.blit(self.ability_text.text, self.ability_text.rect)
+        self.surf.blit(self.bonus_text.text, self.bonus_text.rect)
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
@@ -181,9 +167,10 @@ class AbilityBox:
         plus = self.plus_rect.move(self.parent.x, self.parent.y)
         if min.collidepoint(pos):
             return "-"
-        if plus.collidepoint(pos):
+        elif plus.collidepoint(pos):
             return "+"
-        return None
+        else:
+            return None
 
     def change_value(self, operator, taken):
         l = [x for x in range(0, len(self.values))]
@@ -192,6 +179,7 @@ class AbilityBox:
         else:
             l.reverse()
             self.value_index = next((val for val in l if val < self.value_index and val not in taken), 0)
+        self.render_text()
         self.blit_image()
     
     def get_value(self):

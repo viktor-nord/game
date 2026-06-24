@@ -1,5 +1,6 @@
 import pygame
 import json
+import math
 
 from character import Character
 
@@ -69,7 +70,8 @@ class PlayerData:
         self.proficiencies = data["proficiencies"]
         self.miracles = data["miracles"]
         self.stats = PlayerStats(data["stats"])
-        self.max_hp = self.hit_die // 2 + 1 + self.stats.constitution_modifier
+        con_mod = math.floor((self.stats.constitution - 10) / 2)
+        self.max_hp = self.hit_die // 2 + 1 + con_mod
 
 class PlayerStats:
     def __init__(self, stats):
@@ -79,9 +81,3 @@ class PlayerStats:
         self.dexterity = stats["dexterity"]
         self.intelligence = stats["intelligence"]
         self.charisma = stats["charisma"]
-        self.strength_modifier = stats["strength_modifier"]
-        self.wisdom_modifier = stats["wisdom_modifier"]
-        self.constitution_modifier = stats["constitution_modifier"]
-        self.dexterity_modifier = stats["dexterity_modifier"]
-        self.intelligence_modifier = stats["intelligence_modifier"]
-        self.charisma_modifier = stats["charisma_modifier"]

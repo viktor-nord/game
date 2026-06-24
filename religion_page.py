@@ -39,12 +39,6 @@ class ReligionPage(Page):
         )
         self.scroll_bar = ScrollBar(self.scroll_bar_container)
 
-    def reset(self):
-        player = self.get_db(self.player_url)
-        if player["religion"]["practice"]:
-            self.current_class = self.db_classes[player["religion"]["practice"]]
-            self.render_text()
-
     def render_text(self):
         self.left_title = Title(self.current_class["name"], self.left_title_container)
         self.hp = SmallTitle(f"HP: {self.current_class["hit_die"]}", pos=self.stats_container.topleft)

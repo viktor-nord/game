@@ -5,7 +5,7 @@ from font import Title
 from button import Button
 
 class SubmitPage(Page):
-    def __init__(self, game):
+    def __init__(self):
         super().__init__()
         self.left_title = Title("You", self.left_title_container)
         self.submit_button = Button("submit", "Submit", self.right_page, "submit")
@@ -19,4 +19,4 @@ class SubmitPage(Page):
     def blitme(self, screen):
         super().blitme(screen)
         screen.blit(self.left_title.image, self.left_title.rect)
-        screen.blit(self.submit_button.image, self.submit_button.rect)
+        self.submit_button.blitme(screen)
