@@ -17,7 +17,18 @@ class PlainText:
         screen.blit(self.image, self.rect)
 
 class Text:
-    def __init__(self, text, parent=None, size=18, has_underline=False, is_bold=True, color=None, pos=None, font_family=None):
+    def __init__(
+            self, 
+            text, 
+            parent=None, 
+            size=18, 
+            has_underline=False, 
+            is_bold=True, 
+            color=None, 
+            pos=None, 
+            font_family=None,
+            top_left=None
+        ):
         pygame.font.init()
         self.text_color = color if color else Settings().text_color
         src = 'assets/font/ThaleahFat.ttf' if is_bold else 'assets/font/Barlow-Black.ttf'
@@ -33,15 +44,16 @@ class Text:
         self.under_line_img = pygame.image.load(
             'assets/ui_sprites/Sprites/Content/5 Holders/20_2.png'
         ).convert_alpha()
+        self.relative_rect = self.image.get_rect()
         if parent:
             self.rect = self.image.get_rect(center = parent.center)
             self.relative_rect = self.image.get_rect(center = (parent.width / 2, parent.height / 2))
         elif pos:
             self.rect = self.image.get_rect(left = pos[0], top = pos[1])
-            self.relative_rect = self.image.get_rect(left = pos[0], top = pos[1])
+        elif top_left:
+            self.rect = self.image.get_rect(x = top_left[0], y = top_left[1])
         else:
             self.rect = self.image.get_rect()
-            self.relative_rect = self.image.get_rect()
         if has_underline:
             self.render_underline()
 
@@ -68,8 +80,8 @@ class Title(Text):
         self.image.blit(self.text, (rect.x, rect.y))
 
 class SmallTitle(Text):
-    def __init__(self, text, parent=None, size=26, pos=None):
-        super().__init__(text, parent=parent, size=size, has_underline=True, is_bold=True, pos=pos)
+    def __init__(self, text, parent=None, size=26, pos=None, top_left=None):
+        super().__init__(text, parent=parent, size=size, has_underline=True, is_bold=True, pos=pos, top_left=top_left)
         self.under_line_img = pygame.image.load("assets/ui_sprites/Sprites/Content/5 Holders/19.png").convert_alpha()
         self.image = pygame.Surface((self.text.get_width(), self.text.get_height() + self.under_line_img.get_height() - 8), pygame.SRCALPHA)
         r = self.image.get_rect()

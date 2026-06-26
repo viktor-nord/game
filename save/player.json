@@ -1,28 +1,34 @@
 {
     "general": {
-        "name": "viktor",
-        "age": "66",
-        "gender": "female",
-        "race": "human",
-        "size": "medium",
-        "speed": 60,
-        "traits": [],
+        "name": "wef",
+        "age": "22",
+        "gender": "male",
+        "race": "gnome",
+        "size": "small",
+        "speed": 50,
+        "traits": [
+            "darkvision",
+            "gnome cunning"
+        ],
         "level": 1
     },
     "religion": {
-        "practice": "cleric",
+        "practice": "imam",
         "faith": "",
-        "hit_die": 8
+        "hit_die": 6
     },
     "stats": {
-        "strength": 0,
-        "wisdom": 0,
-        "constitution": 2,
-        "dexterity": 0,
-        "intelligence": 0,
-        "charisma": 0
+        "strength": 8,
+        "wisdom": 10,
+        "constitution": 12,
+        "dexterity": 13,
+        "intelligence": 16,
+        "charisma": 15
     },
-    "proficiencies": [],
+    "proficiencies": [
+        "arcana",
+        "history"
+    ],
     "miracles": {
         "save_dc": 0,
         "spell_modifier": 0,
