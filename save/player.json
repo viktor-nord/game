@@ -13,21 +13,21 @@
         "level": 1
     },
     "religion": {
-        "practice": "imam",
+        "practice": "cleric",
         "faith": "",
-        "hit_die": 6
+        "hit_die": 8
     },
     "stats": {
         "strength": 8,
         "wisdom": 10,
-        "constitution": 12,
-        "dexterity": 13,
+        "constitution": 13,
+        "dexterity": 12,
         "intelligence": 16,
         "charisma": 15
     },
     "proficiencies": [
-        "arcana",
-        "history"
+        "medicine",
+        "insight"
     ],
     "miracles": {
         "save_dc": 0,

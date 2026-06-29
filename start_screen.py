@@ -1,6 +1,6 @@
 import pygame
 
-from button import Button
+from button import AltButton
 from animation import Animation, AnimationIndex
 from font import Title
 from settings import Settings
@@ -28,11 +28,11 @@ class StartScreen:
     def generate_buttons(self):
         texts = ['New Game', 'Load Game', 'Options']
         buttons = []
-        dummy = Button(1337, "dummy", pygame.Rect(10,10,10,10), 0)
+        dummy = AltButton(1337, "dummy", pygame.Rect(10,10,10,10), 0)
         box = dummy.surf.get_rect(center = self.rect.center)
         box.y -= 70
         for i, button in enumerate(texts):
-            buttons.append(Button(i + 1, button, box, i + 1, f"{button}-{i}"))
+            buttons.append(AltButton(i + 1, button, box, i + 1, f"{button}-{i}"))
             box.y += 70
         return buttons
 

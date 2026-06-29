@@ -2,7 +2,7 @@ import pygame
 
 from settings import Settings
 from book import Book
-from button import Button
+from button import AltButton
 
 
 class SettingsMenu:
@@ -17,7 +17,7 @@ class SettingsMenu:
         self.bg = Book()
         self.right_page = pygame.Rect((532, 64),(291, 360))
         self.left_page = pygame.Rect((202, 64),(291, 360))
-        self.btn = Button(555, 'shit', pygame.Rect((600, 200), (100, 100)), 555)
+        self.btn = AltButton(555, 'shit', pygame.Rect((600, 200), (100, 100)), 555)
 
 
     def handle_event(self, event):

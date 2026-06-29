@@ -2,14 +2,14 @@ import pygame
 
 from page import Page
 from font import Title
-from button import Button
+from button import AltButton
 
 class SubmitPage(Page):
     def __init__(self):
         super().__init__()
         self.complete = True
         self.left_title = Title("You", self.left_title_container)
-        self.submit_button = Button("submit", "Submit", self.right_page, "submit")
+        self.submit_button = AltButton("submit", "Submit", self.right_page, "submit")
         self.submit_button.rect.center = self.right_page.center
 
     def check_click(self):
