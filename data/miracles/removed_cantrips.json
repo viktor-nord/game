@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Sacrificial Blade",
+    "desc": "You sacrifice the weapon used in the spell's casting and make a melee attack with it against one creature within 1m of you. On a hit, the weapon explode and can no longer be used.",
+    "range": 1,
+    "material": "weapon",
+    "ritual": false,
+    "duration": "instantaneous",
+    "concentration": false,
+    "casting_time": "1 action",
+    "level": 0,
+    "damage": {
+      "damage_type": "thunder",
+      "dice": 6,
+      "level": [2,4,6,8]
+    },
+    "dc": {
+      "dc_type": "ac",
+      "dc_success": {
+        "damage": null,
+        "effect": null
+      }
+    },
+    "area_of_effect": {
+      "type": "cube",
+      "size": 1
+    },
+    "effect": [
+      {
+        "type": "",
+        "target": "",
+        "duration": ""
+      }
+    ],
+    "school": "evocation",
+    "classes": ["rabbi", "heathen", "imam"]
+  },
+  {
+    "name": "Branded Blade",
+    "desc": "You sacrifice the weapon used in the spell's casting and make a melee attack with it against one creature within 1m of you. On a hit, the weapon explode and can no longer be used.",
+    "range": 1,
+    "material": "weapon",
+    "ritual": false,
+    "duration": "instantaneous",
+    "concentration": false,
+    "casting_time": "1 action",
+    "level": 0,
+    "damage": {
+      "damage_type": "fire",
+      "dice": 6,
+      "level": [2,4,6,8]
+    },
+    "dc": {
+      "dc_type": "ac",
+      "dc_success": {
+        "damage": null,
+        "effect": null
+      }
+    },
+    "area_of_effect": {
+      "type": "cube",
+      "size": 1
+    },
+    "effect": [
+      {
+        "type": "",
+        "target": "",
+        "duration": ""
+      }
+    ],
+    "school": "evocation",
+    "classes": ["rabbi", "heathen", "imam"]
+  }
+]
