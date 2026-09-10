@@ -22,19 +22,25 @@
         "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/spr_tileset_sunnysideworld_16px.tsx": {
             "scaleInEditor": 1
         },
+        "C:/Users/KarlssonVik/projects/python/game/map/text_collision_tileset_2.tsx": {
+            "scaleInDock": 1
+        },
         "map_1.tmx": {
-            "scale": 1.26728515625,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                10
+            ],
+            "scale": 1.5,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 256.05918162903595,
-                "y": 128.22686291130464
+                "x": 175.99999999999997,
+                "y": 61.66666666666666
             }
         },
         "map_2.tmx": {
             "scale": 1.5,
-            "selectedLayer": 5,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 216.33333333333331,
+                "x": 215.99999999999997,
                 "y": 235.66666666666669
             }
         },
@@ -44,6 +50,14 @@
             "viewCenter": {
                 "x": 260.3333333333333,
                 "y": 74.33333333333331
+            }
+        },
+        "test_collision_map_2.tmx": {
+            "scale": 1.9037109374999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 255.81614855853084,
+                "y": 127.9080742792654
             }
         }
     },
@@ -58,6 +72,7 @@
     "property.type": "object",
     "recentFiles": [
         "map_2.tmx",
+        "test_collision_map_2.tmx",
         "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/spr_tileset_sunnysideworld_16px.tsx",
         "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/big_rock.tsx",
         "C:/Users/KarlssonVik/projects/python/game/assets/tileset/Tileset/houses.tsx"

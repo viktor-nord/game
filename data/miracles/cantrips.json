@@ -135,7 +135,7 @@
   },
   {
     "name": "Blade Ward",
-    "desc": "You extend your hand and trace a sigil of warding in the air. Until the end of your next turn, you have resistance against bludgeoning, piercing, and slashing damage",
+    "desc": "You extend your hand and trace a sigil of warding in the air. Until the end of your next turn, you have resistance against weapon attacks",
     "range": 0,
     "material": "",
     "ritual": false,

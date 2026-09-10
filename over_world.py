@@ -13,7 +13,8 @@ class OverWorld():
         self.game = game
         self.name = 'over_world'
         self.settings = Settings()
-        self.map = Map("map_1")
+        self.map = Map("test_col_n_obj")
+        # self.map = Map("map_2")
         self.player = Player()
         self.npc_1 = Npc('jon', (6, 6), movement_pattern='random')
         self.npc_2 = Npc('bob', (11, 12), movement_pattern=['right', 'down', 'up', 'left'])
