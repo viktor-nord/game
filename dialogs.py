@@ -14,10 +14,10 @@ dialog_texts = {
 }
 
 class Dialog:
-    def __init__(self, text, animated=True):
+    def __init__(self, npc, player, animated=True):
         self.settings = Settings()
         self.done = False
-        self.text_array = text
+        self.text_array = dialog_texts[npc.id] if npc else dialog_texts["else"]
         self.animated = animated
         self.counter = 0
         self.letter_counter = 0
@@ -28,6 +28,8 @@ class Dialog:
         self.rect = self.image.get_rect(centerx = self.settings.screen_width / 2, bottom = self.settings.screen_height)
         self.text_box = pygame.Rect((self.rect.x + 32, self.rect.y + 50),(self.rect.width - 32*2, self.rect.height - 50*2))
         self.get_text()
+        self.npc = self.get_char_img(npc, False)
+        self.player = self.get_char_img(player, True)
 
     def new_text(self, text):
         self.text_array = text
@@ -42,6 +44,18 @@ class Dialog:
             t = self.text_array[self.counter]
         self.text = LongText(t, self.text_box, has_underline=False)
 
+    def get_char_img(self, char, is_player):
+        base = char.character_sprite.frames['idle'][0]
+        w, h = base.get_width() * 5, base.get_height() * 5
+        img = pygame.transform.flip(
+            pygame.transform.scale(base, (w,h)), 
+            not is_player, 
+            False
+        )
+        center = self.rect.move(64, -16).topleft if is_player else self.rect.move(-64, -16).topright
+        rect = img.get_rect(center=center)
+        return {'img': img, 'rect': rect}
+
     def next(self):
         self.counter += 1
         self.letter_counter = 0
@@ -54,6 +68,8 @@ class Dialog:
         # self.text = LongText(self.text_array[self.counter][:self.letter_counter], self.text_box, has_underline=False)
 
     def blitme(self, screen):
+        screen.blit(self.npc['img'], self.npc['rect'])
+        screen.blit(self.player['img'], self.player['rect'])
         if self.counter < len(self.text_array):        
             screen.blit(self.image, self.rect)
         else:
@@ -61,3 +77,4 @@ class Dialog:
         if self.animated:
             self.update_text()
         screen.blit(self.text.image, self.text.rect)
+

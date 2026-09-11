@@ -79,6 +79,9 @@ class Character():
         y = int((self.rect.y + (self.size / 2)) / self.size)
         return [x, y]
 
+    def get_collision_rect(self):
+        return pygame.Rect((self.rect.x, self.rect.y), (self.size, self.size))
+
     def take_damage(self, damage, type='bludgeoning', delay=0):
         self.hp -= damage
         self.character_sprite.queue_delay = delay

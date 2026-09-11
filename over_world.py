@@ -31,9 +31,10 @@ class OverWorld():
     def update(self):
         self.map.mobile_collision_grid = {}
         self.map.mobile_collision_grid[self.player.id] = self.player.get_coordinates()
+        self.map.world_collision_grid[self.player.id] = self.player.get_collision_rect()
         for npc in self.npc_group:
-            pos = npc.get_coordinates()
-            self.map.mobile_collision_grid[npc.id] = pos
+            self.map.mobile_collision_grid[npc.id] = npc.get_coordinates()
+            self.map.world_collision_grid[npc.id] = npc.get_collision_rect()
         posible_player_moves = self.map.check_collision(self.player)
         self.player.update(posible_player_moves)
         for npc in self.npc_group:
@@ -87,17 +88,18 @@ class OverWorld():
         npc = None
         for npc_id, pos in self.map.mobile_collision_grid.items():
             if x == pos[0] and y == pos[1]:
-                npc = npc_id
+                npc = next((x for x in self.npc_group if x.id == npc_id), None)
+                # npc = npc_id 
         if npc == None:
             return
-        if npc == 'mike':
+        if npc.id == 'mike':
             self.game.fade('battle')
             self.game.components['battle'].init_battle()
         else:
-            if npc in dialog_texts:
-                self.dialog = Dialog(dialog_texts[npc])
+            if npc.id in dialog_texts:
+                self.dialog = Dialog(npc, self.player)
             else:
-                self.dialog = Dialog(dialog_texts['else'])
+                self.dialog = Dialog(None, self.player)
 
     def handle_click(self):
         if self.dialog:
