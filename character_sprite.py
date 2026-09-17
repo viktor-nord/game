@@ -26,9 +26,18 @@ class CharacterSprite:
         base = self.frames['idle'][0]
         w, h = base.get_width() * scale, base.get_height() * scale
         img = pygame.transform.scale(base, (w,h))
-        shadow = add_shadow(img, scale=1.3)
-        surf = pygame.Surface((shadow.get_width(), shadow.get_height()), pygame.SRCALPHA).convert_alpha()
-        surf.blit(shadow, (0,0))
+        shadow = pygame.mask.from_surface(img).to_surface(
+            setcolor=(0, 0, 0, 10),
+            unsetcolor=None
+        )
+        surf = pygame.Surface((w, h), pygame.SRCALPHA).convert_alpha()
+        for x in range(-5, 0):
+            surf.blit(shadow, (x, 0))
+            surf.blit(shadow, (-x, 0))
+            surf.blit(shadow, (0, x))
+            surf.blit(shadow, (0, -x))
+        for xy in range(0, 10):
+            surf.blit(shadow, (xy, xy))
         surf.blit(img, (0,0))
         return surf
 

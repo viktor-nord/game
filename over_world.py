@@ -42,14 +42,6 @@ class OverWorld():
             npc.check_movement(posible_npc_moves)
             npc.update(posible_npc_moves)
 
-    def blitme(self, screen):
-        self.map.blit_all_tiles(screen)
-        for npc in self.npc_group:
-            npc.blitme(screen)
-        self.player.blitme(screen)
-        if self.dialog:
-            self.dialog.blitme(screen)
-
     def handle_event(self, event):
         if event.type == pygame.QUIT:
             sys.exit()
@@ -106,3 +98,12 @@ class OverWorld():
             self.dialog.next()
             if self.dialog.done:
                 self.dialog = None
+
+    def blitme(self, screen):
+        self.map.blit_all_tiles(screen)
+        for npc in self.npc_group:
+            npc.blitme(screen)
+        self.player.blitme(screen)
+        if self.dialog:
+            self.dialog.blitme(screen)
+        screen.blit(self.player.character_sprite.display_image, (20,100))
