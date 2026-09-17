@@ -106,4 +106,3 @@ class OverWorld():
         self.player.blitme(screen)
         if self.dialog:
             self.dialog.blitme(screen)
-        screen.blit(self.player.character_sprite.display_image, (20,100))

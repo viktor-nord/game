@@ -32,10 +32,12 @@ class CharacterSprite:
         )
         surf = pygame.Surface((w, h), pygame.SRCALPHA).convert_alpha()
         for x in range(-5, 0):
-            surf.blit(shadow, (x, 0))
-            surf.blit(shadow, (-x, 0))
-            surf.blit(shadow, (0, x))
-            surf.blit(shadow, (0, -x))
+            surf.blits([
+                (shadow, (x, 0)), 
+                (shadow, (-x, 0)), 
+                (shadow, (0, x)), 
+                (shadow, (0, -x))
+            ])
         for xy in range(0, 10):
             surf.blit(shadow, (xy, xy))
         surf.blit(img, (0,0))
