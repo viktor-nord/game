@@ -1,10 +1,11 @@
 import pygame
-from image import Image
+from image import Image, add_shadow
 from settings import Settings
 
 class CharacterSprite:
     def __init__(self, pos, type):
         self.type = type
+        self.hair = 'longhair'
         self.settings = Settings()
         self.size = self.settings.tile_size
         self.image = pygame.Surface((160, 96), pygame.SRCALPHA).convert_alpha()
@@ -19,6 +20,17 @@ class CharacterSprite:
         self.is_dead = False
         self.skull_image = self.frames['death'][-1]
         self.queue_delay = 0
+        self.display_image = self.get_display_image()
+
+    def get_display_image(self, scale=5):
+        base = self.frames['idle'][0]
+        w, h = base.get_width() * scale, base.get_height() * scale
+        img = pygame.transform.scale(base, (w,h))
+        shadow = add_shadow(img, scale=1.3)
+        surf = pygame.Surface((shadow.get_width(), shadow.get_height()), pygame.SRCALPHA).convert_alpha()
+        surf.blit(shadow, (0,0))
+        surf.blit(img, (0,0))
+        return surf
 
     def get_url(self, type, hair):
         base = 'assets/tileset/Characters'

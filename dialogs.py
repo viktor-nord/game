@@ -45,13 +45,8 @@ class Dialog:
         self.text = LongText(t, self.text_box, has_underline=False)
 
     def get_char_img(self, char, is_player):
-        base = char.character_sprite.frames['idle'][0]
-        w, h = base.get_width() * 5, base.get_height() * 5
-        img = pygame.transform.flip(
-            pygame.transform.scale(base, (w,h)), 
-            not is_player, 
-            False
-        )
+        base = char.character_sprite.display_image
+        img = pygame.transform.flip(base, not is_player, False)
         center = self.rect.move(64, -16).topleft if is_player else self.rect.move(-64, -16).topright
         rect = img.get_rect(center=center)
         return {'img': img, 'rect': rect}
