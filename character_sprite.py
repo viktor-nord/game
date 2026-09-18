@@ -1,10 +1,13 @@
+from matplotlib.dates import drange
 import pygame
 from image import Image, add_shadow
 from settings import Settings
 
+
 class CharacterSprite:
     def __init__(self, pos, type):
         self.type = type
+        self.is_player = type == 'player'
         self.hair = 'longhair'
         self.settings = Settings()
         self.size = self.settings.tile_size
@@ -20,28 +23,18 @@ class CharacterSprite:
         self.is_dead = False
         self.skull_image = self.frames['death'][-1]
         self.queue_delay = 0
-        self.display_image = self.get_display_image()
+        self.display_image = self.get_display_image(self.is_player)
 
-    def get_display_image(self, scale=5):
-        base = self.frames['idle'][0]
-        w, h = base.get_width() * scale, base.get_height() * scale
-        img = pygame.transform.scale(base, (w,h))
-        shadow = pygame.mask.from_surface(img).to_surface(
-            setcolor=(0, 0, 0, 10),
-            unsetcolor=None
+    def get_display_image(self, is_player, scale=6):
+        base = pygame.transform.flip(
+            self.frames['idle'][0],
+            not is_player,
+            False
         )
-        surf = pygame.Surface((w, h), pygame.SRCALPHA).convert_alpha()
-        for x in range(-5, 0):
-            surf.blits([
-                (shadow, (x, 0)), 
-                (shadow, (-x, 0)), 
-                (shadow, (0, x)), 
-                (shadow, (0, -x))
-            ])
-        for xy in range(0, 10):
-            surf.blit(shadow, (xy, xy))
-        surf.blit(img, (0,0))
-        return surf
+        wh = (base.get_width() * scale, base.get_height() * scale)
+        img = pygame.transform.scale(base, wh)
+        img_with_shadow = add_shadow(img)
+        return img_with_shadow
 
     def get_url(self, type, hair):
         base = 'assets/tileset/Characters'
@@ -62,7 +55,8 @@ class CharacterSprite:
         return_value = {}
         for key, val in self.mall[type]['actions'].items():
             x = key.upper() if type == 'human' else 'PNG'
-            return_value[key] = [f"{base}/{type.capitalize()}/{x}/{l}_{key}_strip{val}.png" for l in self.mall[type]['layers']]
+            return_value[key] = [
+                f"{base}/{type.capitalize()}/{x}/{l}_{key}_strip{val}.png" for l in self.mall[type]['layers']]
         return return_value
 
     def get_frames(self, type):
@@ -119,8 +113,8 @@ class CharacterSprite:
         else:
             self.handle_animation_counter()
             img = pygame.transform.flip(
-                self.frames[self.action][self.frame_counter], 
-                self.is_flipped, 
+                self.frames[self.action][self.frame_counter],
+                self.is_flipped,
                 False
             )
             screen.blit(img, offset)

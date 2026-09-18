@@ -46,7 +46,6 @@ class Dialog:
 
     def get_char_img(self, char, is_player):
         img = char.character_sprite.display_image
-        # img = pygame.transform.flip(base, not is_player, False)
         center = self.rect.move(64, -16).topleft if is_player else self.rect.move(-64, -16).topright
         rect = img.get_rect(center=center)
         return {'img': img, 'rect': rect}
@@ -72,4 +71,4 @@ class Dialog:
         if self.animated:
             self.update_text()
         screen.blit(self.text.image, self.text.rect)
-
+        # pygame.draw.rect(screen, "red", self.rect)
