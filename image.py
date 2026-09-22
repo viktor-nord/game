@@ -49,8 +49,9 @@ def add_shadow(img, offset=4):
         unsetcolor=None
     )
     for x in range(16):
-        i = pygame.transform.scale(
-            shadow, (img_rect.width+x*2, img_rect.height+x*2))
+        i = pygame.transform.scale(shadow, (
+            img_rect.width + x * 2, img_rect.height + x * 2
+        ))
         surf.blit(i, (i.get_rect(center=(c[0]+offset, c[1]+offset))))
     surf.blit(img, (img.get_rect(center=(c[0], c[1]))))
     return surf
