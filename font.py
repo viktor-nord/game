@@ -89,12 +89,12 @@ class SmallTitle(Text):
         self.image.blit(self.text, (0,0))
         self.image.blit(self.under_line_img, under_line_img_rect)
 
+
 class LongText(Text):
-    def __init__(self, text, parent, animated=False, size=16, has_underline=True):
+    def __init__(self, text, parent, size=16, has_underline=True):
         super().__init__(text, parent, size=size, has_underline=has_underline, is_bold=False)
         self.text_string = text
         self.has_underline = has_underline
-        self.animated = animated
         self.width = parent.width
         self.size = size
         self.text_list = self.get_text_list()
@@ -102,15 +102,7 @@ class LongText(Text):
         self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self.rect = self.image.get_rect(left = parent.left, top = parent.top)
         self.counter = 0
-        if self.animated == False:
-            self.render_text()
-
-    def update(self):
-        gg=0
-    #     for i, word in enumerate(self.text_list):
-    #         letter = self.font.render(
-    #             [self.text_string[self.counter]], True, self.text_color
-    #         )
+        self.render_text()
 
     def render_text(self):
         x = 0
@@ -144,3 +136,77 @@ class LongText(Text):
                 list[line].append(t)
             x += t.get_width()
         return list
+
+class AnimatedText(Text):
+    def __init__(self, text, parent, size=16, has_underline=True):
+        super().__init__(text, parent, size=size, has_underline=has_underline, is_bold=False)
+        self.text_string = text
+        self.has_underline = has_underline
+        self.width = parent.width
+        self.size = size
+        self.text_list = self.get_text_list()
+        self.height = len(self.text_list) * size + size
+        self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+        self.rect = self.image.get_rect(left = parent.left, top = parent.top)
+        self.counter = 0
+        self.x = 0
+        self.line = 0
+        self.animation_done = False
+
+    def update(self):
+        if self.animation_done:
+            return
+        letter = self.text_list[self.line][self.counter]
+        self.image.blit(letter, (self.x, self.line * self.size))
+        if self.counter + 1 >= len(self.text_list[self.line]):
+            self.counter = 0
+            self.x = 0
+            self.animation_done = self.line + 1 >= len(self.text_list)
+            self.line = 0 if self.animation_done else self.line + 1
+        else:
+            self.counter += 1
+            self.x += letter.get_width()
+
+    def render_text2(self):
+        x, under_line_x = 0, 0
+        for line_index, line in enumerate(self.text_list):
+            for word in line:
+                self.image.blit(word, (x, line_index * self.size))
+                x += word.get_width()
+            if self.has_underline:
+                while under_line_x < self.width - 32:
+                    self.image.blit(self.under_line_img, (under_line_x, (line_index + 1) * self.size + 1))
+                    under_line_x += self.under_line_img.get_width() - 5
+                self.image.blit(self.under_line_img, (self.width - self.under_line_img.get_width(), (line_index + 1) * self.size + 1))
+            x = 0
+            under_line_x = 0
+
+    def get_letters_in_word(self, word):
+        arr = []
+        width = 0
+        space = self.font.render(" ", True, self.text_color)
+        for i in range(len(word)):
+            rendered_letter = self.font.render(word[i:i+1], True, self.text_color)
+            width += rendered_letter.get_width()
+            arr.append(rendered_letter)
+        arr.append(space)
+        width += space.get_width()
+        return [arr, width]
+
+    def get_text_list(self):
+        t_list = [[]]
+        x = 0
+        margin = 16
+        for word in self.text_string.split():
+            letters, width = self.get_letters_in_word(word)
+            x += width
+            if x > self.width - margin:
+                x = 0
+                t_list.append([])
+            t_list[-1].extend(letters)
+        return t_list
+
+    def blitme(self, screen):
+        if self.animation_done == False:
+            self.update()
+        screen.blit(self.image, self.rect)

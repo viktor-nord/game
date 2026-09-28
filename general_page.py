@@ -10,11 +10,11 @@ class GeneralPage(Page):
         super().__init__()
         margin = 8
         # Left side
-        self.intro_text_container = self.left_page.copy()
-        self.intro_text_container.left += margin
-        self.intro_text_container.top += margin * 4
-        self.intro_text_container.width -= margin * 2
-        self.intro_text_container.height -= margin * 8
+        lp = self.left_page.copy()
+        self.intro_text_container = pygame.Rect(
+            (lp.left+margin, lp.top+margin*4),
+            (lp.width-margin*2,lp.height-margin*8)
+        )
         self.intro_text = LongText(
             "Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray.",
             self.intro_text_container

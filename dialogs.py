@@ -1,16 +1,16 @@
 import pygame
 from settings import Settings
-from font import LongText
+from font import AnimatedText
 
 dialog_texts = {
-    "jon": [
+    "mike": [
         "hej", 
-        "my name is jon. this is a long test. that i hopfully gining to skip to the next line. i will just keep typing shit untill the lenght is long enought.", 
+        "my name is jon. this is a long test. that i hopfully going to skip to the next line. i will just keep typing shit untill the lenght is long enought.", 
         "godbye"
     ],
-    "bob": "tjo",
-    "jim": "Def",
-    "else": "don't talk to me"
+    "bob": ["mysnamesissjonssthississaslongstestw thatsishopfully mysnamesissjon.sthississaslongstest. thatsishopfully"],
+    "jim": ["Def"],
+    "else": ["don't talk to me"]
 }
 
 class Dialog:
@@ -27,22 +27,9 @@ class Dialog:
         self.book_img = pygame.image.load('assets/ui_sprites/Sprites/Content/2 Icons/23.png').convert_alpha()
         self.rect = self.image.get_rect(centerx = self.settings.screen_width / 2, bottom = self.settings.screen_height)
         self.text_box = pygame.Rect((self.rect.x + 32, self.rect.y + 50),(self.rect.width - 32*2, self.rect.height - 50*2))
-        self.get_text()
+        self.text = AnimatedText(self.text_array[self.counter], self.text_box, has_underline=False)
         self.npc = self.get_char_img(npc, False)
         self.player = self.get_char_img(player, True)
-
-    def new_text(self, text):
-        self.text_array = text
-        self.counter = 0
-        self.letter_counter = 0
-        self.get_text()
-
-    def get_text(self):
-        if self.animated:
-            t = self.text_array[self.counter][:self.letter_counter]
-        else:
-            t = self.text_array[self.counter]
-        self.text = LongText(t, self.text_box, has_underline=False)
 
     def get_char_img(self, char, is_player):
         img = char.character_sprite.display_image
@@ -51,15 +38,18 @@ class Dialog:
         return {'img': img, 'rect': rect}
 
     def next(self):
-        self.counter += 1
-        self.letter_counter = 0
-        if self.counter == len(self.text_array):
-            self.done = True
+        if self.text.animation_done:
+            if self.counter + 1 >= len(self.text_array):
+                self.done = True
+            else:
+                self.counter += 1
+                self.text = AnimatedText(self.text_array[self.counter], self.text_box, has_underline=False)
+        else:
+            pass
 
     def update_text(self):
         self.letter_counter += 1
         self.text.__init__(self.text_array[self.counter][:self.letter_counter], self.text_box, has_underline=False)
-        # self.text = LongText(self.text_array[self.counter][:self.letter_counter], self.text_box, has_underline=False)
 
     def blitme(self, screen):
         screen.blit(self.npc['img'], self.npc['rect'])
@@ -68,7 +58,4 @@ class Dialog:
             screen.blit(self.image, self.rect)
         else:
             screen.blit(self.last_image, self.rect)
-        if self.animated:
-            self.update_text()
-        screen.blit(self.text.image, self.text.rect)
-        # pygame.draw.rect(screen, "red", self.rect)
+        self.text.blitme(screen)

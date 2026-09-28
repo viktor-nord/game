@@ -84,9 +84,9 @@ class OverWorld():
                 # npc = npc_id 
         if npc == None:
             return
-        if npc.id == 'mike':
-            self.game.fade('battle')
-            self.game.components['battle'].init_battle()
+        # if npc.id == 'mike':
+        #     self.game.fade('battle')
+        #     self.game.components['battle'].init_battle()
         else:
             if npc.id in dialog_texts:
                 self.dialog = Dialog(npc, self.player)
