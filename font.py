@@ -167,19 +167,10 @@ class AnimatedText(Text):
             self.counter += 1
             self.x += letter.get_width()
 
-    def render_text2(self):
-        x, under_line_x = 0, 0
-        for line_index, line in enumerate(self.text_list):
-            for word in line:
-                self.image.blit(word, (x, line_index * self.size))
-                x += word.get_width()
-            if self.has_underline:
-                while under_line_x < self.width - 32:
-                    self.image.blit(self.under_line_img, (under_line_x, (line_index + 1) * self.size + 1))
-                    under_line_x += self.under_line_img.get_width() - 5
-                self.image.blit(self.under_line_img, (self.width - self.under_line_img.get_width(), (line_index + 1) * self.size + 1))
-            x = 0
-            under_line_x = 0
+    def render_all_text(self):
+        for line in self.text_list:
+            for x in line:
+                self.update()
 
     def get_letters_in_word(self, word):
         arr = []

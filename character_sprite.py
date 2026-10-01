@@ -1,4 +1,3 @@
-from matplotlib.dates import drange
 import pygame
 from image import Image, add_shadow
 from settings import Settings
