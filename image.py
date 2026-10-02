@@ -55,3 +55,24 @@ def add_shadow(img, offset=4):
         surf.blit(i, (i.get_rect(center=(c[0]+offset, c[1]+offset))))
     surf.blit(img, (img.get_rect(center=(c[0], c[1]))))
     return surf
+
+def get_title_holder(width):
+    # def render_action_pannel_bg(self, url, steps):
+    url = 'assets/ui_sprites/Sprites/Content/'
+    start = Image(url + '5 Holders/26.png')
+    middle = Image(url + '5 Holders/27.png')
+    end = Image(url + '5 Holders/28.png')
+    # width = 98 if steps < 11 else 108
+    wh = (start.width + width + end.width, start.height)
+    surf = pygame.Surface(wh, pygame.SRCALPHA).convert_alpha()
+    rect = surf.get_rect()
+    surf.blit(start.image, (0,0))
+    x = start.width
+    surf.blit(middle.image, (x, 0))
+    while x < width:
+        x += middle.width
+        surf.blit(middle.image, (x, 0))
+    surf.blit(
+        end.image, end.image.get_rect(right = rect.width)
+    )
+    return {'surf': surf, 'rect': rect}

@@ -138,7 +138,7 @@ class LongText(Text):
         return list
 
 class AnimatedText(Text):
-    def __init__(self, text, parent, size=16, has_underline=True):
+    def __init__(self, text, parent, size=16, has_underline=False):
         super().__init__(text, parent, size=size, has_underline=has_underline, is_bold=False)
         self.text_string = text
         self.has_underline = has_underline
