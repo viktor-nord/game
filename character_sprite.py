@@ -22,6 +22,7 @@ class CharacterSprite:
         self.is_dead = False
         self.skull_image = self.frames['death'][-1]
         self.queue_delay = 0
+        self.delay = 3
         self.display_image = self.get_display_image(self.is_player)
 
     def get_display_image(self, is_player, scale=6):
@@ -85,10 +86,12 @@ class CharacterSprite:
         self.frame_counter = 0
         self.action = action
 
+    def check_animation_done(self):
+        return (self.counter + 1) // self.delay == len(self.frames[self.action])
+
     def handle_animation_counter(self):
-        delay = 3
-        self.frame_counter = self.counter // delay
-        done = (self.counter + 1) // delay == len(self.frames[self.action])
+        self.frame_counter = self.counter // self.delay
+        done = (self.counter + 1) // self.delay == len(self.frames[self.action])
         if len(self.queue) and self.queue_delay == 0:
             if self.action == self.queue[0]:
                 if done:

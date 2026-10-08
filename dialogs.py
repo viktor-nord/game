@@ -1,7 +1,7 @@
 import pygame
 from settings import Settings
 from font import AnimatedText, Text
-from image import Image, get_title_holder
+from image import get_title_holder
 
 dialog_texts = {
     "mike": [
@@ -47,8 +47,8 @@ class Dialog:
     def __init__(self, npc, player, animated=True):
         self.settings = Settings()
         self.done = False
-        # self.text_array = dialog_texts['ulf']
-        self.text_array = dialog_texts[npc.id] if npc else dialog_texts["else"]
+        self.text_array = dialog_texts['ulf']
+        # self.text_array = dialog_texts[npc.id] if npc else dialog_texts["else"]
         self.counter = 0
         raw_text = next(iter(self.text_array[self.counter]))
         self.current_dialog = self.text_array[self.counter][raw_text]
@@ -74,8 +74,10 @@ class Dialog:
 
     def get_char_img(self, char, is_player):
         img = char.character_sprite.display_image
-        center = self.rect.move(
-            64, -16).topleft if is_player else self.rect.move(-64, -16).topright
+        if is_player:
+            center = self.rect.move(64, -16).topleft 
+        else:
+            center = self.rect.move(-64, -16).topright
         rect = img.get_rect(center=center)
         return {'img': img, 'rect': rect}
 
@@ -139,6 +141,7 @@ class Dialog:
             self.text = AnimatedText(t, self.text_box)
 
     def next(self):
+        # if dialog is done but there is still text being typed
         if self.check_to_render_text():
             self.text.render_all_text()
             return

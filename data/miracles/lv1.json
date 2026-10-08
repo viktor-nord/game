@@ -33,6 +33,13 @@
       "type": "cone",
       "size": 15
     },
+    "effect": [
+      {
+        "type": "disadvantage-attack",
+        "target": "target",
+        "duration": "1 turn"
+      }
+    ],
     "school": "evocation",
     "classes": [
       "sorcerer",

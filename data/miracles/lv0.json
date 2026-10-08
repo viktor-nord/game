@@ -1,0 +1,267 @@
+[
+  {
+    "name": "Holy Mockery",
+    "desc": "You mock the targets god or there faith. Causing them to take spiritual damage and distract them there next turn",
+    "range": 12,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "spiritual",
+      "dice": 4,
+      "amount": 1
+    },
+    "aoe": "target",
+    "effect": ["distracted"],
+    "classes": ["gospel"]
+  },
+  {
+    "name": "Conviction",
+    "desc": "You point at an opponent and proclaim your attack to God. Your next attack agent that opponent is done with conviction",
+    "range": 6,
+    "duration": 1,
+    "concentration": true,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": false,
+    "aoe": "target",
+    "effect": [],
+    "classes": []
+  },
+  {
+    "name": "Thunder Prayer",
+    "desc": "You put your hands together so hard that a shockwave is released in your immediate proximity",
+    "range": 0,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "force",
+      "dice": 6,
+      "amount": 1
+    },
+    "aoe": "circle",
+    "effect": [],
+    "classes": ["gospel", "paladin", "heathen", "imam"]
+  },
+  {
+    "name": "Demon Spit",
+    "desc": "You spit acid that's not of this world. The target and anyone next to them is burned by the poison of your patron",
+    "range": 12,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "poison",
+      "dice": 6,
+      "amount": 1
+    },
+    "aoe": "target",
+    "effect": [],
+    "classes": ["heathen"]
+  },
+  {
+    "name": "Edge no more",
+    "desc": "The edge of the next weapon that attacks you next turn will dull. Reducing the damage and the pride of every blacksmith",
+    "range": 0,
+    "duration": 1,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": false,
+    "aoe": "self",
+    "effect": [],
+    "classes": []
+  },
+  {
+    "name": "Gust of nifelheim",
+    "desc": "You grant your opponent a taste of what's to come. A gentle breeze from Nifelheim is enough to kill a lesser man and to slow down someone stronger",
+    "range": 24,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "ice",
+      "dice": 8,
+      "amount": 1
+    },
+    "aoe": "target",
+    "effect": ["-2 speed"],
+    "classes": ["imam", "paladin", "rabbi", "heathen"]
+  },
+  {
+    "name": "Zolta",
+    "desc": "In the ancient tongue, Zolta roughly translates to \"force\". It's common for demons to scream the word at each other to establish dominance",
+    "range": 24,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "force",
+      "dice": 10,
+      "amount": 1
+    },
+    "aoe": "target",
+    "effect": [],
+    "classes": ["heathen"]
+  },
+  {
+    "name": "Gust of Muspelhem",
+    "desc": "Your god gives you a small piece of Muspelhem's fire that you hurl at your opponent. Some imams use it for cooking, but that is not recommended",
+    "range": 24,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "fire",
+      "dice": 10,
+      "amount": 1
+    },
+    "aoe": "target",
+    "effect": [],
+    "classes": ["imam", "rabbi"]
+  },
+  {
+    "name": "Spiritual Guidance",
+    "desc": "You place one hand on your friend's and one hand on your heart. In a fight, it will help them strike true. outside of a fight, it will help them succeed in one task",
+    "range": 1,
+    "duration": 1,
+    "concentration": true,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": false,
+    "aoe": "target",
+    "effect": [],
+    "classes": ["cleric"]
+  },
+  {
+    "name": "Push",
+    "desc": "A gust of wind pushes the target 1 meter to the north, south, east, or west.",
+    "range": 6,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": false,
+    "aoe": "target",
+    "effect": ["move 1m"],
+    "classes": []
+  },
+  {
+    "name": "Shivas kidney stone",
+    "desc": "You conjured a kidney stone from Apollo Shiva (don't ask where it came from). The stone will be in your inventory for 10 actions or until used. throw it only against the ones you wish to destroy",
+    "range": 12,
+    "duration": 10,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "force",
+      "dice": 6,
+      "amount": 1
+    },
+    "aoe": "self",
+    "effect": [],
+    "classes": []
+  },
+  {
+    "name": "Doubt thy Faith",
+    "desc": "This prayer only works on those with a different faith. You attempt to convince them that they chose the wrong god. If successful, it will damage their spirit and distract them from the next action",
+    "range": 12,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "spiritual",
+      "dice": 6,
+      "amount": 1
+    },
+    "aoe": "target",
+    "effect": [],
+    "classes": []
+  },
+  {
+    "name": "Forsaken Sanity",
+    "desc": "You are struck with temporary madness, believing yourself to be a beast. You claw or bite your opponent with great force. Afterwards you return to your senses",
+    "range": 1,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "slash",
+      "dice": 10,
+      "amount": 1
+    },
+    "aoe": "target",
+    "effect": [],
+    "classes": ["guru"]
+  },
+  {
+    "name": "Resistance",
+    "desc": "You put one hand on your friend and one hand on your heart, praying that they will prevail. This will increase your friends' defences",
+    "range": 1,
+    "duration": 1,
+    "concentration": true,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": false,
+    "aoe": "target",
+    "effect": [],
+    "classes": ["cleric", "guru"]
+  },
+  {
+    "name": "Gods presence",
+    "desc": "You invoke the mere presence of a god. This alone is enough to push someone to their knees. The target must use their speed to get back on their feet. But the damage and humility will take longer to heal",
+    "range": 6,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "force",
+      "dice": 4,
+      "amount": 1
+    },
+    "aoe": "target",
+    "effect": [],
+    "classes": ["imam"]
+  },
+  {
+    "name": "Save the fallen",
+    "desc": "You touch a recently departed friend and return them from Nifelheim. You grant them enough life to live but not enough to survive even the smallest attack",
+    "range": 1,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": false,
+    "aoe": "target",
+    "effect": [],
+    "classes": ["cleric"]
+  },
+  {
+    "name": "Gaia hair",
+    "desc": "You conjure the hair of mother earth, Gaia. She will damage your opponent and pull him 1 meter closer to you.",
+    "range": 6,
+    "duration": 0,
+    "concentration": false,
+    "casting_time": "1a",
+    "level": 0,
+    "damage": {
+      "damage_type": "force",
+      "dice": 6,
+      "amount": 1
+    },
+    "aoe": "target",
+    "effect": ["move 1m closer"],
+    "classes": []
+  }
+]

@@ -12,6 +12,7 @@ class OverWorld():
     def __init__(self, game):
         self.game = game
         self.name = 'over_world'
+        self.start_battle = False
         self.settings = Settings()
         self.map = Map("test_col_n_obj")
         # self.map = Map("map_2")
@@ -29,6 +30,7 @@ class OverWorld():
         self.dialog = None
 
     def update(self):
+        self.check_for_battle()
         self.map.mobile_collision_grid = {}
         self.map.mobile_collision_grid[self.player.id] = self.player.get_coordinates()
         self.map.world_collision_grid[self.player.id] = self.player.get_collision_rect()
@@ -41,6 +43,14 @@ class OverWorld():
             posible_npc_moves = self.map.check_collision(npc)
             npc.check_movement(posible_npc_moves)
             npc.update(posible_npc_moves)
+
+    def check_for_battle(self):
+        if self.start_battle == False:
+            return
+        if self.player.character_sprite.check_animation_done():
+            self.start_battle = False
+            self.game.fade('battle')
+            self.game.components['battle'].init_battle()
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -69,29 +79,36 @@ class OverWorld():
             # self.game_pause = True
         elif key == pygame.K_a:
             if is_down:
-                self.player.character_sprite.change_action('attack')
+                self.handle_attack()
         else:
             self.player.handle_movement(key, is_down)
 
-    def handle_action(self):
+    def find_close_npc(self):
+        if self.player.dir == "":
+            return None
         x, y = self.player.get_coordinates()
-        x += self.player.movement[self.player.dir][0]
-        y += self.player.movement[self.player.dir][1]
-        npc = None
+        dir = 'left' if self.player.character_sprite.is_flipped else 'right'
+        x += self.player.movement[dir][0]
+        y += self.player.movement[dir][1]
         for npc_id, pos in self.map.mobile_collision_grid.items():
             if x == pos[0] and y == pos[1]:
-                npc = next((x for x in self.npc_group if x.id == npc_id), None)
-                # npc = npc_id 
+                return next((x for x in self.npc_group if x.id == npc_id), None)
+        return None
+
+    def handle_attack(self):
+        self.player.character_sprite.change_action('attack')
+        npc = self.find_close_npc()
+        if npc:
+            self.start_battle = True
+
+    def handle_action(self):
+        npc = self.find_close_npc()
         if npc == None:
             return
-        # if npc.id == 'mike':
-        #     self.game.fade('battle')
-        #     self.game.components['battle'].init_battle()
+        if npc.id in dialog_texts:
+            self.dialog = Dialog(npc, self.player)
         else:
-            if npc.id in dialog_texts:
-                self.dialog = Dialog(npc, self.player)
-            else:
-                self.dialog = Dialog(None, self.player)
+            self.dialog = Dialog(None, self.player)
 
     def handle_click(self):
         if self.dialog:
