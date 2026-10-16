@@ -144,14 +144,14 @@ class MiracleTooltip:
         self.name = value['name']
         self.desc = value['desc']
         self.range = value['range']
-        self.is_ritual = value['ritual']
+        # self.is_ritual = value['ritual']
         self.duration = value['duration']
         self.concentration = value['concentration']
         self.casting_time = value['casting_time']
         self.level = value['level']
-        self.school = value['school']
+        # self.school = value['school']
         self.damage = value['damage']
-        self.dv = value['dc']
+        # self.dc = value['dc']
         self.effect = value['effect']
 
     def render_img(self, blueprint):

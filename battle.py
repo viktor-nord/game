@@ -1,6 +1,5 @@
 import sys
 import pygame
-from random import randrange
 
 from player import Player
 from settings import Settings
@@ -10,7 +9,7 @@ from battle_map import BattleMap
 from action_wheel import ActionWheel
 from battle_ui import BattleUI
 from utils import get_adjasent_cord, get_key_text
-from dialogs import Dialog
+from dialogs import DialogText
 from info_display import MiraclesInfoDisplay
 from d20 import D20
 
@@ -51,18 +50,19 @@ class Battle():
     def update(self):
         if self.info.active:
             self.info.update()
+            return
+        if self.d20.active and self.d20.animation_active == False and not self.dialog:
+            self.dialog = DialogText(f"{self.id} is attacking {self.action_wheel.current_id}")
+            # self.dialog = Dialog(f"{self.id} is attacking {self.action_wheel.current_id}")
+        if self.walking_animation:
+            self.check_walking_animation()
         else:
-            if self.d20.active and self.d20.animation_active == False and not self.dialog:
-                self.dialog = Dialog([f"{self.id} is attacking {self.action_wheel.current_id}"])
-            if self.walking_animation:
-                self.check_walking_animation()
-            else:
-                self.handle_turn()
-            for char in self.obj.values():
-                char.update()
-            # self.obj[self.id].update()
-            if self.action_wheel_target:
-                self.action_wheel.update()
+            self.handle_turn()
+        for char in self.obj.values():
+            char.update()
+        # self.obj[self.id].update()
+        if self.action_wheel_target:
+            self.action_wheel.update()
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -75,17 +75,20 @@ class Battle():
             self.handle_key(event.key, False)
 
     def handle_key(self, key, is_down):
-        if self.dialog:
-            if is_down:
-                self.dialog.next()
-                if self.dialog.done:
-                    self.dialog = None
+        if self.dialog and is_down:
+            if self.dialog.done:
+                self.dialog = None
+            else:
+                self.dialog.render_all_text()
             return
         if key == pygame.K_p and is_down:
             self.game_pause = True
         elif key == pygame.K_q and is_down:
             self.end_turn()
-        elif key == pygame.K_RIGHT or key == pygame.K_LEFT or key == pygame.K_UP or key == pygame.K_DOWN:
+        elif (key == pygame.K_RIGHT or 
+              key == pygame.K_LEFT or 
+              key == pygame.K_UP or 
+              key == pygame.K_DOWN):
             self.handle_movement(key, is_down)
 
     def roll_inisiative(self):
@@ -135,9 +138,10 @@ class Battle():
         pos = pygame.mouse.get_pos()
         self.ui.handle_click(pos)
         if self.dialog:
-            self.dialog.next()
             if self.dialog.done:
                 self.dialog = None
+            else:
+                self.dialog.render_all_text()
             return
             # self.end_turn()
         elif self.info.active:
@@ -182,9 +186,10 @@ class Battle():
         dice = 19
         if dice >= self.obj[id].ac or dice == 20:
             if dice == 20:
-                self.dialog = Dialog(["Criticla hit!"])
+                text = "Criticla hit!"
             else:
-                self.dialog = Dialog([f"{self.id} is attacking {id}"])
+                text = f"{self.id} is attacking {id}"
+            self.dialog = DialogText(text)
             weapon = self.obj[self.id].primary_weapon
             # damage = self.d20.roll(dice=weapon['dice'])
             damage = 20
@@ -194,14 +199,16 @@ class Battle():
             self.action_wheel_target = None
         else:
             if dice == 0:
-                self.dialog = Dialog(['Critical missed'])
+                text = 'Critical missed'
             else:
-                self.dialog = Dialog(['Attack missed'])
+                text = 'Attack missed'
+            self.dialog = DialogText(text)
 
     def handle_action_wheel(self, action_obj):
         if action_obj['val'] == 'primary':
             if self.obj[self.id].actions_amount < 1:
-                self.dialog = Dialog(['You have already used your action'])
+                # self.dialog = Dialog('You have already used your action')
+                self.dialog = DialogText('You have already used your action')
                 return
             m, t = self.map.mobile_collision_grid, action_obj['id']
             if m[t] in get_adjasent_cord(m['player']).values():
@@ -210,7 +217,7 @@ class Battle():
                 self.obj[self.id].actions_amount -= 1
                 self.get_ui()
             else:
-                self.dialog = Dialog(['You are to far away'])
+                self.dialog = DialogText('You are to far away')
         elif action_obj['val'] == 'spell':
             self.info.active = True
 

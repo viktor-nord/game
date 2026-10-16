@@ -154,8 +154,8 @@
     "classes": []
   },
   {
-    "name": "Shivas kidney stone",
-    "desc": "You conjured a kidney stone from Apollo Shiva (don't ask where it came from). The stone will be in your inventory for 10 actions or until used. throw it only against the ones you wish to destroy",
+    "name": "Holy pebbles",
+    "desc": "You conjured pebbles from the god of destruction Apollo Shiva. The stone will be in your inventory for 10 actions or until used. throw it only against the ones you wish to destroy",
     "range": 12,
     "duration": 10,
     "concentration": false,

@@ -5,7 +5,6 @@ from player import Player
 from settings import Settings
 from npc import Npc
 from dialogs import Dialog, dialog_texts
-from fade_animation import FadeAnimation
 from map import Map
 
 class OverWorld():
@@ -31,18 +30,26 @@ class OverWorld():
 
     def update(self):
         self.check_for_battle()
-        self.map.mobile_collision_grid = {}
+        self.update_collision_grid()
+        self.move_player()
+        self.move_npc()
+
+    def move_npc(self):
+        for npc in self.npc_group:
+            posible_npc_moves = self.map.check_collision(npc)
+            npc.check_movement(posible_npc_moves)
+            npc.update(posible_npc_moves)
+
+    def move_player(self):
+        posible_player_moves = self.map.check_collision(self.player)
+        self.player.update(posible_player_moves)
+
+    def update_collision_grid(self):
         self.map.mobile_collision_grid[self.player.id] = self.player.get_coordinates()
         self.map.world_collision_grid[self.player.id] = self.player.get_collision_rect()
         for npc in self.npc_group:
             self.map.mobile_collision_grid[npc.id] = npc.get_coordinates()
             self.map.world_collision_grid[npc.id] = npc.get_collision_rect()
-        posible_player_moves = self.map.check_collision(self.player)
-        self.player.update(posible_player_moves)
-        for npc in self.npc_group:
-            posible_npc_moves = self.map.check_collision(npc)
-            npc.check_movement(posible_npc_moves)
-            npc.update(posible_npc_moves)
 
     def check_for_battle(self):
         if self.start_battle == False:
@@ -55,8 +62,6 @@ class OverWorld():
     def handle_event(self, event):
         if event.type == pygame.QUIT:
             sys.exit()
-        elif event.type == pygame.MOUSEWHEEL:
-            pass # scroll_down = True if event.y < 0 else False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             self.handle_click()
         elif event.type == pygame.KEYDOWN:
@@ -65,23 +70,27 @@ class OverWorld():
             self.handle_key(event.key, False)
 
     def handle_key(self, key, is_down):
-        if self.dialog:
-            if is_down:
-                self.dialog.next()
-                if self.dialog.done:
-                    self.dialog = None
-            return
-        if key == pygame.K_SPACE:
-            if is_down:
-                self.handle_action()
-        elif key == pygame.K_p:
+        if self.dialog and is_down:
+            self.handle_dialog(key)
+            if self.dialog.done:
+                self.dialog = None
+        elif key == pygame.K_SPACE and is_down:
+            self.handle_action()
+        elif key == pygame.K_p and is_down:
             pass
             # self.game_pause = True
-        elif key == pygame.K_a:
-            if is_down:
-                self.handle_attack()
+        elif key == pygame.K_a and is_down:
+            self.handle_attack()
         else:
             self.player.handle_movement(key, is_down)
+
+    def handle_dialog(self, key):
+        if key == pygame.K_SPACE:
+            self.dialog.handle_input(key)
+        elif key == pygame.K_DOWN:
+            self.dialog.move_pointer(True)
+        elif key == pygame.K_UP:
+            self.dialog.move_pointer(False)
 
     def find_close_npc(self):
         if self.player.dir == "":
@@ -108,7 +117,7 @@ class OverWorld():
         if npc.id in dialog_texts:
             self.dialog = Dialog(npc, self.player)
         else:
-            self.dialog = Dialog(None, self.player)
+            self.dialog = Dialog(None)
 
     def handle_click(self):
         if self.dialog:
