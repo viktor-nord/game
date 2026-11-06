@@ -51,17 +51,17 @@ class Battle():
         if self.info.active:
             self.info.update()
             return
-        if self.d20.active and self.d20.animation_active == False and not self.dialog:
-            self.dialog = DialogText(f"{self.id} is attacking {self.action_wheel.current_id}")
-        if self.walking_animation:
-            self.check_walking_animation()
-        else:
-            self.handle_turn()
+        self.update_d20_animation()
+        self.update_walking_animation()
+        self.update_turn()
         for char in self.obj.values():
             char.update()
-        # self.obj[self.id].update()
         if self.action_wheel_target:
             self.action_wheel.update()
+
+    def update_d20_animation(self):
+        if self.d20.active and self.d20.animation_active == False and not self.dialog:
+            self.dialog = DialogText(f"{self.id} is attacking {self.action_wheel.current_id}")
 
     def handle_event(self, event):
         if event.type == pygame.QUIT:
@@ -107,7 +107,9 @@ class Battle():
         self.ui.__init__(self, dic, self.id)
         # self.ui = BattleUI(self, dic, self.id)
 
-    def handle_turn(self):
+    def update_turn(self):
+        if self.walking_animation:
+            return
         c = self.obj[self.id]
         if c.is_party_member:
             self.allow_events = True
@@ -118,7 +120,9 @@ class Battle():
                 self.obj[self.id].battle_ai()
                 self.walking_animation = True
 
-    def check_walking_animation(self):
+    def update_walking_animation(self):
+        if self.walking_animation == False:
+            return
         c = self.obj[self.id]
         x = c.rect.x / self.settings.tile_size == float(c.moving_to[0])
         y = c.rect.y / self.settings.tile_size == float(c.moving_to[1])
