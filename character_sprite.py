@@ -3,8 +3,9 @@ from image import Image, add_shadow
 from settings import Settings
 
 
-class CharacterSprite:
+class CharacterSprite(pygame.sprite.Sprite):
     def __init__(self, pos, type):
+        super().__init__()
         self.type = type
         self.is_player = type == 'player'
         self.hair = 'longhair'

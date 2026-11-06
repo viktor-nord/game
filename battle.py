@@ -54,8 +54,9 @@ class Battle():
         self.update_d20_animation()
         self.update_walking_animation()
         self.update_turn()
-        for char in self.obj.values():
-            char.update()
+        [char.update() for char in self.obj.values()]
+        # for char in self.obj.values():
+        #     char.update()
         if self.action_wheel_target:
             self.action_wheel.update()
 
@@ -101,9 +102,7 @@ class Battle():
         self.id = self.turn_order[0]
 
     def get_ui(self):
-        dic = {}
-        for id in self.turn_order:
-            dic[f"{id}"] = self.obj[f"{id}"]
+        dic = {f"{id}": self.obj[f"{id}"] for id in self.turn_order}
         self.ui.__init__(self, dic, self.id)
         # self.ui = BattleUI(self, dic, self.id)
 
@@ -188,10 +187,7 @@ class Battle():
         dice = self.d20.roll(show_animation=False)
         dice = 19
         if dice >= self.obj[id].ac or dice == 20:
-            if dice == 20:
-                text = "Criticla hit!"
-            else:
-                text = f"{self.id} is attacking {id}"
+            text = "Criticla hit!" if dice == 20 else f"{self.id} is attacking {id}"
             self.dialog = DialogText(text)
             weapon = self.obj[self.id].primary_weapon
             # damage = self.d20.roll(dice=weapon['dice'])
@@ -201,10 +197,7 @@ class Battle():
             self.obj[id].take_damage(damage, weapon['damage_type'], 18)
             self.action_wheel_target = None
         else:
-            if dice == 0:
-                text = 'Critical missed'
-            else:
-                text = 'Attack missed'
+            text = 'Critical missed' if dice == 0 else 'Attack missed'
             self.dialog = DialogText(text)
 
     def handle_action_wheel(self, action_obj):
@@ -242,8 +235,7 @@ class Battle():
     def blitme(self, screen):
         c = self.obj[self.id]
         self.map.blit_all_tiles(screen)
-        for char in self.obj.values():
-            char.blitme(screen)            
+        [char.blitme(screen) for char in self.obj.values()]
         self.ui.blitme(screen)
         if c.is_party_member and c.steps_amount > 0:
             self.map.blit_spacing_grid(screen)
