@@ -17,7 +17,7 @@ class GeneralPage(Page):
         )
         self.intro_text = LongText(
             "Accustomed to life underground, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray.",
-            self.intro_text_container
+            self.intro_text_container,
         )
         # Right side
         self.right_title = Title("General", self.right_title_container)

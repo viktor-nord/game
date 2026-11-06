@@ -36,8 +36,8 @@
             "scale": 1.5,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 175.99999999999997,
-                "y": 61.66666666666666
+                "x": 256,
+                "y": 127.66666666666666
             }
         },
         "map_2.tmx": {
@@ -49,11 +49,11 @@
             }
         },
         "test_col_n_obj.tmx": {
-            "scale": 8,
-            "selectedLayer": 4,
+            "scale": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 200.5625,
-                "y": 176.375
+                "x": 294.5,
+                "y": 142
             }
         },
         "test_collision_map_2.tmx": {

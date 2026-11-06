@@ -55,7 +55,7 @@ class Button(BaseButton):
         if parent:
             self.rect.center = parent.center
         bg = self.render_bg(self.surf.get_width())
-        content = Text(text, parent=self.bg.get_rect())
+        content = Text(text, parent=bg.get_rect())
         self.surf.blit(bg, (0,0))
         self.surf.blit(content.text, content.relative_rect)
         self.surf_active = self.surf.copy()

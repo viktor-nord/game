@@ -1,38 +1,45 @@
 {
     "general": {
-        "name": "wef",
-        "age": "22",
+        "name": "qfwef",
+        "age": "333",
         "gender": "male",
-        "race": "gnome",
-        "size": "small",
+        "race": "dwarf",
+        "size": "medium",
         "speed": 50,
         "traits": [
             "darkvision",
-            "gnome cunning"
+            "resilience",
+            "Stonecunning"
         ],
         "level": 1
     },
     "religion": {
-        "practice": "cleric",
+        "practice": "guru",
         "faith": "",
         "hit_die": 8
     },
     "stats": {
         "strength": 8,
         "wisdom": 10,
-        "constitution": 13,
+        "constitution": 15,
         "dexterity": 12,
-        "intelligence": 16,
+        "intelligence": 14,
         "charisma": 15
     },
     "proficiencies": [
-        "medicine",
-        "insight"
+        "animals",
+        "arcana"
     ],
     "miracles": {
         "save_dc": 0,
         "spell_modifier": 0,
         "cantrips": [
+            0,
+            2,
+            8,
+            9
+        ],
+        "lv0": [
             0,
             2,
             8,

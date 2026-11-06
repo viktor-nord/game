@@ -10,7 +10,7 @@ from action_wheel import ActionWheel
 from battle_ui import BattleUI
 from utils import get_adjasent_cord, get_key_text
 from dialogs import DialogText
-from info_display import MiraclesInfoDisplay
+from miracles_info_display import MiraclesInfoDisplay
 from d20 import D20
 
 class Battle():
@@ -53,7 +53,6 @@ class Battle():
             return
         if self.d20.active and self.d20.animation_active == False and not self.dialog:
             self.dialog = DialogText(f"{self.id} is attacking {self.action_wheel.current_id}")
-            # self.dialog = Dialog(f"{self.id} is attacking {self.action_wheel.current_id}")
         if self.walking_animation:
             self.check_walking_animation()
         else:
