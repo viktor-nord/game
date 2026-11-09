@@ -1,37 +1,12 @@
 import pygame
 from settings import Settings
 from character_sprite import CharacterSprite
+from data.weapons import weapons
 
-weapons = {
-    'dagger': {
-        'dice': 4,
-        'dice_amount': 1,
-        'attack_type': 'melee',
-        'damage_type': 'piercing'
-    },
-    'sword': {
-        'dice': 6,
-        'dice_amount': 1,
-        'attack_type': 'melee',
-        'damage_type': 'slashing'
-    },
-    'greatsword': {
-        'dice': 6,
-        'dice_amount': 2,
-        'attack_type': 'melee',
-        'damage_type': 'slashing'
-    },
-    'shortbow': {
-        'dice': 6,
-        'dice_amount': 1,
-        'attack_type': 'range',
-        'damage_type': 'piercing'
-    },
-}
-
-class Character():
+class Character:
     def __init__(self, pos=(0,0), type="human"):
         self.type = type
+        self.name = "plaseholder"
         self.settings = Settings()
         self.size = self.settings.tile_size
         self.character_sprite = CharacterSprite(pos, type)
@@ -82,7 +57,10 @@ class Character():
     def get_collision_rect(self):
         return pygame.Rect((self.rect.x, self.rect.y), (self.size, self.size))
 
-    def take_damage(self, damage, type='bludgeoning', delay=0):
+    def get_stat_mod(self, stat):
+        return (stat - 10) // 2
+
+    def take_damage(self, damage, delay=0):
         self.hp -= damage
         self.character_sprite.queue_delay = delay
         self.character_sprite.queue.append('hurt')

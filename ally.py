@@ -6,6 +6,7 @@ class Ally(Character):
     def __init__(self, id, pos):
         super().__init__(pos, 'human')
         self.id = id
+        self.name = id
         self.rect.x = self.size * pos[0]
         self.rect.y = self.size * pos[1]
         self.is_party_member = True

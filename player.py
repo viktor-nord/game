@@ -7,12 +7,12 @@ from character import Character
 class Player(Character):
     def __init__(self, pos=[13, 8]):
         super().__init__(pos, 'player')
-        self.id = 'player'
         self.rect.x = self.size * pos[0]
         self.rect.y = self.size * pos[1]
         self.speed = 4
         self.moving_to = [self.rect.x, self.rect.y]
         self.data = PlayerData()
+        self.id = self.data.name
         self.max_hp = self.data.max_hp
         self.hp = self.data.max_hp
         self.steps_amount = self.data.speed // 10
@@ -70,14 +70,14 @@ class PlayerData:
         self.proficiencies = data["proficiencies"]
         self.miracles = data["miracles"]
         self.stats = PlayerStats(data["stats"])
-        con_mod = math.floor((self.stats.constitution - 10) / 2)
+        con_mod = math.floor((self.stats.con - 10) / 2)
         self.max_hp = self.hit_die // 2 + 1 + con_mod
 
 class PlayerStats:
     def __init__(self, stats):
-        self.strength = stats["strength"]
-        self.wisdom = stats["wisdom"]
-        self.constitution = stats["constitution"]
-        self.dexterity = stats["dexterity"]
-        self.intelligence = stats["intelligence"]
-        self.charisma = stats["charisma"]
+        self.str = stats["strength"]
+        self.wis = stats["wisdom"]
+        self.con = stats["constitution"]
+        self.dex = stats["dexterity"]
+        self.int = stats["intelligence"]
+        self.cha = stats["charisma"]

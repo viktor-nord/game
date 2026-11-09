@@ -1,22 +1,18 @@
 {
     "general": {
-        "name": "qfwef",
-        "age": "333",
+        "name": "fwefwe",
+        "age": "222",
         "gender": "male",
-        "race": "dwarf",
+        "race": "human",
         "size": "medium",
-        "speed": 50,
-        "traits": [
-            "darkvision",
-            "resilience",
-            "Stonecunning"
-        ],
+        "speed": 60,
+        "traits": [],
         "level": 1
     },
     "religion": {
-        "practice": "guru",
+        "practice": "priest",
         "faith": "",
-        "hit_die": 8
+        "hit_die": 10
     },
     "stats": {
         "strength": 8,
@@ -27,8 +23,8 @@
         "charisma": 15
     },
     "proficiencies": [
-        "animals",
-        "arcana"
+        "arcana",
+        "animals"
     ],
     "miracles": {
         "save_dc": 0,

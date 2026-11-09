@@ -5,7 +5,6 @@ from image import Image
 from settings import Settings
 from font import PlainText, Text
 
-
 class BattleUI:
     def __init__(self, battle_class, characters, current_id='player'):
         self.battle_class = battle_class
@@ -133,10 +132,10 @@ class BattleUI:
     def handle_action(self):
         pass
 
-    def handle_click(self, pos):
+    def handle_click(self, pos=None):
+        pos = pos if pos else pygame.mouse.get_pos()
         if self.end_btn.rect.collidepoint(pos):
             self.battle_class.end_turn()
-
 
 class CharacterCard:
     def __init__(self, id, index, hp, is_active=False):

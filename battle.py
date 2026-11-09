@@ -12,6 +12,8 @@ from utils import get_adjasent_cord, get_key_text
 from dialogs import DialogText
 from miracles_info_display import MiraclesInfoDisplay
 from d20 import D20
+from attack_handler import MeleeAttack, MiracleAttack
+from data.weapons import weapons
 
 class Battle():
     def __init__(self, game):
@@ -22,11 +24,14 @@ class Battle():
         self.allow_events = True
         self.turn_order = []
         self.id = 'player'
+        self.action_wheel_target = None
+        self.current_action = None
+        self.dialog = None
         self.settings = Settings()
         self.map = BattleMap()
         self.player = Player([5, 10])
         self.obj = {
-            f"{self.player.id}": self.player, 
+            "player": self.player, 
             "buddy": Ally(id='buddy', pos=(6, 11)),
             "jon": Npc('jon', (6, 3)), 
             "bob": Npc('bob', (24, 3), type='skeleton'), 
@@ -34,13 +39,13 @@ class Battle():
         }
         self.ui = BattleUI(self, self.obj)
         self.map.load_grid_data(self.obj, self.id)
-        self.action_wheel_target = None
         self.action_wheel = ActionWheel()
         self.init_battle() # call from parent instead
-        self.dialog = None
         self.info = MiraclesInfoDisplay(self.player.data.miracles)
         self.set_circle(self.obj[self.id].steps_amount, self.obj[self.id].rect)
         self.d20 = D20(20)
+        self.melee_handler = MeleeAttack(self)
+        self.miracle_handler = MiracleAttack(self)
 
     def init_battle(self):
         self.roll_inisiative()
@@ -55,8 +60,6 @@ class Battle():
         self.update_walking_animation()
         self.update_turn()
         [char.update() for char in self.obj.values()]
-        # for char in self.obj.values():
-        #     char.update()
         if self.action_wheel_target:
             self.action_wheel.update()
 
@@ -76,10 +79,7 @@ class Battle():
 
     def handle_key(self, key, is_down):
         if self.dialog and is_down:
-            if self.dialog.done:
-                self.dialog = None
-            else:
-                self.dialog.render_all_text()
+            self.click_dialog()
             return
         if key == pygame.K_p and is_down:
             self.game_pause = True
@@ -104,7 +104,6 @@ class Battle():
     def get_ui(self):
         dic = {f"{id}": self.obj[f"{id}"] for id in self.turn_order}
         self.ui.__init__(self, dic, self.id)
-        # self.ui = BattleUI(self, dic, self.id)
 
     def update_turn(self):
         if self.walking_animation:
@@ -134,33 +133,46 @@ class Battle():
             self.map.load_grid_data(self.obj, self.id)
 
     def handle_click(self):
+        pos = pygame.mouse.get_pos()
+        self.check_for_melee_attack()
+        self.ui.handle_click(pos)
+        if self.dialog:
+            self.click_dialog()
+        elif self.info.active:
+            self.click_info(pos)
+        elif self.action_wheel_target:
+            self.click_action_wheel(pos)
+        else:
+            self.click_action_wheel_target(pos)
+
+    def check_for_melee_attack(self):
         if self.d20.active and self.d20.animation_active == False:
             self.melee_attack(self.action_wheel.current_id)
             self.d20.reset()
-        pos = pygame.mouse.get_pos()
-        self.ui.handle_click(pos)
-        if self.dialog:
-            if self.dialog.done:
-                self.dialog = None
-            else:
-                self.dialog.render_all_text()
-            return
-            # self.end_turn()
-        elif self.info.active:
-            self.info.check_click()
-            if self.info.selected_miracle:
-                print(self.info.selected_miracle)
-                self.info.selected_miracle = ''
-        elif self.action_wheel_target:
-            action_obj = self.action_wheel.handle_click(pos)
-            if action_obj['val']:
-                self.handle_action_wheel(action_obj)
-            self.action_wheel_target = None
+
+    def click_dialog(self):
+        if self.dialog.done:
+            self.dialog = None
         else:
-            for key, val in self.obj.items():
-                if val.rect.collidepoint(pos) and key != self.id:
-                    self.action_wheel.change_target(val)
-                    self.action_wheel_target = key
+            self.dialog.render_all_text()
+
+    def click_info(self, pos):
+        self.info.check_click(pos)
+        if self.info.selected_miracle:
+            print(self.info.selected_miracle)
+            self.info.selected_miracle = ''
+
+    def click_action_wheel(self, pos):
+        action_obj = self.action_wheel.handle_click(pos)
+        if action_obj['val']:
+            self.handle_action_wheel(action_obj)
+        self.action_wheel_target = None
+
+    def click_action_wheel_target(self,pos):
+        for key, val in self.obj.items():
+            if val.rect.collidepoint(pos) and key != self.id:
+                self.action_wheel.change_target(val)
+                self.action_wheel_target = key
 
     def handle_movement(self, key, is_down):
         c = self.obj[self.id]
@@ -186,30 +198,26 @@ class Battle():
     def melee_attack(self, id):
         dice = self.d20.roll(show_animation=False)
         dice = 19
-        if dice >= self.obj[id].ac or dice == 20:
-            text = "Criticla hit!" if dice == 20 else f"{self.id} is attacking {id}"
-            self.dialog = DialogText(text)
-            weapon = self.obj[self.id].primary_weapon
-            # damage = self.d20.roll(dice=weapon['dice'])
-            damage = 20
-            # self.obj[self.id].character_sprite.queue.append('attack')
+        attacker = self.obj[self.id]
+        target = self.obj[self.action_wheel.current_id]
+        weapon = weapons['+1 sword']
+        self.melee_handler.check_attack_roll(dice, attacker, target, weapon)
+        self.dialog = DialogText(self.melee_handler.message)
+        if self.melee_handler.attack_is_successful:
+            damage = self.melee_handler.calc_damage()
             self.obj[self.id].character_sprite.change_action('attack')
-            self.obj[id].take_damage(damage, weapon['damage_type'], 18)
+            self.obj[id].take_damage(damage, delay=18)
             self.action_wheel_target = None
-        else:
-            text = 'Critical missed' if dice == 0 else 'Attack missed'
-            self.dialog = DialogText(text)
+        self.melee_handler.reset()
 
     def handle_action_wheel(self, action_obj):
         if action_obj['val'] == 'primary':
             if self.obj[self.id].actions_amount < 1:
-                # self.dialog = Dialog('You have already used your action')
                 self.dialog = DialogText('You have already used your action')
                 return
-            m, t = self.map.mobile_collision_grid, action_obj['id']
-            if m[t] in get_adjasent_cord(m['player']).values():
+            m = self.map.mobile_collision_grid
+            if m[action_obj['id']] in get_adjasent_cord(m['player']).values():
                 self.start_roll()
-                # self.melee_attack(action_obj['id'])
                 self.obj[self.id].actions_amount -= 1
                 self.get_ui()
             else:

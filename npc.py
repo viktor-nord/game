@@ -6,6 +6,7 @@ class Npc(Character):
     def __init__(self, id, pos, type='goblin', is_ally=False, movement_pattern=None):
         super().__init__(pos, type)
         self.id = id
+        self.name = id
         self.starting_position = pos
         self.prev_pos = pos
         self.rect.x = self.size * pos[0]
