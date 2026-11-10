@@ -176,9 +176,9 @@ class Battle():
 
     def handle_movement(self, key, is_down):
         c = self.obj[self.id]
-        if self.d20.active and self.d20.animation_active == False:
-            self.melee_attack(self.action_wheel.current_id)
-            self.d20.reset()
+        # if self.d20.active and self.d20.animation_active == False:
+        #     self.melee_attack(self.action_wheel.current_id)
+        #     self.d20.reset()
         if is_down or c.steps_amount < 1:
             return
         dir = get_key_text(key)
@@ -193,21 +193,31 @@ class Battle():
             self.obj[self.id].handle_movement(key, True)
 
     def start_roll(self):
-        self.d20.roll()
+        success = self.attack_roll()
+        if success:
+            self.d20.roll()
+        else:
+            self.obj[self.id].character_sprite.change_action('attack')
+            self.dialog = DialogText(self.melee_handler.message)
 
-    def melee_attack(self, id):
+    def attack_roll(self):
         dice = self.d20.roll(show_animation=False)
-        dice = 19
         attacker = self.obj[self.id]
         target = self.obj[self.action_wheel.current_id]
         weapon = weapons['+1 sword']
         self.melee_handler.check_attack_roll(dice, attacker, target, weapon)
-        self.dialog = DialogText(self.melee_handler.message)
+        self.d20.reset()
+        return self.melee_handler.attack_is_successful
+
+    def melee_attack(self, id):
         if self.melee_handler.attack_is_successful:
-            damage = self.melee_handler.calc_damage()
+            attacker = self.obj[self.id]
+            weapon = weapons['+1 sword']
+            damage = self.melee_handler.calc_damage(self.d20.value, attacker, weapon)
             self.obj[self.id].character_sprite.change_action('attack')
             self.obj[id].take_damage(damage, delay=18)
             self.action_wheel_target = None
+        self.dialog = DialogText(self.melee_handler.message)
         self.melee_handler.reset()
 
     def handle_action_wheel(self, action_obj):

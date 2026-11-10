@@ -42,8 +42,11 @@ class MeleeAttack:
         else:
             return 0
 
-    def calc_damage(self):
-        return 10
+    def calc_damage(self, dice, attacker, weapon):
+        mod = self.get_mod(attacker, weapon)
+        bonus = self.get_weapon_bonus(weapon)
+        damage = dice + mod + bonus
+        return damage
 
 class MiracleAttack:
     def __init__(self, battle):
