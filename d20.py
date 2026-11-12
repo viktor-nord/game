@@ -26,11 +26,9 @@ class D20:
         self.surf.blit(self.img, (0,0))
         self.surf.blit(self.text, self.text_rect)
 
-    def roll(self, dice=20, show_animation=True):
-        # if show_animation:
-        #     self.value = 'X'
-        #     self.render_img()
-        self.value = randrange(1, self.dice_max_value + 1)
+    def roll(self, dice=20, show_animation=False):
+        self.value = randrange(11, self.dice_max_value + 1)
+        # self.value = randrange(1, self.dice_max_value + 1)
         if show_animation:
             self.start_animation()
         return self.value

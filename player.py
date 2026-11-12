@@ -36,6 +36,7 @@ class Player(Character):
 
 class PlayerData:
     def __init__(self):
+        self.data = None
         self.name = ''
         self.age = 0
         self.gender = None
@@ -56,6 +57,7 @@ class PlayerData:
     def load(self):
         with open("save/player.json", "r") as db:
             data = json.load(db)
+        self.data = data
         self.name = data["general"]["name"]
         self.age = data["general"]["age"]
         self.gender = data["general"]["gender"]

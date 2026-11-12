@@ -88,14 +88,18 @@ class MiraclesInfoDisplay:
             miracles1 = json.load(m1)
             for m1 in miracles['lv1']:
                 self.miracles['lv1'][miracles1[m1]['name']] = miracles1[m1]
-    
+
+    def find_miracle_level(self, miracle):
+        for key, val in self.miracles.items():
+            for name in val.keys():
+                if name == miracle:
+                    return key
+
     def update(self):
         if self.active == False:
             return
-        for l_btn in self.level_buttons:
-            l_btn.update()
-        for m_btn in self.miracle_buttons:
-            m_btn.update()
+        [x.update() for x in self.level_buttons]
+        [x.update() for x in self.miracle_buttons]
 
     def check_click(self, pos=None):
         if self.active == False:
@@ -148,9 +152,6 @@ class MiracleTooltip:
         self.set_value(value)
         img_url = 'assets/ui_sprites/Sprites/Content Appear Animation/Paper UI Pack/Plain/5 Mini Map/1.png'
         img = Image(img_url, shadow_dir="right")
-        # img = pygame.image.load().convert_alpha()
-        # self.surf = pygame.Surface((img.get_width(), img.get_height()), pygame.SRCALPHA).convert_alpha()
-        # self.surf.blit(img, (0,0))
         self.surf = add_shadow(img.image)
         url = "assets/ui_sprites/node_2D/icon_"
         if self.damage:
@@ -164,7 +165,6 @@ class MiracleTooltip:
             {'text': f"{self.duration}", 'img': Image(f'{url}time.png')},
         ]
         self.render_img(blueprint)
-        # self.shadow = get_shadow_surf(img)
 
     def set_value(self, value):
         self.name = value['name']
@@ -193,5 +193,4 @@ class MiracleTooltip:
 
     def blitme(self, screen, pos=None):
         p = pos if pos else pygame.mouse.get_pos()
-        # screen.blit(self.shadow, p)
         screen.blit(self.surf, p)
