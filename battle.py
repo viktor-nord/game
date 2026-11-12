@@ -14,6 +14,7 @@ from miracles_info_display import MiraclesInfoDisplay
 from d20 import D20
 from attack_handler import MeleeAttack, MiracleAttack
 from data.weapons import weapons
+from vfx import VFX
 
 class Battle():
     def __init__(self, game):
@@ -47,6 +48,7 @@ class Battle():
         self.d20 = D20(20)
         self.melee_handler = MeleeAttack()
         self.miracle_handler = MiracleAttack()
+        self.vfx = VFX()
 
     def init_battle(self):
         self.roll_inisiative()
@@ -167,6 +169,9 @@ class Battle():
             self.info.selected_miracle = ''
             self.info.active = False
             self.start_roll()
+            self.obj[self.id].actions_amount -= 1
+            self.get_ui()
+
 
     def click_action_wheel(self, pos):
         action_obj = self.action_wheel.handle_click(pos)
@@ -201,12 +206,14 @@ class Battle():
     def start_roll(self):
         if self.current_action == "primary":
             success = self.melee_attack_roll()
+            if success == False:
+                self.obj[self.id].character_sprite.change_action('attack')
         else:
             success = self.miracle_attack_roll()
+            self.obj[self.id].character_sprite.change_action('doing')
         if success:
             self.d20.roll(show_animation=True)
         else:
-            self.obj[self.id].character_sprite.change_action('attack')
             self.dialog = DialogText(self.melee_handler.message)
 
     def miracle_attack_roll(self):
@@ -245,8 +252,10 @@ class Battle():
             miracle = self.current_action
             miracle_level = self.info.find_miracle_level(self.current_action)
             damage = self.miracle_handler.calc_damage(attacker, miracle, miracle_level)
-            self.obj[self.id].character_sprite.change_action('attack')
-            self.obj[id].take_damage(damage, delay=18)
+            self.obj[self.id].character_sprite.change_action('idle')
+            self.obj[id].take_damage(damage)
+            # self.obj[self.id].character_sprite.change_action('attack')
+            # self.obj[id].take_damage(damage, delay=18)
             self.action_wheel_target = None
         self.dialog = DialogText(self.miracle_handler.message)
         self.miracle_handler.reset()

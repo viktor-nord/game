@@ -2,7 +2,6 @@ import pygame
 from image import Image, add_shadow
 from settings import Settings
 
-
 class CharacterSprite(pygame.sprite.Sprite):
     def __init__(self, pos, type):
         super().__init__()
@@ -42,11 +41,11 @@ class CharacterSprite(pygame.sprite.Sprite):
         self.mall = {
             'human': {
                 'layers': ['base', hair, 'tools'],
-                'actions': {'idle': 9, 'walk': 8, 'attack': 10, 'hurt': 8, 'death': 13}
+                'actions': {'idle': 9, 'walk': 8, 'attack': 10, 'hurt': 8, 'death': 13, 'doing': 8}
             },
             'goblin': {
                 'layers': ['spr'],
-                'actions': {'idle': 8, 'walk': 8, 'attack': 10, 'hurt': 8, 'death': 9}
+                'actions': {'idle': 8, 'walk': 8, 'attack': 10, 'hurt': 8, 'death': 9, 'doing': 8}
             },
             'skeleton': {
                 'layers': ['skeleton'],
@@ -80,7 +79,7 @@ class CharacterSprite(pygame.sprite.Sprite):
         return frames
 
     def change_action(self, action):
-        if self.action == action and action != 'idle':
+        if self.action == action and action not in ['idle', 'doing']:
             return
         self.counter = 0
         self.frame = 0
@@ -105,7 +104,8 @@ class CharacterSprite(pygame.sprite.Sprite):
         else:
             self.queue_delay = self.queue_delay - 1 if self.queue_delay > 0 else 0
             if done:
-                self.change_action('idle')
+                action = "doing" if self.action == "doing" else "idle"
+                self.change_action(action)
             else:
                 self.counter += 1
 
